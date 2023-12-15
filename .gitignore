@@ -1,4 +1,4 @@
-/_install
-/_vagrant
-/application/config
+_install/
+_vagrant/
+application/config/
 .htaccess
