@@ -4,6 +4,7 @@
                 <div class="row">
                     <div class="col-sm-8"><h2>Staff <b>Details</b></h2></div>
                     <div class="col-sm-4">
+                    <a href="<?php echo URL; ?>casuals/filter">filter</a>
                         <div class="search-box">
                             <i class="material-icons">&#xE8B6;</i>
                             <input type="text" class="form-control" placeholder="Search&hellip;">
@@ -26,25 +27,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Kenya</td>
-                        <td>MNE DSW</td>
-                        <td>Joy Mary</td>
-                        <td>11 days</td>
-                        <td>0787897219</td>
-                        <td>911911</td>
-                        <td>OK</td>
-                        <td >
-                            <a  href="#" class="view" title="View" data-toggle="modal" data-target="#exampleModal"><span class="material-symbols-outlined">
-                                visibility
-                                </span></a>
-                            <a href="#" class="edit" title="Call" data-toggle="tooltip"><span class="material-symbols-outlined">
-                                call
-                                </span></a>
+                    
+                        <?php foreach ($casuals as $casual) {  $fullname = $casual->first_name . ' ' . $casual->last_name;?>
                             
-                        </td>
-                    </tr>
+                            <tr>
+                           <td>1</td>
+                           <td><?php if (isset($casual->country)) echo htmlspecialchars($casual->country, ENT_QUOTES, 'UTF-8');?></td>
+                           <td><?php if (isset($casual->program)) echo htmlspecialchars($casual->program, ENT_QUOTES, 'UTF-8');?></td>
+                           <td><?php  echo htmlspecialchars($fullname, ENT_QUOTES, 'UTF-8'); ?></td>
+                           <td><?php if (isset($casual->duration_served)) echo htmlspecialchars($casual->duration_served, ENT_QUOTES, 'UTF-8'); ?></td>
+                           <td><?php if (isset($casual->phone_no)) echo htmlspecialchars($casual->phone_no, ENT_QUOTES, 'UTF-8'); ?></td>
+                           <td><?php if (isset($casual->casual_id)) echo htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?></td>
+                           <td>OK</td>
+                           <td >
+                               <a  href="#" class="view" title="View" data-toggle="modal" data-target="#exampleModal"><span class="material-symbols-outlined">
+                                   visibility
+                                   </span></a>
+                               <a href="#" class="edit" title="Call" data-toggle="tooltip"><span class="material-symbols-outlined">
+                                   call
+                                   </span></a>
+                               
+                           </td> 
+                           </tr>
+                        <?php } ?>
+                    
                     
                 </tbody>
             </table>

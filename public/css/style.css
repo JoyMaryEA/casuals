@@ -218,18 +218,22 @@ table.table td i {
 .hint-text {
     float: left;
     margin-top: 6px;
-    font-size: 95%;
-}    
+   
+} 
+.filter_container{
+    display: flex;
+    align-items: center;
+} 
 .filters{
     display: flex;
+    width: 80%;
     justify-content: center;
-    /* align-items: center; */
+   
     margin-top: 3rem;
 }
 .bt-filter{
     width: 20%;
     margin-left: .7rem;
-
     height: 3rem;
     border: #20253A .5px solid;
     color: #E600A0;

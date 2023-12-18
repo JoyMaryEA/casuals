@@ -126,24 +126,53 @@ class Model
         // fetch() is the PDO method that get exactly one result
         return $query->fetch()->amount_of_songs;
     }
-
+//---------------------------------------------------------------CASUAL STAFF DB
     public function getAllCasuals()
     {
-        $sql = "SELECT c.first_name, c.last_name , cn.name ,c.phone_no, p.name, c.duration_served, c.comment, c.casual_id
+        $sql = "SELECT c.first_name, c.last_name , cn.name AS country ,c.phone_no, p.name AS program, c.duration_served, c.comment, c.casual_id
                 FROM
                     casuals c
                 JOIN
                     country cn ON c.country = cn.id
                 JOIN
-                    program p ON c.program = p.id;
-                ";
+                    program p ON c.program = p.id
+                LIMIT 20";
         $query = $this->db->prepare($sql);
         $query->execute();
-
-        // fetchAll() is the PDO method that gets all result rows, here in object-style because we defined this in
-        // core/controller.php! If you prefer to get an associative array as the result, then do
-        // $query->fetchAll(PDO::FETCH_ASSOC); or change core/controller.php's PDO options to
-        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
         return $query->fetchAll();
     }
+    
+    public function getCasual($casual_id)
+    {
+        $sql = "SELECT c.first_name, c.last_name , cn.name AS country ,c.phone_no, p.name AS program, c.duration_served, c.comment
+        FROM
+            casuals c
+        JOIN
+            country cn ON c.country = cn.id
+        JOIN
+            program p ON c.program = p.id
+        WHERE c.casual_id =:casual_id LIMIT 1";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':casual_id' => $casual_id);
+        $query->execute($parameters);
+        return $query->fetch();
+    }
+    
+    public function filter($country,$program)
+    {
+        $sql="SELECT c.first_name, c.last_name , cn.name AS country ,c.phone_no, p.name AS program, c.duration_served, c.comment
+        FROM
+            casuals c
+        JOIN
+            country cn ON c.country = cn.id
+        JOIN
+            program p ON c.program = p.id
+        WHERE
+        cn.name =:country AND p.name =:program;" ;
+         $query = $this->db->prepare($sql);
+         $parameters = array(':country' => $country, ':program'=>$program);
+         $query->execute($parameters);
+         return $query->fetchAll();
+    }
+
 }
