@@ -127,6 +127,17 @@ class Model
         return $query->fetch()->amount_of_songs;
     }
 //---------------------------------------------------------------CASUAL STAFF DB
+
+//user methods
+    public function login($email,$password){
+        $sql="SELECT u_id,email,password,role FROM users where email=:email AND password=:password;";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':email' => $email, ':password'=> $password);
+        $query->execute($parameters);
+        return $query->fetch();
+    }
+
+//causuals methods
     public function getAllCasuals()
     {
         $sql = "SELECT c.first_name, c.last_name , cn.name AS country ,c.phone_no, p.name AS program, c.duration_served, c.comment, c.casual_id
@@ -136,7 +147,7 @@ class Model
                     country cn ON c.country = cn.id
                 JOIN
                     program p ON c.program = p.id
-                LIMIT 20";
+                    WHERE not_available = 0";
         $query = $this->db->prepare($sql);
         $query->execute();
         return $query->fetchAll();
@@ -151,7 +162,7 @@ class Model
             country cn ON c.country = cn.id
         JOIN
             program p ON c.program = p.id
-        WHERE c.casual_id =:casual_id LIMIT 1";
+        WHERE c.casual_id =:casual_id WHERE not_available = 0 LIMIT 1";
         $query = $this->db->prepare($sql);
         $parameters = array(':casual_id' => $casual_id);
         $query->execute($parameters);
@@ -160,7 +171,7 @@ class Model
     
     public function filter($country,$program)
     {
-        $sql="SELECT c.first_name, c.last_name , cn.name AS country ,c.phone_no, p.name AS program, c.duration_served, c.comment
+        $sql="SELECT c.casual_id, c.first_name, c.last_name , cn.name AS country ,c.phone_no, p.name AS program, c.duration_served, c.comment
         FROM
             casuals c
         JOIN
@@ -168,11 +179,27 @@ class Model
         JOIN
             program p ON c.program = p.id
         WHERE
-        cn.name =:country AND p.name =:program;" ;
+        cn.name =:country AND p.name =:program AND not_available = 0;" ;
          $query = $this->db->prepare($sql);
          $parameters = array(':country' => $country, ':program'=>$program);
          $query->execute($parameters);
          return $query->fetchAll();
     }
-
+    public function search($search_str)
+    {
+        $sql = "SELECT c.casual_id, c.first_name, c.last_name, cn.name AS country, c.phone_no, p.name AS program, c.duration_served, c.comment
+                FROM casuals c
+                JOIN country cn ON c.country = cn.id
+                JOIN program p ON c.program = p.id
+                WHERE c.first_name LIKE :search_str 
+                   OR c.last_name LIKE :search_str 
+                   OR c.casual_id LIKE :search_str 
+                   AND not_available = 0";
+    
+        $query = $this->db->prepare($sql);
+        $parameters = array(':search_str' => '%' . $search_str . '%');
+        $query->execute($parameters);
+        
+        return $query->fetchAll();
+    }
 }

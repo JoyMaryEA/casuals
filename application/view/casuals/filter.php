@@ -1,4 +1,4 @@
-<div class="filter-container">  
+<div class="filter-container" style="display:flex; flex-direction:column; align-items:center; justify-content:center;">  
         <form class="filters" action="<?php echo URL; ?>casuals/filter" method="POST">
             <select class="custom-select custom-select-lg mb-3" name="country">
                 <option selected>Select Country</option>
@@ -16,5 +16,11 @@
               </select>
               <input class="bt-filter" type="submit" name="submit_filter" value="Filter" />
             
-        </form>
+                </form>
+                
+          <form class="form-inline"  action="<?php echo URL; ?>casuals/search" method="post">
+            <input class="form-control mr-sm-2" style="width:250px;" type="search" name="search_str" placeholder="Search casual by id/name" aria-label="Search">
+            <input class="bt-filter " style="display:none;" type="submit" name="submit_search" value="search"/>
+          </form>
+        
 </div>

@@ -1,16 +1,30 @@
 <div class="table-responsive">
-     <div class="table-wrapper">
-     <div class="table-title">
-    <div class="row d-flex justify-content-between">
+        <div class="table-wrapper">
+        <div class="table-title">
+    <div class="row">
         <div class="col-sm-8">
             <h2>Staff <b>Details</b></h2>
         </div>
         <div class="col-sm-4">
-            <a href="<?php echo URL; ?>casuals/filter" style="color:#E600A0; cursor: pointer; padding: 0.3rem; font-weight: semi-bold; text-decoration: underline;">CLEAR FILTERS</a>
+            <div class="row">
+                <div class="col-8">
+                    <div class="search-box " >
+                        <i class="material-icons">&#xE8B6;</i>
+                        <input type="text" class="form-control" placeholder="Search name/casual id&hellip;">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="add-casual" style="color:#E600A0; cursor: pointer; padding: 0.3rem; font-weight: semi-bold; text-decoration: underline;">
+                    ADD CASUAL
+                    
+                        <!-- <span style="font-size:large;" class="material-symbols-outlined">person_add</span> -->
+                     
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 
             <table class="table table-striped table-hover table-bordered">
                 <thead>
@@ -50,11 +64,11 @@
                     <td><?php if (isset($casual->casual_id)) echo htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td>OK</td>
                     <td>
-                        <a href="#" class="view" title="View" data-toggle="modal" data-target="#exampleModal">
-                            <span class="material-symbols-outlined">visibility</span>
+                        <a href="#" class="edit" title="Edit" data-toggle="tooltip" >
+                        <span class="material-symbols-outlined">edit</span>
                         </a>
-                        <a href="#" class="edit" title="Call" data-toggle="tooltip">
-                            <span class="material-symbols-outlined">call</span>
+                        <a href="#" class="delete" title="Delete" data-toggle="tooltip">
+                        <span class="material-symbols-outlined">delete</span>
                         </a>
                     </td>
                 </tr>
@@ -63,34 +77,7 @@
                     
                 </tbody>
             </table>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Staff Information:</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                        <ul class="list-group">
-                            <li class="list-group-item"><span>Name: </span>Joy Mary</li>
-                            <li class="list-group-item"><span>Program: </span>DtW</li>
-                            <li class="list-group-item"><span>Country: </span>Kenya</li>
-                            <li class="list-group-item"><span>Qualification: </span>Bachelors Degree</li>
-                            <li class="list-group-item"><span>Duration of Appointment: </span>10 days</li>
-                            <li class="list-group-item"><span>Comment: </span>OK</li>
-                          </ul>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn-call" data-dismiss="modal"><span class="material-symbols-outlined">
-                        call
-                        </span></button>
-                      
-                    </div>
-                  </div>
-                </div>
-              </div>
+               
             <div class="clearfix">
                 <div class="hint-text">Showing <b>6</b> out of <b>30</b> entries</div>
                 <ul class="pagination">
