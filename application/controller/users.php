@@ -2,6 +2,7 @@
 
 class Users extends Controller {
     public function login(){
+        
         require APP . 'view/login/index.php';
 
         if (isset($_POST["Login"])) {
@@ -9,14 +10,28 @@ class Users extends Controller {
              if (empty($user_logged_in)) {
                 $no_user = 'Incorrect Email or Password'; //error msg
                 header('location: ' . URL . 'login/index');
+                exit;
             } else {
-                if ($user_logged_in->role === 'admin'){
-                    header('location: ' . URL . 'casuals/admin_home');
-                } else{
-                    header('location: ' . URL . 'casuals/filter');
+                session_start();
+                $_SESSION["userId"] = $user_logged_in->u_id;
+                $_SESSION["role"] = $user_logged_in->role;
+               
+                if (!empty($_SESSION["userId"]) && !empty($_SESSION["role"])){
+                    
+                        header('location: ' . URL . 'casuals/filter');
+                        exit;
+                    
                 }
+                
             }
          }
 
+    }
+    public function logout(){
+        session_start();
+    $_SESSION["userId"] = "";
+    $_SESSION["role"] = "";
+    session_destroy();
+    header("Location: login/index.php");
     }
 }

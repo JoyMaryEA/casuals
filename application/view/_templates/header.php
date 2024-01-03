@@ -33,6 +33,9 @@
         <a href="<?php echo URL; ?>home/exampletwo">subpage 2</a>
         <a href="<?php echo URL; ?>songs">songs</a>
     </div> -->
-    <nav>
+    <nav style=" display: flex; justify-content: space-between; align-items:center;">
         <p>Master Casual Staff Database</p>
+       <a style="padding:0.5rem; background-color:#ddd; color:#20253A; margin-right:1rem; border-radius:10%;" href="<?php echo URL; ?>users/logout" 
+
+>LOGOUT</a>
     </nav>

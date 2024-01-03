@@ -73,6 +73,7 @@
             <input class="form-input" type="text" name="email" placeholder="Email" required>
             <input class="form-input" type="password" name="password" placeholder="Password" required>
             <input type="submit" name="Login" value="Login" class="form-button" />
+           
         </form>
     </div>
 
