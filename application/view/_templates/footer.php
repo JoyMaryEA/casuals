@@ -13,7 +13,31 @@
         var url = "<?php echo URL; ?>";
     </script>
 
-    <!-- our JavaScript -->
-    <script src="<?php echo URL; ?>js/application.js"></script>
+<script>
+    $(document).ready(function() {
+        // Attach a click event handler to the button
+        $('#deleteButton').on('click', function() {
+            // Get the casual_id from your HTML or any other source
+            var casualId = "<?php echo htmlspecialchars($casualID, ENT_QUOTES, 'UTF-8'); ?>";
+
+            // Make an AJAX request to your PHP script
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo URL . 'casuals/deleteCasual'; ?>',
+                data: { casual_id: casualId },
+                success: function(response) {
+                    // Handle the success response, e.g., show a success message
+                    console.log(response);
+                },
+                error: function() {
+                    // Handle errors
+                    console.log('Error occurred during AJAX request.');
+                }
+            });
+        });
+    });
+</script>
+ 
+ 
 </body>
 </html>

@@ -34,7 +34,17 @@
         <a href="<?php echo URL; ?>songs">songs</a>
     </div> -->
     <nav style=" display: flex; justify-content: space-between; align-items:center;">
-        <p>Master Casual Staff Database</p>
+    
+     <div style=" display: flex; justify-content: space-between; align-items:center;">
+     <p>Master Casual Staff DB</p>
+     <a style="padding:0.5rem;  color:#f2c5e4; margin-left:1rem;" href="<?php echo URL; ?>casuals/addCasual" 
+
+>Add Casual</a>
+<a style="padding:0.5rem;  color:#f2c5e4; margin-left:1rem;" href="<?php echo URL; ?>casuals/filter" 
+
+>Search</a>
+     </div>
+        
        <a style="padding:0.5rem; background-color:#ddd; color:#20253A; margin-right:1rem; border-radius:10%;" href="<?php echo URL; ?>users/logout" 
 
 >LOGOUT</a>

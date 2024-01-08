@@ -1,20 +1,26 @@
 
 <div class="filter-container" style="display:flex; flex-direction:column; align-items:center; justify-content:center;">  
         <form class="filters" action="<?php echo URL; ?>casuals/filter" method="POST">
-            <select class="custom-select custom-select-lg mb-3" name="country">
-                <option selected>Select Country</option>
-                <option value="Kenya">Kenya</option>
-                <option value="Uganda">Uganda</option>
-                <option value="Malawi">Malawi</option>
-              </select>
+        <select class="custom-select custom-select-lg mb-3" name="country" required>
+
+        <option >Select Country</option>        
+<?php foreach ($countries as $country) {  
+
+    ?>
+    
+<option value="<?php if (isset($country->id)) echo htmlspecialchars($country->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($country->name)) echo htmlspecialchars($country->name, ENT_QUOTES, 'UTF-8'); ?></option>
+<?php } ?>
+</select>
               <select class="custom-select custom-select-lg mb-3" name="program">
-                <option selected>Select Program</option>
-                <option value="DSW Program Casuals">DSW Program Casuals</option>
-                <option value="Data Entry -DTW">Data Entry -DTW</option>
-                <option value="NEEP">NEEP</option>
-                <option value="Tumika">Tumika</option>
-                <option value="GS Carbon">GS Carbon</option>
-              </select>
+              <option >Select Program</option>
+               
+<?php foreach ($programs as $program) {  
+
+    ?>
+<option value="<?php if (isset($program->id)) echo htmlspecialchars($program->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($program->name)) echo htmlspecialchars($program->name, ENT_QUOTES, 'UTF-8'); ?></option>
+<?php } ?>
+</select>
+<br>
               <input class="bt-filter" type="submit" name="submit_filter" value="Filter" />
             
                 </form>
