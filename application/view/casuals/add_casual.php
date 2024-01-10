@@ -1,4 +1,6 @@
-
+<?php
+ include APP . 'config/session.php';
+?>
 <div class="add-casual-container">
 <?php if(!empty($casual)){?>
     <form class="add-casual" action="<?php echo URL; ?>casuals/editCasual" method="post">

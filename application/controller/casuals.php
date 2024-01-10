@@ -10,7 +10,10 @@ class Casuals extends Controller{
         // }
 
         $casuals = $this->model->getAllCasuals();
-        
+        if (isset($casual_id)) {
+            $editAudit=  $this->model->getEditAudit($casual_id);
+            $insertAudit =  $this->model->getInsertAudit($casual_id);
+          }
         require APP . 'view/_templates/header.php';
         require APP . 'view/casuals/index.php';
         require APP . 'view/_templates/footer.php';
@@ -35,7 +38,10 @@ class Casuals extends Controller{
          }
 
             $casuals= $this->model->filter($_POST["country"], $_POST["program"]);
-            
+            if (isset($casual_id)) {
+                $editAudit=  $this->model->getEditAudit($casual_id);
+                $insertAudit =  $this->model->getInsertAudit($casual_id);
+              }
              require APP . 'view/casuals/index.php';
              require APP . 'view/_templates/footer.php';
          }
@@ -59,6 +65,10 @@ class Casuals extends Controller{
         
         if (isset($_POST["submit_search"])) {
             $casuals = $this->model->search($_POST["search_str"]);
+            if (isset($casual_id)) {
+                $editAudit=  $this->model->getEditAudit($casual_id);
+                $insertAudit =  $this->model->getInsertAudit($casual_id);
+              }
              require APP . 'view/casuals/index.php';
              require APP . 'view/_templates/footer.php';
          }
@@ -68,7 +78,10 @@ class Casuals extends Controller{
 
 
         $casual = $this->model->getCasual($casual_id); 
- 
+        if (isset($casual_id)) {
+            $editAudit=  $this->model->getEditAudit($casual_id);
+            $insertAudit =  $this->model->getInsertAudit($casual_id);
+          }
 
     }
 
@@ -103,7 +116,9 @@ class Casuals extends Controller{
                 $casual_id =$_POST["casual_id"];
                 $action = 1;
                 $this->model->insertAudit($casual_id, $action, $user_id);
-
+                 
+                echo  $casual_id ;
+                echo  $_POST["casual_id"];
                 $this->model->insertCasual($_POST["casual_id"], $_POST["country"], $_POST["program"], $_POST["first_name"], $_POST["middle_name"], $_POST["last_name"], $_POST["id_no"], $_POST["phone_no"], $_POST["alt_phone_no"], $_POST["year_worked"], $_POST["duration_served"], $_POST["comment"], $_POST["kcse_results"], $_POST["qualification"], $_POST["institution"], $_POST["year_graduated"]
 
                
@@ -147,7 +162,7 @@ class Casuals extends Controller{
                 $user_id = $_SESSION["userId"];
                 $casual_id =$_POST["casual_id"];
                
-                $this->model->updateAudit($casual_id,$user_id);
+                // $this->model->updateAudit($casual_id,$user_id);
 
                 $this->model->editCasual($_POST["casual_id"], $_POST["country"], $_POST["program"], $_POST["first_name"], $_POST["middle_name"], $_POST["last_name"], $_POST["id_no"], $_POST["phone_no"], $_POST["alt_phone_no"], $_POST["year_worked"], $_POST["duration_served"], $_POST["comment"], $_POST["kcse_results"], $_POST["qualification"], $_POST["institution"], $_POST["year_graduated"]
 
@@ -158,5 +173,12 @@ class Casuals extends Controller{
             }
             header('location: ' . URL . '/casuals/filter');
 
+    }
+
+    public function audit($casual_id){
+        if (isset($casual_id)) {
+          $editAudit=  $this->model->getEditAudit($casual_id);
+          $insertAudit =  $this->model->getInsertAudit($casual_id);
+        }
     }
 }

@@ -233,14 +233,42 @@ class Model
     
     public function filter($country,$program)
     {
-        $sql="SELECT c.casual_id, c.first_name, c.last_name , cn.name AS country ,c.phone_no, p.name AS program, c.duration_worked, c.comment
-        FROM
-            casuals c
-        JOIN
-            country cn ON c.country = cn.id
-        JOIN
-            program p ON c.program = p.id
-        WHERE
+        $sql="SELECT 
+        c.casual_id, 
+        c.middle_name, 
+        c.first_name, 
+        c.last_name, 
+        c.id_no, 
+        cn.name AS country_name, 
+        c.country,
+        c.phone_no, 
+        p.name AS program_name,
+        c.program, 
+        c.duration_worked, 
+        c.comment, 
+        c.alt_phone_no, 
+        c.year_worked,
+        c.institution,
+        c.kcse_results,
+        c.year_graduated,
+        c.alt_phone_no,
+        c.qualification, 
+        kc.name AS kcse_results_name, 
+        i.name AS institution_name, 
+        q.name AS qualification_name
+    FROM 
+        casuals c
+    JOIN 
+        country cn ON c.country = cn.id
+    JOIN 
+        program p ON c.program = p.id
+    LEFT JOIN 
+        kcse_results kc ON c.kcse_results = kc.id
+    LEFT JOIN 
+        institution i ON c.institution = i.id
+    LEFT JOIN 
+        qualification q ON c.qualification = q.id
+    WHERE 
         cn.id =:country AND p.id =:program AND not_available = 0;" ;
          $query = $this->db->prepare($sql);
          $parameters = array(':country' => $country, ':program'=>$program);
@@ -249,11 +277,42 @@ class Model
     }
     public function search($search_str)
     {
-        $sql = "SELECT c.casual_id, c.first_name, c.last_name, cn.name AS country, c.phone_no, p.name AS program, c.duration_worked, c.comment
-                FROM casuals c
-                JOIN country cn ON c.country = cn.id
-                JOIN program p ON c.program = p.id
-                WHERE c.first_name LIKE :search_str 
+        $sql = "SELECT 
+        c.casual_id, 
+        c.middle_name, 
+        c.first_name, 
+        c.last_name, 
+        c.id_no, 
+        cn.name AS country_name, 
+        c.country,
+        c.phone_no, 
+        p.name AS program_name,
+        c.program, 
+        c.duration_worked, 
+        c.comment, 
+        c.alt_phone_no, 
+        c.year_worked,
+        c.institution,
+        c.kcse_results,
+        c.year_graduated,
+        c.alt_phone_no,
+        c.qualification, 
+        kc.name AS kcse_results_name, 
+        i.name AS institution_name, 
+        q.name AS qualification_name
+    FROM 
+        casuals c
+    JOIN 
+        country cn ON c.country = cn.id
+    JOIN 
+        program p ON c.program = p.id
+    LEFT JOIN 
+        kcse_results kc ON c.kcse_results = kc.id
+    LEFT JOIN 
+        institution i ON c.institution = i.id
+    LEFT JOIN 
+        qualification q ON c.qualification = q.id
+    WHERE  c.first_name LIKE :search_str 
                    OR c.last_name LIKE :search_str 
                    OR c.casual_id LIKE :search_str 
                    AND not_available = 0";
@@ -316,7 +375,7 @@ class Model
         $sql = "DELETE FROM casuals WHERE casual_id = :casual_id";
         $query = $this->db->prepare($sql);
         $parameters = array(':casual_id' => $casual_id);
-        echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
+      //  echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
     }
 
@@ -349,6 +408,27 @@ class Model
         $query = $this->db->prepare($sql);
         $parameters = array(':casual_id' => $casual_id,':u_id' => $u_id );
         echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
+        $query->execute($parameters);
+    }
+
+    public function getEditAudit($casual_id){
+        $sql = "SELECT a.timestamp, u.email, a.casual_id, a.action
+        FROM audit a
+        JOIN users u ON a.u_id = u.u_id
+        WHERE a.casual_id = :casual_id and a.action=2 ;";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':casual_id' => $casual_id );
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
+        $query->execute($parameters);
+    }
+    public function getInsertAudit($casual_id){
+        $sql = "SELECT a.timestamp, u.email, a.casual_id, a.action
+        FROM audit a
+        JOIN users u ON a.u_id = u.u_id
+        WHERE a.casual_id = :casual_id and a.action=1 ;";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':casual_id' => $casual_id );
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
     }
 }

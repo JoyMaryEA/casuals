@@ -1,4 +1,6 @@
-
+<?php
+ include APP . 'config/session.php';
+?>
 <div class="filter-container" style="display:flex; flex-direction:column; align-items:center; justify-content:center;">  
         <form class="filters" action="<?php echo URL; ?>casuals/filter" method="POST">
         <select class="custom-select custom-select-lg mb-3" name="country" required>

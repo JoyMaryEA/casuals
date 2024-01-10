@@ -1,6 +1,6 @@
-<!-- <?php
-session_start();
-?> -->
+<?php
+ include APP . 'config/session.php';
+?>
 <div class="table-responsive">
      <div class="table-wrapper">
      <div class="table-title">
@@ -40,8 +40,8 @@ session_start();
             ?>
                 <tr>
                     <td><?php echo $counter; ?></td>
-                    <td><?php if (isset($casual->country)) echo htmlspecialchars($casual->country, ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php if (isset($casual->program)) echo htmlspecialchars($casual->program, ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?php if (isset($casual->country_name)) echo htmlspecialchars($casual->country_name, ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?php if (isset($casual->program_name)) echo htmlspecialchars($casual->program_name, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php if (isset($casual->first_name)) echo htmlspecialchars($casual->first_name, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php if (isset($casual->last_name)) echo htmlspecialchars($casual->last_name, ENT_QUOTES, 'UTF-8'); ?></td>
                     <?php if (!empty($casual->duration_worked)) { ?>
@@ -91,19 +91,19 @@ session_start();
                         <ul class="list-group">
                         <li class="list-group-item"><span>Casual Id: </span><?php if (isset($casual->casual_id)) echo htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?></li>
                             <li class="list-group-item"><span>First Name: </span><?php if (isset($casual->first_name)) echo htmlspecialchars($casual->first_name, ENT_QUOTES, 'UTF-8'); ?></li>
+                            <li class="list-group-item"><span>Middle Name: </span><?php if (isset($casual->middle_name)) echo htmlspecialchars($casual->middle_name, ENT_QUOTES, 'UTF-8'); ?></li>
                             <li class="list-group-item"><span>Last Name: </span><?php if (isset($casual->last_name)) echo htmlspecialchars($casual->last_name, ENT_QUOTES, 'UTF-8'); ?></li>
-                            <li class="list-group-item"><span>Program: </span><?php if (isset($casual->program)) echo htmlspecialchars($casual->program, ENT_QUOTES, 'UTF-8'); ?></li>
-                            <li class="list-group-item"><span>Country: </span><?php if (isset($casual->country)) echo htmlspecialchars($casual->country, ENT_QUOTES, 'UTF-8'); ?></li>
-                            <li class="list-group-item"><span>Qualification: </span><?php if (isset($casual->qualification_name)) echo htmlspecialchars($casual->qualificatione, ENT_QUOTES, 'UTF-8'); ?></li>
+                            <li class="list-group-item"><span>Program: </span><?php if (isset($casual->program_name)) echo htmlspecialchars($casual->program_name, ENT_QUOTES, 'UTF-8'); ?></li>
+                            <li class="list-group-item"><span>Country: </span><?php if (isset($casual->country_name)) echo htmlspecialchars($casual->country_name, ENT_QUOTES, 'UTF-8'); ?></li>
+                            <li class="list-group-item"><span>Qualification: </span><?php if (isset($casual->qualification_name)) echo htmlspecialchars($casual->qualification_name, ENT_QUOTES, 'UTF-8'); ?></li>
+                            <li class="list-group-item"><span>Institution: </span><?php if (isset($casual->institution_name)) echo htmlspecialchars($casual->institution_name, ENT_QUOTES, 'UTF-8'); ?></li>
                             <li class="list-group-item"><span>Duration of Appointment: </span><?php if (isset($casual->duration_worked)) echo htmlspecialchars($casual->duration_worked, ENT_QUOTES, 'UTF-8'); ?> days</li>
                             <li class="list-group-item"><span>Comment: </span><?php if (isset($casual->comment)) echo htmlspecialchars($casual->comment, ENT_QUOTES, 'UTF-8'); ?></li>
                           </ul>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn-call" data-dismiss="modal"><span class="material-symbols-outlined">
-                        call
-                        </span></button>
-                      
+                   
+                  
                          </div>
                          </div>
                           </div>
