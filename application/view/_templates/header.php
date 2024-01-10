@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,8 +37,11 @@
         <a href="<?php echo URL; ?>songs">songs</a>
     </div> -->
     <nav style=" display: flex; justify-content: space-between; align-items:center;">
-    
-     <div style=" display: flex; justify-content: space-between; align-items:center;">
+   
+    <?php
+if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
+    ?>
+      <div style=" display: flex; justify-content: space-between; align-items:center;">
      <p>Master Casual Staff DB</p>
      <a style="padding:0.5rem;  color:#f2c5e4; margin-left:1rem;" href="<?php echo URL; ?>casuals/addCasual" 
 
@@ -44,7 +50,13 @@
 
 >Search</a>
      </div>
-        
+ <?php } ?>
+
+ <?php
+if (isset($_SESSION['role']) && $_SESSION['role'] != "1") {
+    ?>
+        <p>Master Casual Staff DB</p> 
+  <?php } ?>
        <a style="padding:0.5rem; background-color:#ddd; color:#20253A; margin-right:1rem; border-radius:10%;" href="<?php echo URL; ?>users/logout" 
 
 >LOGOUT</a>

@@ -142,13 +142,41 @@ class Model
 //causuals methods
     public function getAllCasuals()
     {
-        $sql = "SELECT c.first_name, c.last_name , cn.name AS country ,c.phone_no, p.name AS program, c.duration_worked, c.comment, c.casual_id
-                FROM
-                    casuals c
-                JOIN
-                    country cn ON c.country = cn.id
-                JOIN
-                    program p ON c.program = p.id
+        $sql = "SELECT 
+        c.casual_id, 
+        c.middle_name, 
+        c.first_name, 
+        c.last_name, 
+        c.id_no, 
+        cn.name AS country_name, 
+        c.country,
+        c.phone_no, 
+        p.name AS program_name,
+        c.program, 
+        c.duration_worked, 
+        c.comment, 
+        c.alt_phone_no, 
+        c.year_worked,
+        c.institution,
+        c.kcse_results,
+        c.year_graduated,
+        c.alt_phone_no,
+        c.qualification, 
+        kc.name AS kcse_results_name, 
+        i.name AS institution_name, 
+        q.name AS qualification_name
+    FROM 
+        casuals c
+    JOIN 
+        country cn ON c.country = cn.id
+    JOIN 
+        program p ON c.program = p.id
+    LEFT JOIN 
+        kcse_results kc ON c.kcse_results = kc.id
+    LEFT JOIN 
+        institution i ON c.institution = i.id
+    LEFT JOIN 
+        qualification q ON c.qualification = q.id
                     WHERE not_available = 0";
         $query = $this->db->prepare($sql);
         $query->execute();
@@ -163,16 +191,23 @@ class Model
         c.first_name, 
         c.last_name, 
         c.id_no, 
-        cn.name AS country, 
+        cn.name AS country_name, 
+        c.country,
         c.phone_no, 
-        p.name AS program, 
+        p.name AS program_name,
+        c.program, 
         c.duration_worked, 
         c.comment, 
         c.alt_phone_no, 
-        c.year_worked, 
-        kc.name AS kcse_results, 
-        i.name AS institution, 
-        q.name AS qualification
+        c.year_worked,
+        c.institution,
+        c.kcse_results,
+        c.year_graduated,
+        c.alt_phone_no,
+        c.qualification, 
+        kc.name AS kcse_results_name, 
+        i.name AS institution_name, 
+        q.name AS qualification_name
     FROM 
         casuals c
     JOIN 
@@ -261,15 +296,15 @@ class Model
         return $query->fetchAll();
     }
 
-    public function insertCasual($casual_id, $country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $year_graduated, $not_available
+    public function insertCasual($casual_id, $country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $year_graduated
     ){
         
       
-        $sql = "INSERT INTO casuals (casual_id, country, program, first_name, middle_name, last_name, id_no, phone_no, alt_phone_no, year_worked, duration_worked, comment, kcse_results, qualification, institution, year_graduated, not_available
-        ) VALUES (:casual_id, :country, :program, :first_name, :middle_name, :last_name, :id_no, :phone_no, :alt_phone_no, :year_worked, :duration_worked, :comment, :kcse_results, :qualification, :institution, :year_graduated, :not_available
+        $sql = "INSERT INTO casuals (casual_id, country, program, first_name, middle_name, last_name, id_no, phone_no, alt_phone_no, year_worked, duration_worked, comment, kcse_results, qualification, institution, year_graduated
+        ) VALUES (:casual_id, :country, :program, :first_name, :middle_name, :last_name, :id_no, :phone_no, :alt_phone_no, :year_worked, :duration_worked, :comment, :kcse_results, :qualification, :institution, :year_graduated
 )";
         $query = $this->db->prepare($sql);
-        $parameters = array(':casual_id' => $casual_id, ':country' => $country, ':program' => $program, ':first_name' => $first_name, ':middle_name' => $middle_name, ':last_name' => $last_name, ':id_no' => $id_no, ':phone_no' => $phone_no, ':alt_phone_no' => $alt_phone_no, ':year_worked' => $year_worked, ':duration_worked' => $duration_worked, ':comment' => $comment, ':kcse_results' => $kcse_results, ':qualification' => $qualification, ':institution' => $institution, ':year_graduated' => $year_graduated, ':not_available' => $not_available
+        $parameters = array(':casual_id' => $casual_id, ':country' => $country, ':program' => $program, ':first_name' => $first_name, ':middle_name' => $middle_name, ':last_name' => $last_name, ':id_no' => $id_no, ':phone_no' => $phone_no, ':alt_phone_no' => $alt_phone_no, ':year_worked' => $year_worked, ':duration_worked' => $duration_worked, ':comment' => $comment, ':kcse_results' => $kcse_results, ':qualification' => $qualification, ':institution' => $institution, ':year_graduated' => $year_graduated
     );
     echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
@@ -281,17 +316,39 @@ class Model
         $sql = "DELETE FROM casuals WHERE casual_id = :casual_id";
         $query = $this->db->prepare($sql);
         $parameters = array(':casual_id' => $casual_id);
-        
+        echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
     }
 
-    public function editCasual($casual_id, $country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $year_graduated, $not_available){
-        $sql = "UPDATE casuals SET country = :country, program = :program, first_name = :first_name, middle_name = :middle_name, last_name = :last_name, id_no = :id_no, phone_no = :phone_no, alt_phone_no = :alt_phone_no, year_worked = :year_worked, duration_worked = :duration_worked, comment = :comment, kcse_results = :kcse_results, qualification = :qualification, institution = :institution, year_graduated = :year_graduated, not_available = :not_available WHERE casual_id = :casual_id;"
+    public function editCasual($casual_id, $country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $year_graduated){
+        $sql = "UPDATE casuals SET country = :country, program = :program, first_name = :first_name, middle_name = :middle_name, last_name = :last_name, id_no = :id_no, phone_no = :phone_no, alt_phone_no = :alt_phone_no, year_worked = :year_worked, duration_worked = :duration_worked, comment = :comment, kcse_results = :kcse_results, qualification = :qualification, institution = :institution, year_graduated = :year_graduated WHERE casual_id = :casual_id;"
         ;
         $query = $this->db->prepare($sql);
-        $parameters = array(':casual_id' => $casual_id, ':country' => $country, ':program' => $program, ':first_name' => $first_name, ':middle_name' => $middle_name, ':last_name' => $last_name, ':id_no' => $id_no, ':phone_no' => $phone_no, ':alt_phone_no' => $alt_phone_no, ':year_worked' => $year_worked, ':duration_worked' => $duration_worked, ':comment' => $comment, ':kcse_results' => $kcse_results, ':qualification' => $qualification, ':institution' => $institution, ':year_graduated' => $year_graduated, ':not_available' => $not_available);
+        $parameters = array(':casual_id' => $casual_id, ':country' => $country, ':program' => $program, ':first_name' => $first_name, ':middle_name' => $middle_name, ':last_name' => $last_name, ':id_no' => $id_no, ':phone_no' => $phone_no, ':alt_phone_no' => $alt_phone_no, ':year_worked' => $year_worked, ':duration_worked' => $duration_worked, ':comment' => $comment, ':kcse_results' => $kcse_results, ':qualification' => $qualification, ':institution' => $institution, ':year_graduated' => $year_graduated);
 
         echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        $query->execute($parameters);
+    }
+
+    public function deleteAudit($casual_id,$action,$u_id){
+        $sql = "INSERT INTO audit (casual_id, action, u_id) VALUES (:casual_id, :action, :u_id);";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':casual_id' => $casual_id,':action' => $action,':u_id' => $u_id );
+        echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
+        $query->execute($parameters);
+    }
+    public function insertAudit($casual_id,$action, $u_id){
+        $sql = "INSERT INTO audit (casual_id, action, u_id) VALUES (:casual_id, :action, :u_id);";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':casual_id' => $casual_id,':action' => $action,':u_id' => $u_id );
+        echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
+        $query->execute($parameters);
+    }
+    public function updateAudit($casual_id,$u_id){
+        $sql = " INSERT INTO audit (casual_id, action, u_id) VALUES (:casual_id, 2, :u_id);";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':casual_id' => $casual_id,':u_id' => $u_id );
+        echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
     }
 }

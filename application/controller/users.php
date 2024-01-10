@@ -17,6 +17,20 @@ class Users extends Controller {
                 session_start();
                 $_SESSION["userId"] = $user_logged_in->u_id;
                 $_SESSION["role"] = strval($user_logged_in->role);
+                $expireAfter = 30; 
+                if (isset($_SESSION['last_action'])) {
+                    $secondsInactive = time() - $_SESSION['last_action'];
+                
+                    $expireAfterSeconds = $expireAfter;
+                    if ($secondsInactive >= $expireAfterSeconds) {
+                        
+                        session_unset();
+                        session_destroy();
+                        
+                    }
+                }
+
+                    $_SESSION['last_action'] = time();
                
                 if (!empty($_SESSION["userId"]) && !empty($_SESSION["role"])){
                     

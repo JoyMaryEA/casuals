@@ -1,6 +1,6 @@
-<?php
+<!-- <?php
 session_start();
-?>
+?> -->
 <div class="table-responsive">
      <div class="table-wrapper">
      <div class="table-title">
@@ -8,35 +8,7 @@ session_start();
         <div class="col-sm-8">
             <h2>Staff <b>Details</b></h2>
         </div>
-        <div class="col-sm-4">
-            <div class="row">
-            <!-- <?php
-if (isset($_SESSION['role']) && $_SESSION['role'] != "1") {
-    ?>  
-                <div class="col-8">
-                <div class="col-sm-4">
-            <a href="<?php echo URL; ?>casuals/filter" style="color:#E600A0; cursor: pointer; padding: 0.3rem; font-weight: semi-bold; text-decoration: underline;">CLEAR FILTERS</a>
-        </div>
-                </div>
-                <?php } ?>        -->
-                <?php
-if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
-    ?>
-    <div class="col-6">
-    <form class="form-inline"  action="<?php echo URL; ?>casuals/search" method="post">
-            <input class="form-control mr-sm-2" style="width:250px;" type="search" name="search_str" placeholder="Search casual by id/name" aria-label="Search">
-            <input class="bt-filter " style="display:none;" type="submit" name="submit_search" value="search"/>
-          </form>
-                </div>
-    <div class="col-6">
-        <div class="add-casual-bt" >
-            <a href="<?php echo URL; ?>casuals/addCasual" style="color:#E600A0; background-color:white;"  >ADD CASUAL</a>
-            <!-- <span style="font-size:large;" class="material-symbols-outlined">person_add</span> -->
-        </div>
-    </div>
-    <?php } ?>
-            </div>
-        </div>
+       
     </div>
 </div>
 
@@ -73,7 +45,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
                     <td><?php if (isset($casual->first_name)) echo htmlspecialchars($casual->first_name, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php if (isset($casual->last_name)) echo htmlspecialchars($casual->last_name, ENT_QUOTES, 'UTF-8'); ?></td>
                     <?php if (!empty($casual->duration_worked)) { ?>
-                    <td><?php echo htmlspecialchars($casual->duration_worked, ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?php echo htmlspecialchars($casual->duration_worked, ENT_QUOTES, 'UTF-8'); ?> days</td>
                      <?php } ?>
                     <?php if (!empty($casual->phone_no)) { ?>
                     <td><?php echo htmlspecialchars($casual->phone_no, ENT_QUOTES, 'UTF-8'); ?></td>
@@ -122,9 +94,9 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
                             <li class="list-group-item"><span>Last Name: </span><?php if (isset($casual->last_name)) echo htmlspecialchars($casual->last_name, ENT_QUOTES, 'UTF-8'); ?></li>
                             <li class="list-group-item"><span>Program: </span><?php if (isset($casual->program)) echo htmlspecialchars($casual->program, ENT_QUOTES, 'UTF-8'); ?></li>
                             <li class="list-group-item"><span>Country: </span><?php if (isset($casual->country)) echo htmlspecialchars($casual->country, ENT_QUOTES, 'UTF-8'); ?></li>
-                            <li class="list-group-item"><span>Qualification: </span>Bachelors Degree</li>
-                            <li class="list-group-item"><span>Duration of Appointment: </span>10 days</li>
-                            <li class="list-group-item"><span>Comment: </span>OK</li>
+                            <li class="list-group-item"><span>Qualification: </span><?php if (isset($casual->qualification_name)) echo htmlspecialchars($casual->qualificatione, ENT_QUOTES, 'UTF-8'); ?></li>
+                            <li class="list-group-item"><span>Duration of Appointment: </span><?php if (isset($casual->duration_worked)) echo htmlspecialchars($casual->duration_worked, ENT_QUOTES, 'UTF-8'); ?> days</li>
+                            <li class="list-group-item"><span>Comment: </span><?php if (isset($casual->comment)) echo htmlspecialchars($casual->comment, ENT_QUOTES, 'UTF-8'); ?></li>
                           </ul>
                     </div>
                     <div class="modal-footer">
@@ -139,7 +111,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
                     </div>
 
 
-                    <div class="modal fade"  id="delete-modal<?php echo htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8') ?>"  tabindex="-1" aria-labelledby="delete-modalLabel" aria-hidden="true">
+                    <div class="modal fade"  id="delete-modal<?php echo htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?>"  tabindex="-1" aria-labelledby="delete-modalLabel" aria-hidden="true">
     <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -149,10 +121,11 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
                       </button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to delete casual: <?php echo htmlspecialchars($casualID, ENT_QUOTES, 'UTF-8'); ?></p>
+                        <p>Are you sure you want to delete casual: <?php echo htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?></p>
                     </div>
   <div class="modal-footer">
-                      <a class="btn-delete" data-dismiss="modal" href="<?php echo URL . 'casuals/deleteCasual/' . htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?>" >
+  
+                      <a class="btn-delete"  href="<?php echo URL . 'casuals/deleteCasual/'. htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?>" >
                         delete
                     </a>
                         <button type="button" class="btn-cancel" data-dismiss="modal">
