@@ -1,5 +1,5 @@
 <?php
- include APP . 'config/session.php';
+ $_SESSION['last_action'] = time();
 ?>
 <div class="table-responsive">
      <div class="table-wrapper">
@@ -128,6 +128,7 @@
                       <a class="btn-delete"  href="<?php echo URL . 'casuals/deleteCasual/'. htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?>" >
                         delete
                     </a>
+                
                         <button type="button" class="btn-cancel" data-dismiss="modal">
                         cancel
                         </button>

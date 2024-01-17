@@ -2,3 +2,4 @@ _install/
 _vagrant/
 application/config/
 .htaccess
+vendor/

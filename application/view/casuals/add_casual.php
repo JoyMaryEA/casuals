@@ -1,6 +1,7 @@
 <?php
- include APP . 'config/session.php';
+$_SESSION['last_action'] = time();
 ?>
+
 <div class="add-casual-container">
 <?php if(!empty($casual)){?>
     <form class="add-casual" action="<?php echo URL; ?>casuals/editCasual" method="post">
@@ -12,12 +13,13 @@
 
     <!-- casual_id -->
     <label for="casual_id">Casual ID:</label>
-    <input type="text" id="casual_id" name="casual_id" maxlength="6" required value="<?php if(!empty($casual)){echo  $casual->casual_id;} ?>"  >
+    <input type="text" id="casual_id" name="casual_id" maxlength="6"  value="<?php if(!empty($casual)){echo  $casual->casual_id;} ?>" readonly >
     <br>
 
     <!-- country -->
     <label for="country">Country: </label> 
-    <select class="custom-select custom-select-lg mb-3" name="country" required  >
+    <small><?php echo $errors['country'] ?? '' ?></small>
+    <select class="custom-select custom-select-lg mb-3" name="country" id="country_select" required  >
 
                 <?php foreach ($countries as $country) {  
 
@@ -33,7 +35,8 @@
     
     <!-- program -->
     <label for="program">Program:</label>
-    <select class="custom-select custom-select-lg mb-3" name="program" value="<?php if(!empty($casual)){echo  $casual->country;} ?>" >
+    <small><?php echo $errors['program'] ?? '' ?></small>
+    <select class="custom-select custom-select-lg mb-3" name="program" id="program_select" value="<?php if(!empty($casual)){echo  $casual->country;} ?>" >
 
                
                 <?php foreach ($programs as $program) {  
@@ -50,6 +53,7 @@
 
     <!-- first_name -->
     <label for="first_name">First Name:</label>
+    <p><?php if(!empty($required))echo "this is required";?></p>
     <input type="text" id="first_name" name="first_name" maxlength="55" value="<?php if(!empty($casual)){echo  $casual->first_name;} ?>">
     <br>
 
@@ -60,16 +64,19 @@
 
     <!-- last_name -->
     <label for="last_name">Last Name:</label>
+    <p><?php echo $errors['last_name'] ?? '' ?></p>
     <input type="text" id="last_name" name="last_name" maxlength="55" value="<?php if(!empty($casual)){echo  $casual->last_name;} ?>">
     <br>
 
     <!-- id_no -->
     <label for="id_no">ID Number:</label>
+    <p><?php echo $errors['required'] ?? '' ?></p>
     <input type="text" id="id_no" name="id_no" maxlength="8" unique value="<?php if(!empty($casual)){echo  $casual->id_no;} ?>">
     <br>
 
     <!-- phone_no -->
     <label for="phone_no">Phone Number:</label>
+    <p><?php echo $errors->required ?? '' ?></p>
     <input type="text" id="phone_no" name="phone_no" maxlength="15" unique value="<?php if(!empty($casual)){echo  $casual->phone_no;} ?>">
     <br>
 
@@ -104,7 +111,7 @@
 <option value="<?php if (isset($kcse_mark->id)) echo htmlspecialchars($kcse_mark->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($kcse_mark->name)) echo htmlspecialchars($kcse_mark->name, ENT_QUOTES, 'UTF-8'); ?></option>
 <?php } ?>
 <?php if(!empty($casual)){ ?> 
-                <option value="<?php  echo htmlspecialchars($casual->kcse_results, ENT_QUOTES, 'UTF-8'); ?>" selected><?php  echo htmlspecialchars($casual->kcse_results_name, ENT_QUOTES, 'UTF-8'); ?></option>
+                <option value="<?php echo isset($casual->kcse_results) ? htmlspecialchars($casual->kcse_results, ENT_QUOTES, 'UTF-8'): '';  ?>" selected><?php echo isset($casual->kcse_results_name) ? htmlspecialchars($casual->kcse_results_name, ENT_QUOTES, 'UTF-8'): ''; ?></option>
                 <?php } ?>
 </select>
     <br>
@@ -120,7 +127,7 @@
 <option value="<?php if (isset($qualification->id)) echo htmlspecialchars($qualification->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($qualification->name)) echo htmlspecialchars($qualification->name, ENT_QUOTES, 'UTF-8'); ?></option>
 <?php } ?>
 <?php if(!empty($casual)){ ?> 
-                <option value="<?php  echo htmlspecialchars($casual->qualification, ENT_QUOTES, 'UTF-8'); ?>" selected><?php  echo htmlspecialchars($casual->qualification_name, ENT_QUOTES, 'UTF-8'); ?></option>
+                <option value="<?php echo isset($casual->qualification) ? htmlspecialchars($casual->qualification, ENT_QUOTES, 'UTF-8') : ''; ?>" selected> <?php echo isset($casual->qualification_name) ? htmlspecialchars($casual->qualification_name, ENT_QUOTES, 'UTF-8') : ''; ?></option>
                 <?php } ?>
 
 </select>
@@ -137,7 +144,7 @@
 <option value="<?php if (isset($institution->id)) echo htmlspecialchars($institution->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($institution->name)) echo htmlspecialchars($institution->name, ENT_QUOTES, 'UTF-8'); ?></option>
 <?php } ?>
 <?php if(!empty($casual)){ ?> 
-                <option value="<?php  echo htmlspecialchars($casual->institution, ENT_QUOTES, 'UTF-8'); ?>" selected><?php  echo htmlspecialchars($casual->institution_name, ENT_QUOTES, 'UTF-8'); ?></option>
+                <option value="<?php  echo isset($casual->institution)? htmlspecialchars($casual->institution, ENT_QUOTES, 'UTF-8'): ''; ?>" selected><?php  echo isset($casual->institution_name) ? htmlspecialchars($casual->institution_name, ENT_QUOTES, 'UTF-8') :''; ?></option>
                 <?php } ?>
 </select>
     <br>
