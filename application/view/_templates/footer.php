@@ -8,49 +8,34 @@
     <!-- more http://www.paulirish.com/2010/the-protocol-relative-url/ -->
     <script src="//code.jquery.com/jquery-3.5.1.min.js"></script>
 
+        <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        
+        <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
 
-    <script src="<?php echo URL; ?>public/js/application.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.8/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/r-2.5.0/datatables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+    <script src="<?php echo URL; ?>js/application.js"></script>
 
     <!-- define the project's URL (to make AJAX calls possible, even when using this in sub-folders etc) -->
-    <script>
-        var url = "<?php echo URL; ?>";
-    </script>
-    <?php if(empty($casual)) { ?> 
-    <script>
+
+
+
+<script>
 $(document).ready(function() {
-    $('#country_select').on('change', checkId);
-    $('#program_select').on('change', checkId);
+    var table = $('#myTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
 });
 
-function checkId() {
-    var countryValue = $('#country_select').val();
-     var programValue = $('#program_select').val();
-
-    $.ajax({
-        url:         '/mini/casuals/getCasualId',
-        type:       'POST',
-        dataType:   'json',
-        data:        { country: countryValue , program: programValue },
-        success:    function(data) {
-            console.log(data);
-            var maxCasualId = data.max_casual_id;
-            $('#casual_id').val(maxCasualId);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-        console.error('AJAX Error:', textStatus, errorThrown);
-        console.log('Server Response:', jqXHR.responseText);
-    },
-    complete: function() {
-        console.log('Complete callback reached');
-    }
-    
-    });
-     
-     
-}
-    </script>
-
- <?php }  ?>
-
+</script>
 </body>
 </html>

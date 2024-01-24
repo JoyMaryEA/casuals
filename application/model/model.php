@@ -271,15 +271,18 @@ class Model
     WHERE ";
 
     if (!empty($country) && !empty($program)){
-       $sql= $sql . "cn.id =:country AND p.id =:program AND not_available = 0;" ;
+       $sql= $sql . " cn.id =:country AND p.id =:program AND not_available = 0;" ;
+       $parameters = array(':country' => $country, ':program'=>$program);
+    } else if(empty($country) && !empty($program)){
+        $sql= $sql . " p.id =:program AND not_available = 0;" ;
+        $parameters = array( ':program'=>$program);
+    }else if(!empty($country) && empty($program)){
+        $sql= $sql . " cn.id =:country AND not_available = 0;" ;
+        $parameters = array(':country' => $country);
     }
-        
-
-
-
-
+       
          $query = $this->db->prepare($sql);
-         $parameters = array(':country' => $country, ':program'=>$program);
+        
          $query->execute($parameters);
          return $query->fetchAll();
     }
@@ -345,7 +348,7 @@ class Model
 
 
     public function getAllCountries(){
-        $sql = "SELECT id, name FROM country;";
+        $sql = "SELECT id, name, phone_code FROM country;";
         $query = $this->db->prepare($sql);
         $query->execute();
         return $query->fetchAll();
@@ -400,7 +403,7 @@ class Model
 
     public function deleteCasual($casual_id)
     {
-        $sql = "DELETE FROM casuals WHERE casual_id = :casual_id";
+        $sql = "UPDATE casuals SET not_available = 1 WHERE casual_id = :casual_id";
         $query = $this->db->prepare($sql);
         $parameters = array(':casual_id' => $casual_id);
       //  echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
@@ -424,9 +427,17 @@ class Model
         $query = $this->db->prepare($sql);
         $parameters = array(':casual_id' => $casual_id, ':country' => $country, ':program' => $program, ':first_name' => $first_name, ':middle_name' => $middle_name, ':last_name' => $last_name, ':id_no' => $id_no, ':phone_no' => $phone_no, ':alt_phone_no' => $alt_phone_no, ':year_worked' => $year_worked, ':duration_worked' => $duration_worked, ':comment' => $comment, ':kcse_results' => $kcse_results, ':qualification' => $qualification, ':institution' => $institution, ':year_graduated' => $year_graduated);
 
-        echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-        $query->execute($parameters);
-        
+      //  echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);
+      try {
+        $queryResult = $query->execute($parameters);
+        if ($queryResult) {
+            return "Casual record edited successfully!";
+        } else {
+            return "Error editing casual record.";
+        }
+    } catch (PDOException $e) {
+        return "Error: " . $e->getMessage();
+    }
     }
 
     public function deleteAudit($casual_id,$action,$u_id){

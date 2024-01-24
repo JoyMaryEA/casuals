@@ -4,7 +4,7 @@ $_SESSION['last_action'] = time();
 
 <div class="add-casual-container">
 <?php if(!empty($casual)){?>
-    <form class="add-casual" action="<?php echo URL; ?>casuals/editCasual" method="post">
+    <form class="add-casual" name="casualsForm" action="<?php echo URL; ?>casuals/editCasual" method="post">
    
             <?php } else { ?>
 <form class="add-casual" action="<?php echo URL; ?>casuals/addCasual" method="post">
@@ -52,9 +52,9 @@ $_SESSION['last_action'] = time();
     <br>
 
     <!-- first_name -->
-    <label for="first_name">First Name:</label>
-    <p><?php if(!empty($required))echo "this is required";?></p>
-    <input type="text" id="first_name" name="first_name" maxlength="55" value="<?php if(!empty($casual)){echo  $casual->first_name;} ?>">
+    <label for="first_name">First Name: <span style = "color:#e60000;"> *</span></label>
+    <p><?php if(!empty($required))echo $required;?></p>
+    <input type="text" id="first_name" name="first_name" maxlength="55" value="<?php if(!empty($casual)){echo  $casual->first_name;} ?>" >
     <br>
 
     <!-- middle_name -->
@@ -63,36 +63,40 @@ $_SESSION['last_action'] = time();
     <br>
 
     <!-- last_name -->
-    <label for="last_name">Last Name:</label>
-    <p><?php echo $errors['last_name'] ?? '' ?></p>
-    <input type="text" id="last_name" name="last_name" maxlength="55" value="<?php if(!empty($casual)){echo  $casual->last_name;} ?>">
+    <label for="last_name">Last Name:<span style = "color:#e60000;"> *</span></label>
+    <p><?php if(!empty($required))echo $required;?></p>
+    <input type="text" id="last_name" name="last_name" maxlength="55" value="<?php if(!empty($casual)){echo  $casual->last_name;} ?>" >
     <br>
 
     <!-- id_no -->
-    <label for="id_no">ID Number:</label>
-    <p><?php echo $errors['required'] ?? '' ?></p>
-    <input type="text" id="id_no" name="id_no" maxlength="8" unique value="<?php if(!empty($casual)){echo  $casual->id_no;} ?>">
+    <label for="id_no">ID Number:<span style = "color:#e60000;"> *</span></label>
+    <p><?php if(!empty($required))echo $required;?></p>
+    <input type="text" id="id_no" name="id_no" maxlength="10" minlength="10"  value="<?php if(!empty($casual)){echo  $casual->id_no;} ?>" >
     <br>
 
     <!-- phone_no -->
-    <label for="phone_no">Phone Number:</label>
-    <p><?php echo $errors->required ?? '' ?></p>
-    <input type="text" id="phone_no" name="phone_no" maxlength="15" unique value="<?php if(!empty($casual)){echo  $casual->phone_no;} ?>">
+    <label for="phone_no">Phone Number<span id="phone-code">(07********/01********)</span>:<span style = "color:#e60000;"> *</span> </label>
+    <p><?php if(!empty($required))echo $required;?></p>
+    <p><?php if(!empty($wrong_phone))echo $wrong_phone;?></p>
+    <input type="text" id="phone_no" name="phone_no" maxlength="10" minlength="10" value="<?php if(!empty($casual)){echo  $casual->phone_no;} ?>" >
     <br>
 
     <!-- alt_phone_no -->
-    <label for="alt_phone_no">Alternative Phone Number:</label>
-    <input type="text" id="alt_phone_no" name="alt_phone_no" maxlength="15" unique value="<?php if(!empty($casual)){echo  $casual->alt_phone_no;} ?>" >
+    <label for="alt_phone_no">Alternative Phone Number<span id="phone-code">(07********/01********)</span>: </label>
+    <p><?php if(!empty($wrong_phone))echo $wrong_phone;?></p>
+    <input type="text" id="alt_phone_no" name="alt_phone_no" maxlength="9" unique value="<?php if(!empty($casual)){echo  $casual->alt_phone_no;} ?>" >
     <br>
 
     <!-- year_worked -->
-    <label for="year_worked">Year Worked:</label>
+    <label for="year_worked">Year Worked:<span style = "color:#e60000;"> *</span></label>
+    <p><?php if(!empty($required))echo $required;?></p>
     <input type="text" id="year_worked" name="year_worked" value="<?php if(!empty($casual)){echo  $casual->year_worked;} ?>" >
     <br>
 
     <!-- duration_served -->
-    <label for="duration_served">Duration Served:</label>
-    <input type="text" id="duration_served" name="duration_served" maxlength="50" value="<?php if(!empty($casual)){echo  $casual->duration_worked;} ?>" >
+    <label for="duration_worked">Duration Served (days):<span style = "color:#e60000;"> *</span></label>
+    <p><?php if(!empty($required))echo $required;?></p>
+    <input type="number" id="duration_worked" name="duration_worked" maxlength="50" value="<?php if(!empty($casual)){echo  $casual->duration_worked;} ?>" >
     <br>
 
     <!-- comment -->
@@ -101,8 +105,8 @@ $_SESSION['last_action'] = time();
     <br>
 
     <!-- kcse_results -->
-    <label for="kcse_results">KCSE Results:</label>
-    <select class="custom-select custom-select-lg mb-3" name="kcse_results" required >
+    <label id="kcse-label" for="kcse_results">KCSE Results:</label>
+    <select id="kcse-input" class="custom-select custom-select-lg mb-3" name="kcse_results" required >
 
                 
 <?php foreach ($kcse_results as $kcse_mark) {  
@@ -151,6 +155,7 @@ $_SESSION['last_action'] = time();
 
     <!-- year_graduated -->
     <label for="year_graduated">Year Graduated:</label>
+    <!-- <input  type="number" min="1900" max="2099" step="1" value="2016" name="year" /> -->
     <input type="text" id="year_graduated" name="year_graduated" value="<?php if(!empty($casual)){echo  $casual->year_graduated;} ?>">
     <br>
 <!-- 

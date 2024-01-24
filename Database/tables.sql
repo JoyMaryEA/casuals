@@ -15,7 +15,8 @@ FOREIGN KEY (role) REFERENCES role(id)
 
 CREATE TABLE country (
 id tinyint unsigned PRIMARY KEY auto_increment,
-name varchar(255) UNIQUE);
+name varchar(255) UNIQUE,
+phone_code varchar(3));
 CREATE TABLE program(
 id tinyint unsigned PRIMARY KEY auto_increment,
 name varchar(255) UNIQUE
@@ -36,7 +37,7 @@ name varchar(255) UNIQUE
 );
 
 CREATE TABLE casuals(
-casual_id int,
+casual_id int auto_increment,
 country tinyint unsigned NOT NULL,
 program tinyint unsigned NOT NULL,
 first_name varchar(255),
@@ -54,13 +55,18 @@ institution tinyint unsigned,
 specialization varchar(255),
 year_graduated year,
 not_available BIT default 0,
-PRIMARY KEY (casual_id),
+PRIMARY KEY (casual_id,country,program),
 FOREIGN KEY (country)REFERENCES country(id),
 FOREIGN KEY (program) REFERENCES program(id),
 FOREIGN KEY (institution) REFERENCES institution(id),
 FOREIGN KEY (qualification) REFERENCES qualification(id),
 FOREIGN KEY (kcse_results) REFERENCES kcse_results(id),
 CONSTRAINT unique_name_combination UNIQUE (first_name, middle_name, last_name)										
+);
+
+CREATE TABLE action (
+id tinyint PRIMARY KEY,
+name varchar(255)
 );
 
 CREATE TABLE audit (
@@ -72,9 +78,5 @@ CREATE TABLE audit (
     FOREIGN KEY (action) REFERENCES action(id)
 );
 
-create table action (
-id tinyint PRIMARY KEY,
-name varchar(255)
-);
 
 

@@ -294,5 +294,8 @@ table.table td i {
     text-align: center;
     font-weight: 600;
 }
-
+.add-casual p {
+    font-size: x-small;
+    color: #e60000;
+}
 

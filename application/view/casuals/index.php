@@ -13,23 +13,18 @@
 </div>
 
 
-            <table class="table table-striped table-hover table-bordered">
+            <table id="myTable" class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Country <i class="fa fa-sort"></i></th>
-                        <th>Program <i class="fa fa-sort"></i></th>
-                        <th>First Name <i class="fa fa-sort"></i></th>
-                        <th>Last Name <i class="fa fa-sort"></i></th>
-                        <?php if (!empty($casuals) && isset($casuals[0]->duration_worked)) { ?>
-                         <th>Duration of Appointment</th>
-                         <?php } ?>
-                        
-                        <?php if (!empty($casuals) && isset($casuals[0]->phone_no)) { ?>
-                         <th>Phone Number</th>
-                         <?php } ?>
-                        <th>Casual Id *</th>
-                        <th>Comment</th>
+                        <th>Country </th>
+                        <th>Program </th>
+                        <th>First Name </th>
+                        <th>Last Name</th>
+                         <th>Duration of Appointment (days)</th>
+                         <th>Phone Number</th>                       
+                        <th>Casual Id </th>
+                        <th>year worked</th>
                         <th>Details</th>
                     </tr>
                 </thead>
@@ -44,14 +39,13 @@
                     <td><?php if (isset($casual->program_name)) echo htmlspecialchars($casual->program_name, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php if (isset($casual->first_name)) echo htmlspecialchars($casual->first_name, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php if (isset($casual->last_name)) echo htmlspecialchars($casual->last_name, ENT_QUOTES, 'UTF-8'); ?></td>
-                    <?php if (!empty($casual->duration_worked)) { ?>
-                    <td><?php echo htmlspecialchars($casual->duration_worked, ENT_QUOTES, 'UTF-8'); ?> days</td>
-                     <?php } ?>
-                    <?php if (!empty($casual->phone_no)) { ?>
-                    <td><?php echo htmlspecialchars($casual->phone_no, ENT_QUOTES, 'UTF-8'); ?></td>
-                     <?php } ?>
+               
+                    <td><?php echo isset($casual->duration_worked) ? htmlspecialchars($casual->duration_worked, ENT_QUOTES, 'UTF-8') : ""; ?> </td>
+               
+                    <td><?php if (isset($casual->phone_no)) echo htmlspecialchars($casual->phone_no, ENT_QUOTES, 'UTF-8');; ?></td>
+                   
                     <td><?php if (isset($casual->casual_id)) echo htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td>OK</td>
+                    <td><?php if (isset($casual->year_worked)) echo htmlspecialchars($casual->year_worked, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td>
    
 
@@ -102,8 +96,7 @@
                           </ul>
                     </div>
                     <div class="modal-footer">
-                   
-                  
+                     
                          </div>
                          </div>
                           </div>
@@ -147,21 +140,6 @@
 
 
 
-              
-            <div class="clearfix">
-                <div class="hint-text">Showing <b>6</b> out of <b>30</b> entries</div>
-                <ul class="pagination">
-                    <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>  
 
 
   

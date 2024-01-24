@@ -11,8 +11,10 @@ BEGIN
 
     IF max_casual_id IS NULL THEN
         SET max_casual_id = 0;
+        SET NEW.casual_id = (NEW.country * 100000) + (max_casual_id + 1);
+    ELSE
+        SET NEW.casual_id = max_casual_id + 1;
     END IF;
-
-    SET NEW.casual_id = (NEW.country * 100000) + (max_casual_id + 1);
 END
+
 

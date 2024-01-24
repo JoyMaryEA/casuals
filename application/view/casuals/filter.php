@@ -34,9 +34,7 @@ $_SESSION['last_action'] = time();
 <?php } ?>
 </select> -->
 <br>
-<input class="form-control" type="number" min="1900" max="2099" step="1" value="2016" name="year" />
 
-<br>
               <input class="bt-filter" type="submit" name="submit_filter" value="Filter" />
             
                 </form>
