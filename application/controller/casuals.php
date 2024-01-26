@@ -180,16 +180,7 @@ class Casuals extends Controller{
 
         if (isset($_POST["submit_edit_casual"])) {
 
-            // if (empty($_POST["first_name"] ) || empty($_POST["last_name"]) || empty($_POST["id_no"]) || empty($_POST["phone_no"]) || empty($_POST["year_worked"]) || empty($_POST["duration_worked"])){
-            //     $required="this field is required";
-            // }
-            // elseif (
-            //     !($this->isValidPhoneEdited($_POST["phone_no"], $_POST["country"]) ||
-            //     (isset($_POST["alt_phone_no"]) && $this->isValidPhoneEdited($_POST["alt_phone_no"], $_POST["country"])))
-            // ) {
-            //     $wrong_phone = "Invalid phone number format";
-            // }
-            // else{
+            
                 $first_name = trim($_POST["first_name"]);
 
                 $middle_name = !empty($_POST["middle_name"]) ?$_POST["middle_name"] : null;
@@ -198,7 +189,7 @@ class Casuals extends Controller{
                 $kcse_results = !empty($_POST["kcse_results"]) ? $_POST["kcse_results"] : null;
                 $year_graduated = !empty($_POST["year_graduated"]) ? $_POST["year_graduated"] : null;
 
-                //$phone_number= $this->phoneEdit($_POST["phone_no"],$_POST["country"]);
+                $phone_number= $this->phoneEdit($_POST["phone_no"],$_POST["country"]);
             
             $msg =  $this->model->editCasual($_POST["casual_id"], $_POST["country"], $_POST["program"], $_POST["first_name"], $middle_name, $_POST["last_name"], $_POST["id_no"],  $_POST["phone_no"], $alt_phone_no, $_POST["year_worked"], $_POST["duration_worked"], $comment, $kcse_results, $_POST["qualification"], $_POST["institution"], $year_graduated  );
             
@@ -209,13 +200,17 @@ class Casuals extends Controller{
                 $casual_id =$_POST["casual_id"];
                
                 $this->model->updateAudit($casual_id,$user_id);
+               
                 }
                 
-  
-                header('location: ' . URL . '/casuals/filter?message=' . urlencode($msg));
+                    header('Location: ' . URL . '/casuals/filter?message=' . urlencode($msg));
+                    exit;
+                
               }
+              
+              
             }
-       // }
+      
     }
 
     public function audit($casual_id){

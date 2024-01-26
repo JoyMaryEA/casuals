@@ -2,35 +2,7 @@ body {
     font-family: Arial;
     font-size: 14px;
 }
-.logo {
-    font-size: 100px;
-    font-weight: bolder;
-    letter-spacing: -6px;
-    color: #222;
-    margin: 20px 30px;
-}
-.logo .number {
-    color: #222;
-    opacity: 0.1;
-}
-.navigation {
-    margin-left: 33px;
-}
-.navigation a {
-    display: inline-block;
-    padding: 10px 15px;
-    text-decoration: none;
-    font-size: 14px;
-    text-transform: uppercase;
-    font-weight: bold;
-    border: 2px solid #222;
-    background: #222;
-    color: #fff;
-}
-.navigation a:hover {
-    color: #222;
-    background: transparent;
-}
+
 .container {
     border: 1px solid #ddd;
     padding: 20px;
@@ -299,3 +271,11 @@ table.table td i {
     color: #e60000;
 }
 
+@media screen and (max-width: 562px) {
+    
+    .navbar{
+        display: flex;
+        flex-direction: column;
+    }
+  }
+  

@@ -4,10 +4,10 @@ $_SESSION['last_action'] = time();
 
 <div class="add-casual-container">
 <?php if(!empty($casual)){?>
-    <form class="add-casual" name="casualsForm" action="<?php echo URL; ?>casuals/editCasual" method="post">
+    <form id="edit-form" class="add-casual" name="casualsForm" action="<?php echo URL; ?>casuals/editCasual" method="post">
    
             <?php } else { ?>
-<form class="add-casual" action="<?php echo URL; ?>casuals/addCasual" method="post">
+<form id="add-form" class="add-casual" action="<?php echo URL; ?>casuals/addCasual" method="post">
 <?php } ?>
 <h5> <?php if(!empty($casual)){echo 'Edit Details for ' . $casual->first_name;} else echo "Enter Casual Details" ?></h5>
 
@@ -18,7 +18,6 @@ $_SESSION['last_action'] = time();
 
     <!-- country -->
     <label for="country">Country: </label> 
-    <small><?php echo $errors['country'] ?? '' ?></small>
     <select class="custom-select custom-select-lg mb-3" name="country" id="country_select" required  >
 
                 <?php foreach ($countries as $country) {  
@@ -35,7 +34,6 @@ $_SESSION['last_action'] = time();
     
     <!-- program -->
     <label for="program">Program:</label>
-    <small><?php echo $errors['program'] ?? '' ?></small>
     <select class="custom-select custom-select-lg mb-3" name="program" id="program_select" value="<?php if(!empty($casual)){echo  $casual->country;} ?>" >
 
                
@@ -53,7 +51,7 @@ $_SESSION['last_action'] = time();
 
     <!-- first_name -->
     <label for="first_name">First Name: <span style = "color:#e60000;"> *</span></label>
-    <p><?php if(!empty($required))echo $required;?></p>
+    <p id="required-first-name"><?php if(!empty($required))echo $required;?></p>
     <input type="text" id="first_name" name="first_name" maxlength="55" value="<?php if(!empty($casual)){echo  $casual->first_name;} ?>" >
     <br>
 
@@ -64,38 +62,38 @@ $_SESSION['last_action'] = time();
 
     <!-- last_name -->
     <label for="last_name">Last Name:<span style = "color:#e60000;"> *</span></label>
-    <p><?php if(!empty($required))echo $required;?></p>
+    <p id="required-last-name"><?php if(!empty($required))echo $required;?></p>
     <input type="text" id="last_name" name="last_name" maxlength="55" value="<?php if(!empty($casual)){echo  $casual->last_name;} ?>" >
     <br>
 
     <!-- id_no -->
     <label for="id_no">ID Number:<span style = "color:#e60000;"> *</span></label>
-    <p><?php if(!empty($required))echo $required;?></p>
+    <p id="required-id-no"><?php if(!empty($required))echo $required;?></p>
     <input type="text" id="id_no" name="id_no" maxlength="10" minlength="10"  value="<?php if(!empty($casual)){echo  $casual->id_no;} ?>" >
     <br>
 
     <!-- phone_no -->
     <label for="phone_no">Phone Number<span id="phone-code">(07********/01********)</span>:<span style = "color:#e60000;"> *</span> </label>
-    <p><?php if(!empty($required))echo $required;?></p>
-    <p><?php if(!empty($wrong_phone))echo $wrong_phone;?></p>
+    <p id="required-phone-no"><?php if(!empty($required))echo $required;?></p>
+    <p id="phone-check"><?php if(!empty($wrong_phone))echo $wrong_phone;?></p>
     <input type="text" id="phone_no" name="phone_no" maxlength="10" minlength="10" value="<?php if(!empty($casual)){echo  $casual->phone_no;} ?>" >
     <br>
 
     <!-- alt_phone_no -->
     <label for="alt_phone_no">Alternative Phone Number<span id="phone-code">(07********/01********)</span>: </label>
-    <p><?php if(!empty($wrong_phone))echo $wrong_phone;?></p>
-    <input type="text" id="alt_phone_no" name="alt_phone_no" maxlength="9" unique value="<?php if(!empty($casual)){echo  $casual->alt_phone_no;} ?>" >
+    <p id="alt-phone-check"><?php if(!empty($wrong_phone))echo $wrong_phone;?></p>
+    <input type="text" id="alt_phone_no" name="alt_phone_no" maxlength="10" minlength="10" unique value="<?php if(!empty($casual)){echo  $casual->alt_phone_no;} ?>" >
     <br>
 
     <!-- year_worked -->
     <label for="year_worked">Year Worked:<span style = "color:#e60000;"> *</span></label>
-    <p><?php if(!empty($required))echo $required;?></p>
+    <p id="required-year-worked"><?php if(!empty($required))echo $required;?></p>
     <input type="text" id="year_worked" name="year_worked" value="<?php if(!empty($casual)){echo  $casual->year_worked;} ?>" >
     <br>
 
     <!-- duration_served -->
     <label for="duration_worked">Duration Served (days):<span style = "color:#e60000;"> *</span></label>
-    <p><?php if(!empty($required))echo $required;?></p>
+    <p id="required"><?php if(!empty($required))echo $required;?></p>
     <input type="number" id="duration_worked" name="duration_worked" maxlength="50" value="<?php if(!empty($casual)){echo  $casual->duration_worked;} ?>" >
     <br>
 
@@ -106,12 +104,13 @@ $_SESSION['last_action'] = time();
 
     <!-- kcse_results -->
     <label id="kcse-label" for="kcse_results">KCSE Results:</label>
-    <select id="kcse-input" class="custom-select custom-select-lg mb-3" name="kcse_results" required >
+    <select id="kcse-input" class="custom-select custom-select-lg mb-3" name="kcse_results"  >
 
-                
+    <option value="">select grade</option>            
 <?php foreach ($kcse_results as $kcse_mark) {  
 
     ?>
+    
 <option value="<?php if (isset($kcse_mark->id)) echo htmlspecialchars($kcse_mark->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($kcse_mark->name)) echo htmlspecialchars($kcse_mark->name, ENT_QUOTES, 'UTF-8'); ?></option>
 <?php } ?>
 <?php if(!empty($casual)){ ?> 
@@ -122,9 +121,9 @@ $_SESSION['last_action'] = time();
 
     <!-- qualification -->
     <label for="qualification">Qualification:</label>
-    <select class="custom-select custom-select-lg mb-3" name="qualification" required>
+    <select class="custom-select custom-select-lg mb-3" name="qualification" >
 
-                
+    <option value="">select qualification</option>                
 <?php foreach ($qualifications as $qualification) {  
 
     ?>
@@ -139,8 +138,8 @@ $_SESSION['last_action'] = time();
 
     <!-- institution -->
     <label for="institution">Institution:</label>
-    <select class="custom-select custom-select-lg mb-3" name="institution" required>
-
+    <select class="custom-select custom-select-lg mb-3" name="institution" id="institution" >
+    <option value="">select institution</option> 
                 
 <?php foreach ($institutions as $institution) {  
 

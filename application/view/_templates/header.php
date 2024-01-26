@@ -47,7 +47,7 @@
         <a href="<?php echo URL; ?>home/exampletwo">subpage 2</a>
         <a href="<?php echo URL; ?>songs">songs</a>
     </div> -->
-    <nav style=" display: flex; justify-content: space-between; align-items:center;">
+    <nav class="navbar" style=" display: flex; justify-content: space-between; align-items:center;">
    
     <?php
 if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
