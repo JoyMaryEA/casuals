@@ -96,7 +96,9 @@
                           </ul>
                     </div>
                     <div class="modal-footer">
-                     
+                     <?php $last_edit = $this->model-> getEditAudit($casualID) ; $insert_by = $this->model-> getInsertAudit($casualID); ?>
+                     <p><span style="font-weight:bold;">Last edited by:</span> <?php if (isset($last_edit->email)) echo htmlspecialchars(strstr($last_edit->email, '@', true), ENT_QUOTES, 'UTF-8'); ?> <span style="font-weight:bold;"> on : </span><?php if (isset($last_edit->timestamp)) echo htmlspecialchars($last_edit->timestamp, ENT_QUOTES, 'UTF-8'); ?> </p>
+                     <p><span style="font-weight:bold;">Inserted by:</span> <?php if (isset($insert_by->email)) echo htmlspecialchars(strstr($insert_by->email, '@', true), ENT_QUOTES, 'UTF-8'); ?></p>
                          </div>
                          </div>
                           </div>
@@ -134,8 +136,6 @@
                 </tbody>
             </table>
   
-
-            <!-- $audit_id = $this -> model -> searchCasualID($casualID); -->
             
 
 

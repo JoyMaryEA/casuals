@@ -472,9 +472,9 @@ class Model
         WHERE a.casual_id = :casual_id and a.action=2 ;";
         $query = $this->db->prepare($sql);
         $parameters = array(':casual_id' => $casual_id );
-        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
+       // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
-        return $query->fetchAll();
+        return $query->fetch();
     }
     public function getInsertAudit($casual_id){
         $sql = "SELECT a.timestamp, u.email, a.casual_id, a.action
@@ -485,7 +485,7 @@ class Model
         $parameters = array(':casual_id' => $casual_id );
         //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
-        return $query->fetchAll();
+        return $query->fetch();
     }
 
     public function getCasualId($country,$program){
