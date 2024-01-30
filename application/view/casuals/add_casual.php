@@ -4,7 +4,7 @@ $_SESSION['last_action'] = time();
 
 <div class="add-casual-container">
 <?php if(!empty($casual)){?>
-    <form id="edit-form" class="add-casual" name="casualsForm" action="<?php echo URL; ?>casuals/editCasual" method="post">
+    <form id="edit-form" class="add-casual"  action="<?php echo URL; ?>casuals/editCasual" method="post">
    
             <?php } else { ?>
 <form id="add-form" class="add-casual" action="<?php echo URL; ?>casuals/addCasual" method="post">
@@ -69,7 +69,7 @@ $_SESSION['last_action'] = time();
     <!-- id_no -->
     <label for="id_no">ID Number:<span style = "color:#e60000;"> *</span></label>
     <p id="required-id-no"><?php if(!empty($required))echo $required;?></p>
-    <input type="text" id="id_no" name="id_no" maxlength="10" minlength="10"  value="<?php if(!empty($casual)){echo  $casual->id_no;} ?>" >
+    <input type="text" id="id_no" name="id_no" maxlength="8" minlength="8"  value="<?php if(!empty($casual)){echo  $casual->id_no;} ?>" >
     <br>
 
     <!-- phone_no -->
@@ -123,7 +123,7 @@ $_SESSION['last_action'] = time();
     <label for="qualification">Qualification:</label>
     <select class="custom-select custom-select-lg mb-3" name="qualification" >
 
-    <option value="">select qualification</option>                
+    <!-- <option value="">select qualification</option>                 -->
 <?php foreach ($qualifications as $qualification) {  
 
     ?>
@@ -139,7 +139,7 @@ $_SESSION['last_action'] = time();
     <!-- institution -->
     <label for="institution">Institution:</label>
     <select class="custom-select custom-select-lg mb-3" name="institution" id="institution" >
-    <option value="">select institution</option> 
+    <!-- <option value="">select institution</option>  -->
                 
 <?php foreach ($institutions as $institution) {  
 

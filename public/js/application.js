@@ -5,8 +5,8 @@ $(document).ready(function() {
     $("#edit-form").submit(function(event) {
         event.preventDefault();
         if (validateEditForm()) {
-          
-           $(this).unbind('submit').submit();
+          $("#edit-form").get(0).submit();
+          console.log("let's get it");
         }
       });
 });
@@ -46,55 +46,55 @@ function checkId() {
 }
 
       function validateEditForm() {
-        var firstName = $("#first_name").val();
-        var middle_name = $("#middle_name").val();
-        var last_name = $("#last_name").val();
-        var id_no = $("#id_no").val();
-        var phone_no = $("#phone_no").val();
-        var alt_phone_no = $("#alt_phone_no").val();
-        var year_worked = $("#year_worked").val();
-        var comment = $("#comment").val();
-        var kcseInput = $("#kcse-input").val();
-        var institution = $("#institution").val();
+        // var firstName = $("#first_name").val();
+        // var middle_name = $("#middle_name").val();
+        // var last_name = $("#last_name").val();
+        // var id_no = $("#id_no").val();
+        // var phone_no = $("#phone_no").val();
+        // var alt_phone_no = $("#alt_phone_no").val();
+        // var year_worked = $("#year_worked").val();
+        // var comment = $("#comment").val();
+        // var kcseInput = $("#kcse-input").val();
+        // var institution = $("#institution").val();
 
       
-        $('#required-first-name').text("");
-        $('#required-last-name').text("");
-        $('#required-id-no').text("");
-        $('#required-phone-no').text("");
-        $('#required-year-worked').text("");
-        $('#phone-check').text("");
-        $('#alt-phone-check').text("");
+        // $('#required-first-name').text("");
+        // $('#required-last-name').text("");
+        // $('#required-id-no').text("");
+        // $('#required-phone-no').text("");
+        // $('#required-year-worked').text("");
+        // $('#phone-check').text("");
+        // $('#alt-phone-check').text("");
 
-        if (firstName === "") {
-          $('#required-first-name').text("First Name is required");
-          return false;
-        }
-        if (last_name === "") {
-          $('#required-last-name').text("Last Name is required");
-          return false;
-        }
-        if (id_no === "") {
-          $('#required-id-no').text("ID Number is required");
-          return false;
-        }
-        if (phone_no === "") {
-          $('#required-phone-no').text("Phone Number is required");
-          return false;
-        }
-        if (year_worked === "") {
-          $('#required-year-worked').text("Year Worked is required");
-          return false;
-        }
-        else if (!validatePhoneNumber(phone_no)){
+        // if (firstName === "") {
+        //   $('#required-first-name').text("First Name is required");
+        //   return false;
+        // }
+        // if (last_name === "") {
+        //   $('#required-last-name').text("Last Name is required");
+        //   return false;
+        // }
+        // if (id_no === "") {
+        //   $('#required-id-no').text("ID Number is required");
+        //   return false;
+        // }
+        // if (phone_no === "") {
+        //   $('#required-phone-no').text("Phone Number is required");
+        //   return false;
+        // }
+        // if (year_worked === "") {
+        //   $('#required-year-worked').text("Year Worked is required");
+        //   return false;
+        // }
+        // else if (!validatePhoneNumber(phone_no)){
         
-          $('#phone-check').text("enter correct phone format")
-          return false;
-        }
-        else if (alt_phone_no !="" && !validatePhoneNumber(alt_phone_no) ){
-          $('#alt-phone-check').text("enter correct phone format")
-          return false
-        }
+        //   $('#phone-check').text("enter correct phone format")
+        //   return false;
+        // }
+        // else if (alt_phone_no !="" && !validatePhoneNumber(alt_phone_no) ){
+        //   $('#alt-phone-check').text("enter correct phone format")
+        //   return false
+        // }
   
   
         return true; 

@@ -108,6 +108,8 @@ class Casuals extends Controller{
                     $comment = !empty($_POST["comment"]) ? $_POST["comment"] : null;
                     $kcse_results = !empty($_POST["kcse_results"]) ? $_POST["kcse_results"] : null;
                     $year_graduated = !empty($_POST["year_graduated"]) ? $_POST["year_graduated"] : null;
+                    $qualification = !empty($_POST["qualification"]) ? $_POST["qualification"] : null;
+                    $institution = !empty($_POST["institution"]) ? $_POST["institution"] : null;
 
                     $phone_number= $this->phoneEdit($_POST["phone_no"],$_POST["country"]);
                     
@@ -117,11 +119,7 @@ class Casuals extends Controller{
                 );
                 if(!empty($msg)){
                     if (strpos($msg, 'Casual') === 0) {
-                        session_start();
-                        $user_id = $_SESSION["userId"];
-                        $casual_id =$_POST["casual_id"];
-                        $action = 1;
-                        $this->model->insertAudit($casual_id, $action, $user_id);
+                       
                     }
                   
                    
@@ -180,18 +178,7 @@ class Casuals extends Controller{
 
         if (isset($_POST["submit_edit_casual"])) {
 
-            
-                $first_name = trim($_POST["first_name"]);
-
-                $middle_name = !empty($_POST["middle_name"]) ?$_POST["middle_name"] : null;
-                $alt_phone_no = !empty($_POST["alt_phone_no"]) ? $_POST["alt_phone_no"] : null;
-                $comment = !empty($_POST["comment"]) ? $_POST["comment"] : null;
-                $kcse_results = !empty($_POST["kcse_results"]) ? $_POST["kcse_results"] : null;
-                $year_graduated = !empty($_POST["year_graduated"]) ? $_POST["year_graduated"] : null;
-
-                $phone_number= $this->phoneEdit($_POST["phone_no"],$_POST["country"]);
-            
-            $msg =  $this->model->editCasual($_POST["casual_id"], $_POST["country"], $_POST["program"], $_POST["first_name"], $middle_name, $_POST["last_name"], $_POST["id_no"],  $_POST["phone_no"], $alt_phone_no, $_POST["year_worked"], $_POST["duration_worked"], $comment, $kcse_results, $_POST["qualification"], $_POST["institution"], $year_graduated  );
+            $msg =  $this->model->editCasual($_POST["casual_id"], $_POST["country"], $_POST["program"], $_POST["first_name"], $_POST["middle_name"], $_POST["last_name"], $_POST["id_no"], $_POST["phone_no"], $_POST["alt_phone_no"], $_POST["comment"], $_POST["kcse_results"], $_POST["qualification"], $_POST["institution"], $_POST["year_graduated"]  );
             
                if(!empty($msg)){
                 if (strpos($msg, 'Casual') === 0) {
@@ -200,17 +187,17 @@ class Casuals extends Controller{
                 $casual_id =$_POST["casual_id"];
                
                 $this->model->updateAudit($casual_id,$user_id);
-               
+                
                 }
-                
-                    header('Location: ' . URL . '/casuals/filter?message=' . urlencode($msg));
-                    exit;
-                
+                header('Location: ' . URL . '/casuals/filter?message=' . urlencode($msg));
+              }else{
+                header('location: ' . URL . '/users/login');
               }
-              
-              
+             
             }
-      
+        
+           
+            
     }
 
     public function audit($casual_id){
@@ -265,3 +252,6 @@ class Casuals extends Controller{
     
 
 }
+
+
+
