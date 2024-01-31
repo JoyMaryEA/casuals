@@ -123,7 +123,7 @@ $_SESSION['last_action'] = time();
     <label for="qualification">Qualification:</label>
     <select class="custom-select custom-select-lg mb-3" name="qualification" >
 
-    <!-- <option value="">select qualification</option>                 -->
+    <option value="">select qualification</option>                
 <?php foreach ($qualifications as $qualification) {  
 
     ?>
@@ -139,7 +139,7 @@ $_SESSION['last_action'] = time();
     <!-- institution -->
     <label for="institution">Institution:</label>
     <select class="custom-select custom-select-lg mb-3" name="institution" id="institution" >
-    <!-- <option value="">select institution</option>  -->
+    <option value="">select institution</option> 
                 
 <?php foreach ($institutions as $institution) {  
 
@@ -152,10 +152,10 @@ $_SESSION['last_action'] = time();
 </select>
     <br>
 
-    <!-- year_graduated -->
-    <label for="year_graduated">Year Graduated:</label>
+    <!-- specialization -->
+    <label for="specialization">Year Graduated:</label>
     <!-- <input  type="number" min="1900" max="2099" step="1" value="2016" name="year" /> -->
-    <input type="text" id="year_graduated" name="year_graduated" value="<?php if(!empty($casual)){echo  $casual->year_graduated;} ?>">
+    <input type="text" id="specialization" name="specialization" value="<?php if(!empty($casual)){echo  $casual->specialization;} ?>">
     <br>
 <!-- 
     not_available -->

@@ -159,7 +159,7 @@ class Model
         c.alt_phone_no, 
         c.institution,
         c.kcse_results,
-        c.year_graduated,
+        c.specialization,
         c.alt_phone_no,
         c.qualification, 
         kc.name AS kcse_results_name, 
@@ -205,7 +205,7 @@ class Model
         c.alt_phone_no, 
         c.institution,
         c.kcse_results,
-        c.year_graduated,
+        c.specialization,
         c.alt_phone_no,
         c.qualification, 
         kc.name AS kcse_results_name, 
@@ -255,7 +255,7 @@ class Model
         c.alt_phone_no, 
         c.institution,
         c.kcse_results,
-        c.year_graduated,
+        c.specialization,
         c.alt_phone_no,
         c.qualification, 
         kc.name AS kcse_results_name, 
@@ -314,7 +314,7 @@ class Model
     c.alt_phone_no, 
     c.institution,
     c.kcse_results,
-    c.year_graduated,
+    c.specialization,
     c.alt_phone_no,
     c.qualification, 
     kc.name AS kcse_results_name, 
@@ -387,14 +387,14 @@ LEFT JOIN
         return $query->fetchAll();
     }
 
-    public function insertCasual($country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $year_graduated
+    public function insertCasual($country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $specialization
     ){
         
         
-        $sql = "INSERT INTO casuals (country, program, first_name, middle_name, last_name, id_no, phone_no, alt_phone_no, comment, kcse_results, qualification, institution, year_graduated
-        ) VALUES (:country, :program, :first_name, :middle_name, :last_name, :id_no, :phone_no, :alt_phone_no, :comment, :kcse_results, :qualification, :institution, :year_graduated)";
+        $sql = "INSERT INTO casuals (country, program, first_name, middle_name, last_name, id_no, phone_no, alt_phone_no, comment, kcse_results, qualification, institution, specialization
+        ) VALUES (:country, :program, :first_name, :middle_name, :last_name, :id_no, :phone_no, :alt_phone_no, :comment, :kcse_results, :qualification, :institution, :specialization)";
         $query = $this->db->prepare($sql);
-        $parameters = array(':country' => $country, ':program' => $program, ':first_name' => $first_name, ':middle_name' => $middle_name, ':last_name' => $last_name, ':id_no' => $id_no, ':phone_no' => $phone_no, ':alt_phone_no' => $alt_phone_no, ':comment' => $comment, ':kcse_results' => $kcse_results, ':qualification' => $qualification, ':institution' => $institution, ':year_graduated' => $year_graduated
+        $parameters = array(':country' => $country, ':program' => $program, ':first_name' => $first_name, ':middle_name' => $middle_name, ':last_name' => $last_name, ':id_no' => $id_no, ':phone_no' => $phone_no, ':alt_phone_no' => $alt_phone_no, ':comment' => $comment, ':kcse_results' => $kcse_results, ':qualification' => $qualification, ':institution' => $institution, ':specialization' => $specialization
     );
 
         try {
@@ -454,16 +454,14 @@ LEFT JOIN
 
     }
 
-    public function editCasual($casual_id, $country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $year_graduated) {
+    public function editCasual($casual_id, $country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $specialization) {
      
         
-        $sql = "UPDATE casuals SET country = :country, program = :program, first_name = :first_name, middle_name = :middle_name, last_name = :last_name, id_no = :id_no, phone_no = :phone_no, alt_phone_no = :alt_phone_no, comment = :comment, kcse_results = :kcse_results, qualification = :qualification, institution = :institution, year_graduated = :year_graduated WHERE casual_id = :casual_id;";
+        $sql = "UPDATE casuals SET first_name = :first_name, middle_name = :middle_name, last_name = :last_name, id_no = :id_no, phone_no = :phone_no, alt_phone_no = :alt_phone_no, comment = :comment, kcse_results = :kcse_results, qualification = :qualification, institution = :institution, specialization = :specialization WHERE casual_id = :casual_id;";
         
         $query = $this->db->prepare($sql);
         $parameters = array(
             ':casual_id' => $casual_id,
-            ':country' => $country,
-            ':program' => $program,
             ':first_name' => $first_name,
             ':middle_name' => $middle_name,
             ':last_name' => $last_name,
@@ -474,18 +472,18 @@ LEFT JOIN
             ':kcse_results' => $kcse_results,
             ':qualification' => $qualification,
             ':institution' => $institution,
-            ':year_graduated' => $year_graduated
+            ':specialization' => $specialization
         );
     
-        try {
- 
-            echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);
-            
+        try { 
             $queryResult = $query->execute($parameters);
             
            
             if ($queryResult) {
-                return "Casual record edited successfully!";
+                session_start();
+                $user_id = $_SESSION["userId"];
+                $this->model->updateAudit($casual_id,$user_id);
+                return "Casual record edited successfully!  Helper::debugPDO($sql, $parameters)";
             } else {
                 $errorInfo = $query->errorInfo();
             return "Error adding casual record. SQLSTATE: {$errorInfo[0]}, Error Code: {$errorInfo[1]}, Error Message: {$errorInfo[2]}";

@@ -3,12 +3,30 @@ $(document).ready(function() {
     $('#program_select').on('change', checkId);
 
     $("#edit-form").submit(function(event) {
-        event.preventDefault();
-        if (validateEditForm()) {
-          $("#edit-form").get(0).submit();
-          console.log("let's get it");
-        }
-      });
+      event.preventDefault();
+  
+      
+      if (validateEditForm()) {
+          var formData = $(this).serialize();
+  
+          $.ajax({
+              url: '/mini/casuals/editCasual',
+              type: 'POST', 
+              data: formData,
+              dataType: 'text',
+              success: function(data) {
+                 console.log(data);
+                  console.log("let's get it");
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+           
+                  console.error('AJAX Error:', textStatus, errorThrown);
+                  console.log('Server Response:', jqXHR.responseText);
+              }
+          });
+      }
+  });
+  
 });
 
 
