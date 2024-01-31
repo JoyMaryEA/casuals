@@ -142,7 +142,7 @@ class Model
 //causuals methods
     public function getAllCasuals()
     {
-        $sql = " SELECT 
+        $sql = "  SELECT 
         c.casual_id, 
         c.middle_name, 
         c.first_name, 
@@ -152,7 +152,7 @@ class Model
         c.country,
         c.phone_no, 
         p.name AS program_name,
-        c.program, 
+        sp.program_id, 
         sp.year_worked,  
         sp.duration_worked,  
         c.comment, 
@@ -169,8 +169,7 @@ class Model
         casuals c
     JOIN 
         country cn ON c.country = cn.id
-    JOIN 
-        program p ON c.program = p.id
+    
     LEFT JOIN 
         kcse_results kc ON c.kcse_results = kc.id
     LEFT JOIN 
@@ -179,6 +178,8 @@ class Model
         qualification q ON c.qualification = q.id
     LEFT JOIN 
         staff_programs sp ON c.casual_id = sp.casual_id
+        JOIN 
+        program p ON sp.program_id = p.id
         WHERE 
         c.not_available = 0";
         $query = $this->db->prepare($sql);
@@ -198,7 +199,7 @@ class Model
         c.country,
         c.phone_no, 
         p.name AS program_name,
-        c.program, 
+        sp.program_id, 
         sp.year_worked,  
         sp.duration_worked,  
         c.comment, 
@@ -215,8 +216,7 @@ class Model
         casuals c
     JOIN 
         country cn ON c.country = cn.id
-    JOIN 
-        program p ON c.program = p.id
+    
     LEFT JOIN 
         kcse_results kc ON c.kcse_results = kc.id
     LEFT JOIN 
@@ -225,6 +225,8 @@ class Model
         qualification q ON c.qualification = q.id
     LEFT JOIN 
         staff_programs sp ON c.casual_id = sp.casual_id
+        JOIN 
+        program p ON sp.program_id = p.id
         WHERE 
         c.casual_id = :casual_id 
         AND c.not_available = 0
@@ -238,7 +240,7 @@ class Model
     
     public function filterCountryProgram($country,$program)
     {
-        $sql=" SELECT 
+        $sql="  SELECT 
         c.casual_id, 
         c.middle_name, 
         c.first_name, 
@@ -248,7 +250,7 @@ class Model
         c.country,
         c.phone_no, 
         p.name AS program_name,
-        c.program, 
+        sp.program_id, 
         sp.year_worked,  
         sp.duration_worked,  
         c.comment, 
@@ -265,8 +267,7 @@ class Model
         casuals c
     JOIN 
         country cn ON c.country = cn.id
-    JOIN 
-        program p ON c.program = p.id
+    
     LEFT JOIN 
         kcse_results kc ON c.kcse_results = kc.id
     LEFT JOIN 
@@ -275,6 +276,8 @@ class Model
         qualification q ON c.qualification = q.id
     LEFT JOIN 
         staff_programs sp ON c.casual_id = sp.casual_id
+        JOIN 
+        program p ON sp.program_id = p.id
         WHERE ";
 
     if (!empty($country) && !empty($program)){
@@ -307,7 +310,7 @@ class Model
     c.country,
     c.phone_no, 
     p.name AS program_name,
-    c.program, 
+    sp.program_id, 
     sp.year_worked,  
     sp.duration_worked,  
     c.comment, 
@@ -324,8 +327,7 @@ FROM
     casuals c
 JOIN 
     country cn ON c.country = cn.id
-JOIN 
-    program p ON c.program = p.id
+
 LEFT JOIN 
     kcse_results kc ON c.kcse_results = kc.id
 LEFT JOIN 
@@ -334,6 +336,8 @@ LEFT JOIN
     qualification q ON c.qualification = q.id
 LEFT JOIN 
     staff_programs sp ON c.casual_id = sp.casual_id
+    JOIN 
+    program p ON sp.program_id = p.id
     WHERE  
         (c.first_name LIKE :first_name OR c.last_name LIKE :last_name OR c.casual_id LIKE :casual_id)
         AND c.not_available = 0";
@@ -415,7 +419,7 @@ LEFT JOIN
                         return "Casual record added successfully!";
                     } else{
                         $errorInfo = $query->errorInfo();
-                        return "Error adding casual record. SQLSTATE: {$errorInfo[0]}, Error Code: {$errorInfo[1]}, Error Message: {$errorInfo[2]}";
+                        return "Error adding casual record. {$errorInfo[2]}";
                     }
                     
                 } catch (PDOException $e) {
@@ -426,7 +430,7 @@ LEFT JOIN
             
         } else {
             $errorInfo = $query->errorInfo();
-            return "Error adding casual record. SQLSTATE: {$errorInfo[0]}, Error Code: {$errorInfo[1]}, Error Message: {$errorInfo[2]}";
+            return "Error adding casual record. {$errorInfo[2]}";
         }
     } catch (PDOException $e) {
         return "Error: " . $e->getMessage();
@@ -446,7 +450,8 @@ LEFT JOIN
         if ($queryResult) {
             return "Casual record deleted successfully!";
         } else {
-            return "Error deleting casual record. . Helper::debugPDO($sql, $parameters)";
+            $errorInfo = $query->errorInfo();
+            return "Error deleting casual record. . {$errorInfo[2]}";
         }
     } catch (PDOException $e) {
         return "Error: " . $e->getMessage();
@@ -457,7 +462,7 @@ LEFT JOIN
     public function editCasual($casual_id, $country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $specialization) {
      
         
-        $sql = "UPDATE casuals SET first_name = :first_name, middle_name = :middle_name, last_name = :last_name, id_no = :id_no, phone_no = :phone_no, alt_phone_no = :alt_phone_no, comment = :comment, kcse_results = :kcse_results, qualification = :qualification, institution = :institution, specialization = :specialization WHERE casual_id = :casual_id;";
+        $sql = "UPDATE casuals SET first_name = :first_name, middle_name = :middle_name, last_name = :last_name, id_no = :id_no, phone_no = :phone_no, alt_phone_no = :alt_phone_no, comment = :comment, kcse_results = :kcse_results, qualification = :qualification, institution = :institution, specialization = :specialization WHERE casual_id = :casual_id";
         
         $query = $this->db->prepare($sql);
         $parameters = array(
@@ -482,11 +487,11 @@ LEFT JOIN
             if ($queryResult) {
                 session_start();
                 $user_id = $_SESSION["userId"];
-                $this->model->updateAudit($casual_id,$user_id);
+                $this->updateAudit($casual_id,$user_id);
                 return "Casual record edited successfully!  Helper::debugPDO($sql, $parameters)";
             } else {
                 $errorInfo = $query->errorInfo();
-            return "Error adding casual record. SQLSTATE: {$errorInfo[0]}, Error Code: {$errorInfo[1]}, Error Message: {$errorInfo[2]}";
+            return "Error adding casual record. {$errorInfo[2]}";
             }
         } catch (PDOException $e) {
              return "Error: " . $e->getMessage();

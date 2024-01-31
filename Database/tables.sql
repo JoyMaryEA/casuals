@@ -12,11 +12,12 @@ role tinyint unsigned default 2,
 FOREIGN KEY (role) REFERENCES role(id)
 );
 
-
 CREATE TABLE country (
 id tinyint unsigned PRIMARY KEY auto_increment,
 name varchar(255) UNIQUE,
-phone_code varchar(3));
+phone_code varchar(3)
+);
+
 CREATE TABLE program(
 id tinyint unsigned PRIMARY KEY auto_increment,
 name varchar(255) UNIQUE
@@ -46,8 +47,6 @@ last_name varchar(255),
 id_no varchar(8) UNIQUE,
 phone_no varchar(15) UNIQUE,
 alt_phone_no varchar(15) UNIQUE,
-year_worked year,
-duration_worked int unsigned ,
 comment	varchar(255),												
 kcse_results tinyint unsigned,
 qualification tinyint unsigned,
@@ -64,11 +63,6 @@ FOREIGN KEY (kcse_results) REFERENCES kcse_results(id),
 CONSTRAINT unique_name_combination UNIQUE (first_name, middle_name, last_name)										
 );
 
-CREATE TABLE action (
-id tinyint PRIMARY KEY,
-name varchar(255)
-);
-
 CREATE TABLE audit (
 	id INT PRIMARY KEY auto_increment,
     casual_id INT,
@@ -78,5 +72,15 @@ CREATE TABLE audit (
     FOREIGN KEY (action) REFERENCES action(id)
 );
 
+create table action (
+id tinyint PRIMARY KEY,
+name varchar(255)
+);
 
-
+create table staff_programs(
+casual_id INT,
+program_id tinyint unsigned, 
+year_worked year,
+duration_worked int,
+FOREIGN KEY (program_id) REFERENCES program(id),
+FOREIGN KEY (casual_id) REFERENCES casuals(casual_id));

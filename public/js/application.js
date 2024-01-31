@@ -2,9 +2,19 @@ $(document).ready(function() {
     $('#country_select').on('change', checkId);
     $('#program_select').on('change', checkId);
 
+    var countryValue = $('#country_select').val();
+    
+
+    if (countryValue != 1) {
+       $('#kcse-label').hide();
+       $('#kcse-input').hide();
+   } else {
+       $('#kcse-label').show();
+       $('#kcse-input').show();
+   }
+
     $("#edit-form").submit(function(event) {
       event.preventDefault();
-  
       
       if (validateEditForm()) {
           var formData = $(this).serialize();
@@ -13,11 +23,13 @@ $(document).ready(function() {
               url: '/mini/casuals/editCasual',
               type: 'POST', 
               data: formData,
-              dataType: 'text',
-              success: function(data) {
-                 console.log(data);
-                  console.log("let's get it");
-              },
+              dataType: 'html',
+            success: function(data) {
+                document.open();
+                document.write(data);
+                document.close();
+                console.log("let's get it");
+            },
               error: function(jqXHR, textStatus, errorThrown) {
            
                   console.error('AJAX Error:', textStatus, errorThrown);
@@ -31,16 +43,7 @@ $(document).ready(function() {
 
 
 function checkId() {
-    var countryValue = $('#country_select').val();
-     var programValue = $('#program_select').val();
-
-     if (countryValue != 1) {
-        $('#kcse-label').hide();
-        $('#kcse-input').hide();
-    } else {
-        $('#kcse-label').show();
-        $('#kcse-input').show();
-    }
+    var programValue = $('#program_select').val();
 
     $.ajax({
         url:        '/mini/casuals/getCasualId',
@@ -48,7 +51,7 @@ function checkId() {
         dataType:   'json',
         data:        { country: countryValue , program: programValue },
         success:    function(data) {
-            console.log(data);
+           // console.log(data);
             var maxCasualId = data.max_casual_id;
             $('#casual_id').val(maxCasualId);
         },
@@ -64,55 +67,56 @@ function checkId() {
 }
 
       function validateEditForm() {
-        // var firstName = $("#first_name").val();
-        // var middle_name = $("#middle_name").val();
-        // var last_name = $("#last_name").val();
-        // var id_no = $("#id_no").val();
-        // var phone_no = $("#phone_no").val();
-        // var alt_phone_no = $("#alt_phone_no").val();
-        // var year_worked = $("#year_worked").val();
-        // var comment = $("#comment").val();
-        // var kcseInput = $("#kcse-input").val();
-        // var institution = $("#institution").val();
+        var firstName = $("#first_name").val();
+        var last_name = $("#last_name").val();
+        var id_no = $("#id_no").val();
+        var phone_no = $("#phone_no").val();
+        var alt_phone_no = $("#alt_phone_no").val();
+        var year_worked = $("#year_worked").val();
+        var duration_worked = $("#duration_worked").val();
 
       
-        // $('#required-first-name').text("");
-        // $('#required-last-name').text("");
-        // $('#required-id-no').text("");
-        // $('#required-phone-no').text("");
-        // $('#required-year-worked').text("");
-        // $('#phone-check').text("");
-        // $('#alt-phone-check').text("");
+        $('#required-first-name').text("");
+        $('#required-last-name').text("");
+        $('#required-id-no').text("");
+        $('#required-phone-no').text("");
+        $('#required-year-worked').text("");
+        $('#phone-check').text("");
+        $('#alt-phone-check').text("");
+        $('required-duration-worked').text("");
 
-        // if (firstName === "") {
-        //   $('#required-first-name').text("First Name is required");
-        //   return false;
-        // }
-        // if (last_name === "") {
-        //   $('#required-last-name').text("Last Name is required");
-        //   return false;
-        // }
-        // if (id_no === "") {
-        //   $('#required-id-no').text("ID Number is required");
-        //   return false;
-        // }
-        // if (phone_no === "") {
-        //   $('#required-phone-no').text("Phone Number is required");
-        //   return false;
-        // }
-        // if (year_worked === "") {
-        //   $('#required-year-worked').text("Year Worked is required");
-        //   return false;
-        // }
-        // else if (!validatePhoneNumber(phone_no)){
+        if (firstName === "") {
+          $('#required-first-name').text("First Name is required");
+          return false;
+        }
+        if (last_name === "") {
+          $('#required-last-name').text("Last Name is required");
+          return false;
+        }
+        if (id_no === "") {
+          $('#required-id-no').text("ID Number is required");
+          return false;
+        }
+        if (phone_no === "") {
+          $('#required-phone-no').text("Phone Number is required");
+          return false;
+        }
+        if (year_worked === "") {
+          $('#required-year-worked').text("Year Worked is required");
+          return false;
+        }
+        if (duration_worked == ""){
+        $('required-duration-worked').text("duration worked is required");
+        }
+        else if (!validatePhoneNumber(phone_no)){
         
-        //   $('#phone-check').text("enter correct phone format")
-        //   return false;
-        // }
-        // else if (alt_phone_no !="" && !validatePhoneNumber(alt_phone_no) ){
-        //   $('#alt-phone-check').text("enter correct phone format")
-        //   return false
-        // }
+          $('#phone-check').text("enter correct phone format")
+          return false;
+        }
+        else if (alt_phone_no !="" && !validatePhoneNumber(alt_phone_no) ){
+          $('#alt-phone-check').text("enter correct phone format")
+          return false
+        }
   
   
         return true; 

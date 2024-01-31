@@ -93,7 +93,7 @@ $_SESSION['last_action'] = time();
 
     <!-- duration_served -->
     <label for="duration_worked">Duration Served (days):<span style = "color:#e60000;"> *</span></label>
-    <p id="required"><?php if(!empty($required))echo $required;?></p>
+    <p id="required-duration-worked"><?php if(!empty($required))echo $required;?></p>
     <input type="number" id="duration_worked" name="duration_worked" maxlength="50" value="<?php if(!empty($casual)){echo  $casual->duration_worked;} ?>" >
     <br>
 
@@ -153,7 +153,7 @@ $_SESSION['last_action'] = time();
     <br>
 
     <!-- specialization -->
-    <label for="specialization">Year Graduated:</label>
+    <label for="specialization">Specialization:</label>
     <!-- <input  type="number" min="1900" max="2099" step="1" value="2016" name="year" /> -->
     <input type="text" id="specialization" name="specialization" value="<?php if(!empty($casual)){echo  $casual->specialization;} ?>">
     <br>
