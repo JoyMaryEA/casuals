@@ -17,8 +17,8 @@ class Casuals extends Controller{
     public function filter(){
 
 
-        $countries = $this->model->getAllCountries();
-        $programs =  $this->model->getAllPrograms();
+        $countries = $this->model->getAllstr("country");
+        $programs =  $this->model->getAllstr("program");
         require APP . 'view/_templates/header.php';
         require APP . 'view/casuals/filter.php';
         if (isset($_POST["submit_filter"])) {
@@ -50,8 +50,8 @@ class Casuals extends Controller{
     public function search()
     {
 
-        $countries = $this->model->getAllCountries();
-        $programs =  $this->model->getAllPrograms();
+        $countries = $this->model->getAllstr("country");
+        $programs =  $this->model->getAllstr("program");
 
         require APP . 'view/_templates/header.php';
         require APP . 'view/casuals/filter.php';
@@ -83,11 +83,11 @@ class Casuals extends Controller{
     public function addCasual($casual_id = NULL){
         $errors = [];
         $casual = $this->model->getCasual($casual_id);
-       $countries = $this->model->getAllCountries();
-       $programs =  $this->model->getAllPrograms();
-       $institutions= $this->model->getAllInstitutions();
-       $kcse_results = $this->model->getAllKcse();
-        $qualifications = $this->model->getAllQualifications();
+        $countries = $this->model->getAllstr("country");
+        $programs =  $this->model->getAllstr("program");
+       $institutions= $this->model->getAllstr("institution");
+       $kcse_results = $this->model->getAllstr("kcse_results");
+        $qualifications = $this->model->getAllstr("qualification");
         if (empty($casual)){
             if (isset($_POST["submit_add_casual"])) {
                  
@@ -224,7 +224,7 @@ class Casuals extends Controller{
 
     function phoneEdit($phone,$country){
         $phone = substr($phone, 1);
-        $countries = $this->model->getAllCountries();
+        $countries = $this->model->getAllstr("country");
 
         foreach ($countries as $countryInfo) {
             if ($countryInfo->id == $country) {

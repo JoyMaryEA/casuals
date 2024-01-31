@@ -139,6 +139,7 @@ class Model
         return $query->fetch();
     }
 
+
 //causuals methods
     public function getAllCasuals()
     {
@@ -358,39 +359,14 @@ LEFT JOIN
 
     return $query->fetchAll();
 }
-
-
-    public function getAllCountries(){
-        $sql = "SELECT id, name, phone_code FROM country;";
-        $query = $this->db->prepare($sql);
-        $query->execute();
-        return $query->fetchAll();
-    }
-    public function getAllPrograms(){
-        $sql = "SELECT id, name FROM program;";
-        $query = $this->db->prepare($sql);
-        $query->execute();
-        return $query->fetchAll();
-    }
-    public function getAllInstitutions(){
-        $sql = "SELECT id, name FROM institution;";
-        $query = $this->db->prepare($sql);
-        $query->execute();
-        return $query->fetchAll();
-    }
-    public function getAllKcse(){
-        $sql = "SELECT id, name FROM kcse_results;";
-        $query = $this->db->prepare($sql);
-        $query->execute();
-        return $query->fetchAll();
-    }
-    public function getALLQualifications(){
-        $sql = "SELECT id, name FROM qualification;";
-        $query = $this->db->prepare($sql);
-        $query->execute();
-        return $query->fetchAll();
-    }
-
+    
+   public function getAllStr($str){
+    $sql = "SELECT id, name FROM ";
+    $sql = $sql . $str;
+    $query = $this->db->prepare($sql);
+    $query->execute();
+    return $query->fetchAll();
+   }
     public function insertCasual($country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $specialization
     ){
         
