@@ -2,20 +2,19 @@ $(document).ready(function() {
     $('#country_select').on('change', checkId);
     $('#program_select').on('change', checkId);
 
-    var countryValue = $('#country_select').val();
-    
-
-    if (countryValue != 1) {
-       $('#kcse-label').hide();
-       $('#kcse-input').hide();
-   } else {
-       $('#kcse-label').show();
-       $('#kcse-input').show();
-   }
 
     $("#edit-form").submit(function(event) {
       event.preventDefault();
-      
+      var countryValue = $('#country_select').val();
+    
+
+      if (countryValue != 1) {
+         $('#kcse-label').hide();
+         $('#kcse-input').hide();
+     } else {
+         $('#kcse-label').show();
+         $('#kcse-input').show();
+     }
       if (validateEditForm()) {
           var formData = $(this).serialize();
   
@@ -43,6 +42,17 @@ $(document).ready(function() {
 
 
 function checkId() {
+    
+    var countryValue = $('#country_select').val();
+    
+
+    if (countryValue != 1) {
+       $('#kcse-label').hide();
+       $('#kcse-input').hide();
+   } else {
+       $('#kcse-label').show();
+       $('#kcse-input').show();
+   }
     var programValue = $('#program_select').val();
 
     $.ajax({

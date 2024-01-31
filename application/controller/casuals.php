@@ -50,6 +50,8 @@ class Casuals extends Controller{
     public function search()
     {
 
+        $countries = $this->model->getAllCountries();
+        $programs =  $this->model->getAllPrograms();
 
         require APP . 'view/_templates/header.php';
         require APP . 'view/casuals/filter.php';
@@ -102,11 +104,11 @@ class Casuals extends Controller{
                 else{
                     $first_name = trim($_POST["first_name"]);
 
-                    $middle_name = !empty($_POST["middle_name"]) ?$_POST["middle_name"] : null;
+                    $middle_name = !empty($_POST["middle_name"]) ?  $this->properCase($_POST["middle_name"]) : null;
                     $alt_phone_no = !empty($_POST["alt_phone_no"]) ? $this->phoneEdit($_POST["alt_phone_no"],$_POST["country"]) : null;
-                    $comment = !empty($_POST["comment"]) ? $_POST["comment"] : null;
+                    $comment = !empty($_POST["comment"]) ?  $this->properCase($_POST["comment"] ): null;
                     $kcse_results = !empty($_POST["kcse_results"]) ? $_POST["kcse_results"] : null;
-                    $specialization = !empty($_POST["specialization"]) ? $_POST["specialization"] : null;
+                    $specialization = !empty($_POST["specialization"]) ?  $this->properCase($_POST["specialization"] ): null;
                     $qualification = !empty($_POST["qualification"]) ? $_POST["qualification"] : null;
                     $institution = !empty($_POST["institution"]) ? $_POST["institution"] : null;
 
@@ -177,11 +179,11 @@ class Casuals extends Controller{
 
         // if (isset($_POST["submit_edit_casual"])) {
 
-            $middle_name = !empty($_POST["middle_name"]) ?$_POST["middle_name"] : null;
+            $middle_name = !empty($_POST["middle_name"]) ? $this->properCase($_POST["middle_name"]) : null;
             $alt_phone_no = !empty($_POST["alt_phone_no"]) ? $this->phoneEdit($_POST["alt_phone_no"],$_POST["country"]) : null;
-            $comment = !empty($_POST["comment"]) ? $_POST["comment"] : null;
+            $comment = !empty($_POST["comment"]) ?  $this->properCase($_POST["comment"]) : null;
             $kcse_results = !empty($_POST["kcse_results"]) ? $_POST["kcse_results"] : null;
-            $specialization = !empty($_POST["specialization"]) ? $_POST["specialization"] : null;
+            $specialization = !empty($_POST["specialization"]) ?  $this->properCase($_POST["specialization"]) : null;
             $qualification = !empty($_POST["qualification"]) ? $_POST["qualification"] : null;
             $institution = !empty($_POST["institution"]) ? $_POST["institution"] : null;
 
@@ -239,20 +241,13 @@ class Casuals extends Controller{
     
         return in_array($prefix, $valid_prefixes) && ctype_digit($numeric_part) && strlen($numeric_part) === 8;
     }
-    function isValidPhoneEdited($phone, $countries) {
-        $valid_prefixes = [];
+  
+    function properCase($str) {
+        $str = trim($str);
+        $str = ucwords(strtolower($str));
     
-        $countries = $this->model->getAllCountries();
-        foreach ($countries as $countryInfo) {
-            $valid_prefixes[] = $countryInfo->phone_code;
-        }
-    
-        $prefix = substr($phone, 0, 2);
-        $numeric_part = substr($phone, 2);
-    
-        return in_array($prefix, $valid_prefixes) && ctype_digit($numeric_part) && strlen($numeric_part) === 8;
+        return $str;
     }
-    
 
 }
 

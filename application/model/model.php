@@ -488,7 +488,7 @@ LEFT JOIN
                 session_start();
                 $user_id = $_SESSION["userId"];
                 $this->updateAudit($casual_id,$user_id);
-                return "Casual record edited successfully!  Helper::debugPDO($sql, $parameters)";
+                return "Casual record edited successfully!";
             } else {
                 $errorInfo = $query->errorInfo();
             return "Error adding casual record. {$errorInfo[2]}";

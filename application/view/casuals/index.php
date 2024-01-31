@@ -91,6 +91,7 @@
                             <li class="list-group-item"><span>Country: </span><?php if (isset($casual->country_name)) echo htmlspecialchars($casual->country_name, ENT_QUOTES, 'UTF-8'); ?></li>
                             <li class="list-group-item"><span>Qualification: </span><?php if (isset($casual->qualification_name)) echo htmlspecialchars($casual->qualification_name, ENT_QUOTES, 'UTF-8'); ?></li>
                             <li class="list-group-item"><span>Institution: </span><?php if (isset($casual->institution_name)) echo htmlspecialchars($casual->institution_name, ENT_QUOTES, 'UTF-8'); ?></li>
+                            <li class="list-group-item"><span>Specialization: </span><?php if (isset($casual->specialization)) echo htmlspecialchars($casual->specialization, ENT_QUOTES, 'UTF-8'); ?></li>
                             <li class="list-group-item"><span>Duration of Appointment: </span><?php if (isset($casual->duration_worked)) echo htmlspecialchars($casual->duration_worked, ENT_QUOTES, 'UTF-8'); ?> days</li>
                             <li class="list-group-item"><span>Comment: </span><?php if (isset($casual->comment)) echo htmlspecialchars($casual->comment, ENT_QUOTES, 'UTF-8'); ?></li>
                           </ul>
