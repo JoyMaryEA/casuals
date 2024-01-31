@@ -350,12 +350,7 @@ LEFT JOIN
         ':casual_id' => '%' . $search_str . '%'
     );
 
-  //  echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
-
     $query->execute($parameters);
-   // $result = $query->fetchAll();
-    //var_dump($result);
-    //echo '[ Debug ] Parameters: ' . print_r($parameters, true);
 
     return $query->fetchAll();
 }
@@ -363,6 +358,12 @@ LEFT JOIN
    public function getAllStr($str){
     $sql = "SELECT id, name FROM ";
     $sql = $sql . $str;
+    $query = $this->db->prepare($sql);
+    $query->execute();
+    return $query->fetchAll();
+   }
+   public function getCountryCode(){
+    $sql = "SELECT id, name, phone_code FROM country ";
     $query = $this->db->prepare($sql);
     $query->execute();
     return $query->fetchAll();
@@ -530,5 +531,14 @@ LEFT JOIN
        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
         return $query->fetchColumn();
+    }
+
+    public function getExistingCasual($phone_no, $id_no){
+        $sql = "SELECT casual_id from casuals where phone_no = :phone_no OR id_no = :id_no";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':phone_no' => $phone_no, ':id_no' => $id_no );
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
+        $query->execute($parameters);
+        return $query->fetch();
     }
 }

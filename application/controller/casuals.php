@@ -113,17 +113,17 @@ class Casuals extends Controller{
                     $institution = !empty($_POST["institution"]) ? $_POST["institution"] : null;
 
                     $phone_number= $this->phoneEdit($_POST["phone_no"],$_POST["country"]);
-                    
-                    $msg = $this->model->insertCasual( $_POST["country"], $_POST["program"], $_POST["first_name"], $middle_name, $_POST["last_name"], $_POST["id_no"], $phone_number, $alt_phone_no, $_POST["year_worked"], $_POST["duration_worked"], $comment, $kcse_results, $qualification, $institution, $specialization 
-
-               
-                );
-                if(!empty($msg)){
-                    if (strpos($msg, 'Casual') === 0) {
-                       
+                    //CHECK IF IT EXISTS FIRST 
+                    $existingCasual = $this->model->getExistingCasual($phone_number,$_POST["id_no"]);
+                    if (!empty($existingCasual)){
+                        $msg= "Error, this casual already exists";
                     }
-                  
-                   
+                    else{
+                    $msg = $this->model->insertCasual( $_POST["country"], $_POST["program"], $_POST["first_name"], $middle_name, $_POST["last_name"], $_POST["id_no"], $phone_number, $alt_phone_no, $_POST["year_worked"], $_POST["duration_worked"], $comment, $kcse_results, $qualification, $institution, $specialization 
+                    
+               
+                );}
+                if(!empty($msg)){ 
                    header('location: ' . URL . '/casuals/addCasual?message=' . urlencode($msg));
                 }
                 }
@@ -222,18 +222,23 @@ class Casuals extends Controller{
         exit();
     }
 
-    function phoneEdit($phone,$country){
+    function phoneEdit(&$phone, $country) {
+    
         $phone = substr($phone, 1);
-        $countries = $this->model->getAllstr("country");
-
+    
+        $countries = $this->model->getCountryCode();
         foreach ($countries as $countryInfo) {
             if ($countryInfo->id == $country) {
-                $phone = $countryInfo->phone_code . $phone;
+                $phoneCode = $countryInfo->phone_code;
                 break;
             }
         }
-        return $phone;
+        $phonespace = preg_replace('/^(\d{3})(\d{3})(\d{3})$/', '$1 $2 $3', $phone);
+        $phonenew = $phoneCode . ' ' . $phonespace;
+        return $phonenew;
     }
+    
+    
     private function isValidPhoneNumber($phone) {
         $valid_prefixes = ["01", "07", "06"];
         $prefix = substr($phone, 0, 2);
