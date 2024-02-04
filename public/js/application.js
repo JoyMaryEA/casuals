@@ -2,19 +2,10 @@ $(document).ready(function() {
     $('#country_select').on('change', checkId);
     $('#program_select').on('change', checkId);
 
-
+  
     $("#edit-form").submit(function(event) {
       event.preventDefault();
-      var countryValue = $('#country_select').val();
-    
-
-      if (countryValue != 1) {
-         $('#kcse-label').hide();
-         $('#kcse-input').hide();
-     } else {
-         $('#kcse-label').show();
-         $('#kcse-input').show();
-     }
+   
       if (validateEditForm()) {
           var formData = $(this).serialize();
   
@@ -132,8 +123,8 @@ function checkId() {
         return true; 
       }
       function validatePhoneNumber(phone_no) {
-        var pattern = /^(254|256|265)\d{9}$|^((07|01|06)\d{8})$/;
-      
+        var pattern = /^(254|256|265)\s\d{3}\s\d{3}\s\d{3}$|^(07|01|06)\d{8}$/;
+        
         return pattern.test(phone_no);
       }
     

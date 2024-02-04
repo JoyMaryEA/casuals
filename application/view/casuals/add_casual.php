@@ -2,14 +2,14 @@
 $_SESSION['last_action'] = time();
 ?>
 
-<div class="add-casual-container">
+<div class="add-casual-container ">
 <?php if(!empty($casual)){?>
     <form id="edit-form" class="add-casual"  action="<?php echo URL; ?>casuals/editCasual" method="post">
    
             <?php } else { ?>
 <form id="add-form" class="add-casual" action="<?php echo URL; ?>casuals/addCasual" method="post">
 <?php } ?>
-<h5> <?php if(!empty($casual)){echo 'Edit Details for ' . $casual->first_name;} else echo "Enter Casual Details" ?></h5>
+<h4 style="text-align:center;"> <?php if(!empty($casual)){echo 'Edit Details for ' . $casual->first_name;} else echo "Enter Casual Details" ?></h4>
 
     <!-- casual_id -->
     <label for="casual_id">Casual ID:</label>
@@ -76,7 +76,7 @@ $_SESSION['last_action'] = time();
     <label for="phone_no">Phone Number<span id="phone-code">(07********/01********)</span>:<span style = "color:#e60000;"> *</span> </label>
     <p id="required-phone-no"><?php if(!empty($required))echo $required;?></p>
     <p id="phone-check"><?php if(!empty($wrong_phone))echo $wrong_phone;?></p>
-    <input type="text" id="phone_no" name="phone_no" maxlength="10" minlength="10" value="<?php if(!empty($casual)){echo  $casual->phone_no;} ?>" >
+    <input type="text" id="phone_no" name="phone_no" maxlength="15" minlength="10" value="<?php if(!empty($casual)){echo  $casual->phone_no;} ?>" >
     <br>
 
     <!-- alt_phone_no -->
@@ -172,3 +172,4 @@ $_SESSION['last_action'] = time();
             <?php } ?>
 </form>
 </div>
+          

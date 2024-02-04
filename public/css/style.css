@@ -63,7 +63,7 @@ body {
 
 body {
     color: #20253A;
-    background: #f5f5f5;
+    background: #ffffff;
     font-family: 'Roboto', sans-serif;
 }
 nav{
@@ -220,9 +220,8 @@ table.table td i {
     width:50%;
     margin: auto;
     padding: 20px;
-    border: 1px solid #20253A;
+    border: 1px solid #e5e7ef;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
   .add-casual .form-row {
@@ -270,6 +269,16 @@ table.table td i {
     font-size: x-small;
     color: #e60000;
 }
+
+.return-casual-form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
 
 @media screen and (max-width: 562px) {
     

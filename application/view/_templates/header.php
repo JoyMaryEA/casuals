@@ -35,18 +35,7 @@
     <link href="<?php echo URL; ?>css/style.css" rel="stylesheet">
 </head>
 <body>
-    <!-- logo -->
-    <!-- <div class="logo">
-        MINI
-    </div> -->
-
-    <!-- navigation -->
-    <!-- <div class="navigation">
-        <a href="<?php echo URL; ?>">home</a>
-        <a href="<?php echo URL; ?>home/exampleone">subpage</a>
-        <a href="<?php echo URL; ?>home/exampletwo">subpage 2</a>
-        <a href="<?php echo URL; ?>songs">songs</a>
-    </div> -->
+    
     <nav style=" display: flex; justify-content: space-between; align-items:center;">
    
     <?php
@@ -54,12 +43,10 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
     ?>
       <div style=" display: flex; justify-content: space-between; align-items:center;">
      <p>Master Casual Staff DB</p>
-     <a style="padding:0.5rem;  color:#f2c5e4; margin-left:1rem;" href="<?php echo URL; ?>casuals/addCasual" 
-
->Add casual</a>
-<a style="padding:0.5rem;  color:#f2c5e4; margin-left:1rem;" href="<?php echo URL; ?>casuals/filter" 
-
->Find casual</a>
+   
+<a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/filter" >Find casual</a>
+<a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/addCasual" >New casual</a>
+<a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/insertReturnCasual" >Return casual</a>
      </div>
  <?php } ?>
 
@@ -72,28 +59,3 @@ if (isset($_SESSION['role']) && $_SESSION['role'] != "1") {
 
 >LOGOUT</a>
     </nav>
-<!-- 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav> -->

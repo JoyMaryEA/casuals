@@ -77,10 +77,12 @@ id tinyint PRIMARY KEY,
 name varchar(255)
 );
 
-create table staff_programs(
-casual_id INT,
-program_id tinyint unsigned, 
-year_worked year,
-duration_worked int,
-FOREIGN KEY (program_id) REFERENCES program(id),
-FOREIGN KEY (casual_id) REFERENCES casuals(casual_id));
+CREATE TABLE staff_programs (
+    casual_id INT,
+    program_id TINYINT UNSIGNED,
+    year_worked YEAR,
+    duration_worked INT,
+    PRIMARY KEY (casual_id, program_id, year_worked, duration_worked),
+    FOREIGN KEY (casual_id) REFERENCES casuals(casual_id),
+    FOREIGN KEY (program_id) REFERENCES program(id)
+)

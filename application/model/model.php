@@ -468,7 +468,7 @@ LEFT JOIN
                 return "Casual record edited successfully!";
             } else {
                 $errorInfo = $query->errorInfo();
-            return "Error adding casual record. {$errorInfo[2]}";
+            return "Error editing casual record. {$errorInfo[2]}";
             }
         } catch (PDOException $e) {
              return "Error: " . $e->getMessage();
@@ -540,5 +540,24 @@ LEFT JOIN
         //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
         return $query->fetch();
+    }
+
+    public function insertReturnCasual($casual_id, $program, $duration_worked, $year_worked) {
+        $sql = "INSERT INTO staff_programs (casual_id, program_id, duration_worked, year_worked) VALUES (:casual_id, :program, :duration_worked,:year_worked);";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':casual_id' => $casual_id,':program' => $program,':duration_worked' => $duration_worked, ':year_worked' => $year_worked );
+        try { 
+            $queryResult = $query->execute($parameters);
+            
+           
+            if ($queryResult) {
+                return "Casual record edited successfully!";
+            } else {
+                $errorInfo = $query->errorInfo();
+            return "Error adding casual record. {$errorInfo[2]}";
+            }
+        } catch (PDOException $e) {
+             return "Error: " . $e->getMessage();
+        }
     }
 }

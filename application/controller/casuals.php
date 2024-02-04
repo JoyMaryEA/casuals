@@ -5,10 +5,7 @@ class Casuals extends Controller{
     public function index()
     {
        $casuals = $this->model->getAllCasuals();
-        if (isset($casual_id)) {
-            $editAudit=  $this->model->getEditAudit($casual_id);
-            $insertAudit =  $this->model->getInsertAudit($casual_id);
-          }
+  
         require APP . 'view/_templates/header.php';
         require APP . 'view/casuals/index.php';
         require APP . 'view/_templates/footer.php';
@@ -60,10 +57,7 @@ class Casuals extends Controller{
 
             $search_str= trim($_POST["search_str"]);
             $casuals = $this->model->search($search_str);
-            if (isset($casual_id)) {
-                $editAudit=  $this->model->getEditAudit($casual_id);
-                $insertAudit =  $this->model->getInsertAudit($casual_id);
-              }
+          
              require APP . 'view/casuals/index.php';
              require APP . 'view/_templates/footer.php';
          }
@@ -190,10 +184,7 @@ class Casuals extends Controller{
             $msg =  $this->model->editCasual($_POST["casual_id"], $_POST["country"], $_POST["program"], $_POST["first_name"],$middle_name, $_POST["last_name"], $_POST["id_no"], $_POST["phone_no"], $_POST["alt_phone_no"], $_POST["year_worked"], $_POST["duration_worked"], $comment, $kcse_results, $qualification, $institution, $specialization  );
             
                if(!empty($msg)){
-                if (strpos($msg, 'Casual') === 0) {
-              
-                
-                }
+               
                 header('Location: ' . URL . '/casuals/filter?message=' . urlencode($msg));
               }else{
                 header('location: ' . URL . '/users/login');
@@ -223,20 +214,25 @@ class Casuals extends Controller{
     }
 
     function phoneEdit(&$phone, $country) {
-    
-        $phone = substr($phone, 1);
+        $phone = trim($phone); 
+        $phone = ltrim($phone, '0'); 
     
         $countries = $this->model->getCountryCode();
+    
         foreach ($countries as $countryInfo) {
             if ($countryInfo->id == $country) {
                 $phoneCode = $countryInfo->phone_code;
                 break;
             }
         }
-        $phonespace = preg_replace('/^(\d{3})(\d{3})(\d{3})$/', '$1 $2 $3', $phone);
-        $phonenew = $phoneCode . ' ' . $phonespace;
-        return $phonenew;
+        if (strpos($phone, $phoneCode) !== 0) {
+       
+            $phone = $phoneCode . $phone;
+        }
+    
+        return $phone;
     }
+    
     
     
     private function isValidPhoneNumber($phone) {
@@ -253,6 +249,41 @@ class Casuals extends Controller{
     
         return $str;
     }
+
+    public function insertReturnCasual(){
+        $programs =  $this->model->getAllstr("program");
+        if (isset($_POST["submit_return_casual"])) {
+          
+
+            $casual = $this->model->getCasual(trim($_POST["casual_id"])); 
+            if (!empty($casual)) {
+                $msg = $this->model ->insertReturnCasual(trim($_POST["casual_id"]),trim($_POST["program"]), trim($_POST["duration_worked"]), trim($_POST["year_worked"]));
+              } else{
+                $msg = "Error This casual does not exist, insert a new record instead";
+              }
+              header('Location: ' . URL . '/casuals/insertReturnCasual?message=' . urlencode($msg));
+        }
+
+
+
+        require APP . 'view/_templates/header.php';
+
+        if (isset($_GET['message'])) {
+            $msg = urldecode($_GET['message']);
+            if (strpos($msg, 'Error') === 0) {
+                echo '<div class="alert alert-danger" id="errorAlert" role="alert">
+                          <strong>Error!</strong>' . $msg . '
+                      </div>';
+            } else {
+                echo '<div class="alert alert-success" id="successAlert" role="alert">
+                          <strong>Success!</strong>' . $msg . '
+                      </div>';
+            }
+        }
+        require APP . 'view/casuals/return_casual.php';
+        require APP . 'view/_templates/footer.php';
+    }
+       
 
 }
 
