@@ -14,119 +14,7 @@ class Model
         }
     }
 
-    /**
-     * Get all songs from database
-     */
-    public function getAllSongs()
-    {
-        $sql = "SELECT id, artist, track, link FROM song";
-        $query = $this->db->prepare($sql);
-        $query->execute();
 
-        // fetchAll() is the PDO method that gets all result rows, here in object-style because we defined this in
-        // core/controller.php! If you prefer to get an associative array as the result, then do
-        // $query->fetchAll(PDO::FETCH_ASSOC); or change core/controller.php's PDO options to
-        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
-        return $query->fetchAll();
-    }
-
-    /**
-     * Add a song to database
-     * TODO put this explanation into readme and remove it from here
-     * Please note that it's not necessary to "clean" our input in any way. With PDO all input is escaped properly
-     * automatically. We also don't use strip_tags() etc. here so we keep the input 100% original (so it's possible
-     * to save HTML and JS to the database, which is a valid use case). Data will only be cleaned when putting it out
-     * in the views (see the views for more info).
-     * @param string $artist Artist
-     * @param string $track Track
-     * @param string $link Link
-     */
-    public function addSong($artist, $track, $link)
-    {
-        $sql = "INSERT INTO song (artist, track, link) VALUES (:artist, :track, :link)";
-        $query = $this->db->prepare($sql);
-        $parameters = array(':artist' => $artist, ':track' => $track, ':link' => $link);
-
-        // useful for debugging: you can see the SQL behind above construction by using:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-
-        $query->execute($parameters);
-    }
-
-    /**
-     * Delete a song in the database
-     * Please note: this is just an example! In a real application you would not simply let everybody
-     * add/update/delete stuff!
-     * @param int $song_id Id of song
-     */
-    public function deleteSong($song_id)
-    {
-        $sql = "DELETE FROM song WHERE id = :song_id";
-        $query = $this->db->prepare($sql);
-        $parameters = array(':song_id' => $song_id);
-
-        // useful for debugging: you can see the SQL behind above construction by using:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-
-        $query->execute($parameters);
-    }
-
-    /**
-     * Get a song from database
-     */
-    public function getSong($song_id)
-    {
-        $sql = "SELECT id, artist, track, link FROM song WHERE id = :song_id LIMIT 1";
-        $query = $this->db->prepare($sql);
-        $parameters = array(':song_id' => $song_id);
-
-        // useful for debugging: you can see the SQL behind above construction by using:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-
-        $query->execute($parameters);
-
-        // fetch() is the PDO method that get exactly one result
-        return $query->fetch();
-    }
-
-    /**
-     * Update a song in database
-     * // TODO put this explaination into readme and remove it from here
-     * Please note that it's not necessary to "clean" our input in any way. With PDO all input is escaped properly
-     * automatically. We also don't use strip_tags() etc. here so we keep the input 100% original (so it's possible
-     * to save HTML and JS to the database, which is a valid use case). Data will only be cleaned when putting it out
-     * in the views (see the views for more info).
-     * @param string $artist Artist
-     * @param string $track Track
-     * @param string $link Link
-     * @param int $song_id Id
-     */
-    public function updateSong($artist, $track, $link, $song_id)
-    {
-        $sql = "UPDATE song SET artist = :artist, track = :track, link = :link WHERE id = :song_id";
-        $query = $this->db->prepare($sql);
-        $parameters = array(':artist' => $artist, ':track' => $track, ':link' => $link, ':song_id' => $song_id);
-
-        // useful for debugging: you can see the SQL behind above construction by using:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-
-        $query->execute($parameters);
-    }
-
-    /**
-     * Get simple "stats". This is just a simple demo to show
-     * how to use more than one model in a controller (see application/controller/songs.php for more)
-     */
-    public function getAmountOfSongs()
-    {
-        $sql = "SELECT COUNT(id) AS amount_of_songs FROM song";
-        $query = $this->db->prepare($sql);
-        $query->execute();
-
-        // fetch() is the PDO method that get exactly one result
-        return $query->fetch()->amount_of_songs;
-    }
-//---------------------------------------------------------------CASUAL STAFF DB
 
 //user methods
     public function login($email,$password){
@@ -143,7 +31,7 @@ class Model
 //causuals methods
     public function getAllCasuals()
     {
-        $sql = "  SELECT 
+        $sql = " SELECT 
         c.casual_id, 
         c.middle_name, 
         c.first_name, 
@@ -168,16 +56,16 @@ class Model
         q.name AS qualification_name
     FROM 
         casuals c
-    JOIN 
+        LEFT JOIN 
         country cn ON c.country = cn.id
     
-    LEFT JOIN 
+        LEFT JOIN 
         kcse_results kc ON c.kcse_results = kc.id
-    LEFT JOIN 
+        LEFT JOIN 
         institution i ON c.institution = i.id
-    LEFT JOIN 
+        LEFT JOIN 
         qualification q ON c.qualification = q.id
-    LEFT JOIN 
+        LEFT JOIN 
         staff_programs sp ON c.casual_id = sp.casual_id
         JOIN 
         program p ON sp.program_id = p.id
@@ -215,18 +103,18 @@ class Model
         q.name AS qualification_name
     FROM 
         casuals c
-    JOIN 
+        LEFT JOIN 
         country cn ON c.country = cn.id
     
-    LEFT JOIN 
+        LEFT JOIN 
         kcse_results kc ON c.kcse_results = kc.id
-    LEFT JOIN 
+        LEFT JOIN 
         institution i ON c.institution = i.id
-    LEFT JOIN 
+        LEFT JOIN 
         qualification q ON c.qualification = q.id
-    LEFT JOIN 
+        LEFT JOIN 
         staff_programs sp ON c.casual_id = sp.casual_id
-        JOIN 
+        LEFT JOIN 
         program p ON sp.program_id = p.id
         WHERE 
         c.casual_id = :casual_id 
@@ -266,7 +154,7 @@ class Model
         q.name AS qualification_name
     FROM 
         casuals c
-    JOIN 
+        LEFT JOIN 
         country cn ON c.country = cn.id
     
     LEFT JOIN 
@@ -326,7 +214,7 @@ class Model
     q.name AS qualification_name
 FROM 
     casuals c
-JOIN 
+    LEFT JOIN 
     country cn ON c.country = cn.id
 
 LEFT JOIN 
@@ -337,7 +225,7 @@ LEFT JOIN
     qualification q ON c.qualification = q.id
 LEFT JOIN 
     staff_programs sp ON c.casual_id = sp.casual_id
-    JOIN 
+    LEFT JOIN  
     program p ON sp.program_id = p.id
     WHERE  
         (c.first_name LIKE :first_name OR c.last_name LIKE :last_name OR c.casual_id LIKE :casual_id)
@@ -354,7 +242,7 @@ LEFT JOIN
 
     return $query->fetchAll();
 }
-    
+    // to get the countries, programs, institutions that populate the frontend
    public function getAllStr($str){
     $sql = "SELECT id, name FROM ";
     $sql = $sql . $str;
@@ -392,7 +280,7 @@ LEFT JOIN
                         session_start();
                         $user_id = $_SESSION["userId"];
                         $action = 1;
-                        $this->insertAudit($lastInsertedId, $action, $user_id);
+                        $this->newAudit($lastInsertedId, $action, $user_id);
                         return "Casual record added successfully!";
                     } else{
                         $errorInfo = $query->errorInfo();
@@ -464,7 +352,8 @@ LEFT JOIN
             if ($queryResult) {
                 session_start();
                 $user_id = $_SESSION["userId"];
-                $this->updateAudit($casual_id,$user_id);
+                $action = 2;
+                $this->newAudit($casual_id,$action,$user_id);
                 return "Casual record edited successfully!";
             } else {
                 $errorInfo = $query->errorInfo();
@@ -475,54 +364,27 @@ LEFT JOIN
         }
     }
     
-
-    public function deleteAudit($casual_id,$action,$u_id){
+    //enter into audit table, either insert, update/delete
+    public function newAudit($casual_id,$action,$u_id){
         $sql = "INSERT INTO audit (casual_id, action, u_id) VALUES (:casual_id, :action, :u_id);";
         $query = $this->db->prepare($sql);
         $parameters = array(':casual_id' => $casual_id,':action' => $action,':u_id' => $u_id );
-       // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
        
-    }
-    public function insertAudit($casual_id,$action, $u_id){
-        $sql = "INSERT INTO audit (casual_id, action, u_id) VALUES (:casual_id, :action, :u_id);";
-        $query = $this->db->prepare($sql);
-        $parameters = array(':casual_id' => $casual_id,':action' => $action,':u_id' => $u_id );
-       // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
-        $query->execute($parameters);
-       
-    }
-    public function updateAudit($casual_id,$u_id){
-        $sql = " INSERT INTO audit (casual_id, action, u_id) VALUES (:casual_id, 2, :u_id);";
-        $query = $this->db->prepare($sql);
-        $parameters = array(':casual_id' => $casual_id,':u_id' => $u_id );
-        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
-        $query->execute($parameters);
-     
     }
 
-    public function getEditAudit($casual_id){
+    public function getAudit($casual_id,$action){
         $sql = "SELECT a.timestamp, u.email, a.casual_id, a.action
         FROM audit a
         JOIN users u ON a.u_id = u.u_id
-        WHERE a.casual_id = :casual_id and a.action=2 ;";
+        WHERE a.casual_id = :casual_id and a.action=:action ;";
         $query = $this->db->prepare($sql);
-        $parameters = array(':casual_id' => $casual_id );
+        $parameters = array(':casual_id' => $casual_id , ':action'=> $action);
        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
         return $query->fetch();
     }
-    public function getInsertAudit($casual_id){
-        $sql = "SELECT a.timestamp, u.email, a.casual_id, a.action
-        FROM audit a
-        JOIN users u ON a.u_id = u.u_id
-        WHERE a.casual_id = :casual_id and a.action=1 ;";
-        $query = $this->db->prepare($sql);
-        $parameters = array(':casual_id' => $casual_id );
-        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
-        $query->execute($parameters);
-        return $query->fetch();
-    }
+
 
     public function getCasualId($country,$program){
         $sql = "SELECT MAX(casual_id) FROM casuals where country = :country and program = :program;";

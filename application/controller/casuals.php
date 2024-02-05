@@ -156,7 +156,7 @@ class Casuals extends Controller{
                     session_start();
                     $user_id = $_SESSION["userId"];
                     $action = 3;
-                    $this->model->deleteAudit($casual_id,$action, $user_id);
+                    $this->model->newAudit($casual_id,$action, $user_id);
                 }
 
               
@@ -196,12 +196,7 @@ class Casuals extends Controller{
             
     }
 
-    public function audit($casual_id){
-        if (isset($casual_id)) {
-          $editAudit=  $this->model->getEditAudit($casual_id);
-          $insertAudit =  $this->model->getInsertAudit($casual_id);
-        }
-    }
+ 
 
     public function getCasualId() {
         $country = intval($_POST['country']);

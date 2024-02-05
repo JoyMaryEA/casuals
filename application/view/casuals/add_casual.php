@@ -154,14 +154,9 @@ $_SESSION['last_action'] = time();
 
     <!-- specialization -->
     <label for="specialization">Specialization:</label>
-    <!-- <input  type="number" min="1900" max="2099" step="1" value="2016" name="year" /> -->
     <input type="text" id="specialization" name="specialization" value="<?php if(!empty($casual)){echo  $casual->specialization;} ?>">
     <br>
-<!-- 
-    not_available -->
-    <!-- <label for="not_available">Available:</label>
-    <input type="checkbox" id="not_available" name="not_available" value=1>
-    <br> -->
+
 
     <!-- Submit Button --> 
     <?php if(!empty($casual)){?>
