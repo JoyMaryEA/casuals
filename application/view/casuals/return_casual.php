@@ -1,7 +1,7 @@
 <div style="display:flex; align-items:center; justify-content:center;">
 <div class="return-casual-cont container mt-5" id="ReturnCasualContainer" style="width:50%; ">
     <h4 style="text-align:center;">Return Casual Form</h4>
-    <form class="return-casual-form" action="<?php echo URL; ?>casuals/insertReturnCasual" method="post">
+    <form class="return-casual-form" id="return-casual-form" action="<?php echo URL; ?>casuals/insertReturnCasual" method="post">
         <div class="form-group">
             <label for="casual_id">Casual ID:</label>
             <input type="text" class="" id="casual_id" name="casual_id" required>

@@ -165,6 +165,7 @@ class Casuals extends Controller{
         // if (isset($_POST["submit_edit_casual"])) {
                 $alt_phone_no = null; // 
             $middle_name = !empty($_POST["middle_name"]) ? $this->properCase($_POST["middle_name"]) : null;
+            $phone_no = !empty($_POST["phone_no"]) ? $this->phoneEdit($_POST["phone_no"],$_POST["country"]) : null;
             $alt_phone_no = !empty($_POST["alt_phone_no"]) ? $this->phoneEdit($_POST["alt_phone_no"],$_POST["country"]) : null;
             $comment = !empty($_POST["comment"]) ?  $this->properCase($_POST["comment"]) : null;
             $kcse_results = !empty($_POST["kcse_results"]) ? $_POST["kcse_results"] : null;
@@ -172,7 +173,7 @@ class Casuals extends Controller{
             $qualification = !empty($_POST["qualification"]) ? $_POST["qualification"] : null;
             $institution = !empty($_POST["institution"]) ? $_POST["institution"] : null;
 
-            $msg =  $this->model->editCasual($_POST["casual_id"], $_POST["country"], $_POST["program"], $_POST["first_name"],$middle_name, $_POST["last_name"], $_POST["id_no"], $_POST["phone_no"], $_POST["alt_phone_no"], $_POST["year_worked"], $_POST["duration_worked"], $comment, $kcse_results, $qualification, $institution, $specialization  );
+            $msg =  $this->model->editCasual($_POST["casual_id"], $_POST["country"], $_POST["program"], $_POST["first_name"],$middle_name, $_POST["last_name"], $_POST["id_no"], $phone_no, $_POST["alt_phone_no"], $_POST["year_worked"], $_POST["duration_worked"], $comment, $kcse_results, $qualification, $institution, $specialization  );
             
                if(!empty($msg)){
                
@@ -199,24 +200,33 @@ class Casuals extends Controller{
         exit();
     }
 
-    function phoneEdit(&$phone, $country) {
+    function phoneEdit($phone, $country) {   
+
         $phone = trim($phone); 
-        $phone = ltrim($phone, '0'); 
-    
-        $countries = $this->model->getCountryCode();
-    
-        foreach ($countries as $countryInfo) {
-            if ($countryInfo->id == $country) {
-                $phoneCode = $countryInfo->phone_code;
-                break;
+        $pattern = "/^\d{3} \d{3} \d{3} \d{3}$/";
+
+        if (preg_match($pattern, $phone)) {
+
+            return $phone;
+        }
+        else {
+            $phone = ltrim($phone, '0'); 
+            $countries = $this->model->getCountryCode();
+        
+            foreach ($countries as $countryInfo) {
+                if ($countryInfo->id == $country) {
+                    $phoneCode = $countryInfo->phone_code;
+                    break;
+                }
             }
+            if (strpos($phone, $phoneCode) !== 0) {
+           
+                $phone = $phoneCode . $phone;
+            }
+            $phone = trim(preg_replace('/(\d{3})(?=\d)/', '$1 ', $phone));
+            return $phone;
         }
-        if (strpos($phone, $phoneCode) !== 0) {
-       
-            $phone = $phoneCode . $phone;
-        }
-        $phone = trim(preg_replace('/(\d{3})(?=\d)/', '$1 ', $phone));
-        return $phone;
+     
     }
     
     
