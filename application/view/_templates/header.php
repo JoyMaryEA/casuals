@@ -53,7 +53,11 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
  <?php
 if (isset($_SESSION['role']) && $_SESSION['role'] != "1") {
     ?>
+        <div style=" display: flex; justify-content: space-between; align-items:center;">
         <p>Master Casual Staff DB</p> 
+        <a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/filter" >Find casual</a>
+        </div>
+       
   <?php } ?>
        <a style="padding:0.5rem; background-color:#ddd; color:#20253A; margin-right:1rem; border-radius:10%;" href="<?php echo URL; ?>users/logout" 
 

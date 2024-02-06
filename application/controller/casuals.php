@@ -1,11 +1,10 @@
 <?php
 
 class Casuals extends Controller{
+          
 
     public function index()
     {
-       $casuals = $this->model->getAllCasuals();
-  
         require APP . 'view/_templates/header.php';
         require APP . 'view/casuals/index.php';
         require APP . 'view/_templates/footer.php';
@@ -63,20 +62,12 @@ class Casuals extends Controller{
          }
     }
 
-    public function casualDetails($casual_id){
-
-
-        $casual = $this->model->getCasual($casual_id); 
-        if (isset($casual_id)) {
-            $editAudit=  $this->model->getEditAudit($casual_id);
-            $insertAudit =  $this->model->getInsertAudit($casual_id);
-          }
-
-    }
 
     public function addCasual($casual_id = NULL){
         $errors = [];
-        $casual = $this->model->getCasual($casual_id);
+        if (!empty($casual_id)){
+            $casual = $this->model->getCasual($casual_id);
+        }
         $countries = $this->model->getAllstr("country");
         $programs =  $this->model->getAllstr("program");
        $institutions= $this->model->getAllstr("institution");
@@ -172,7 +163,7 @@ class Casuals extends Controller{
     public function editCasual() {
 
         // if (isset($_POST["submit_edit_casual"])) {
-
+                $alt_phone_no = null; // 
             $middle_name = !empty($_POST["middle_name"]) ? $this->properCase($_POST["middle_name"]) : null;
             $alt_phone_no = !empty($_POST["alt_phone_no"]) ? $this->phoneEdit($_POST["alt_phone_no"],$_POST["country"]) : null;
             $comment = !empty($_POST["comment"]) ?  $this->properCase($_POST["comment"]) : null;
@@ -224,7 +215,7 @@ class Casuals extends Controller{
        
             $phone = $phoneCode . $phone;
         }
-    
+        $phone = trim(preg_replace('/(\d{3})(?=\d)/', '$1 ', $phone));
         return $phone;
     }
     

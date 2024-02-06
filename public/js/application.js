@@ -101,6 +101,10 @@ function checkId() {
         if (phone_no === "") {
           $('#required-phone-no').text("Phone Number is required");
           return false;
+        }else if (!validatePhoneNumber(phone_no)){
+        
+          $('#phone-check').text("enter correct phone format")
+          return false;
         }
         if (year_worked === "") {
           $('#required-year-worked').text("Year Worked is required");
@@ -109,11 +113,7 @@ function checkId() {
         if (duration_worked == ""){
         $('required-duration-worked').text("duration worked is required");
         }
-        else if (!validatePhoneNumber(phone_no)){
         
-          $('#phone-check').text("enter correct phone format")
-          return false;
-        }
         else if (alt_phone_no !="" && !validatePhoneNumber(alt_phone_no) ){
           $('#alt-phone-check').text("enter correct phone format")
           return false

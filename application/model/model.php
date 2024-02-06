@@ -29,155 +29,38 @@ class Model
 
 
 //causuals methods
-    public function getAllCasuals()
-    {
-        $sql = " SELECT 
-        c.casual_id, 
-        c.middle_name, 
-        c.first_name, 
-        c.last_name, 
-        c.id_no, 
-        cn.name AS country_name, 
-        c.country,
-        c.phone_no, 
-        p.name AS program_name,
-        sp.program_id, 
-        sp.year_worked,  
-        sp.duration_worked,  
-        c.comment, 
-        c.alt_phone_no, 
-        c.institution,
-        c.kcse_results,
-        c.specialization,
-        c.alt_phone_no,
-        c.qualification, 
-        kc.name AS kcse_results_name, 
-        i.name AS institution_name, 
-        q.name AS qualification_name
-    FROM 
-        casuals c
-        LEFT JOIN 
-        country cn ON c.country = cn.id
-    
-        LEFT JOIN 
-        kcse_results kc ON c.kcse_results = kc.id
-        LEFT JOIN 
-        institution i ON c.institution = i.id
-        LEFT JOIN 
-        qualification q ON c.qualification = q.id
-        LEFT JOIN 
-        staff_programs sp ON c.casual_id = sp.casual_id
-        JOIN 
-        program p ON sp.program_id = p.id
-        WHERE 
-        c.not_available = 0";
-        $query = $this->db->prepare($sql);
-        $query->execute();
-        return $query->fetchAll();
-    }
+   
     
     public function getCasual($casual_id)
     {
-        $sql = " SELECT 
-        c.casual_id, 
-        c.middle_name, 
-        c.first_name, 
-        c.last_name, 
-        c.id_no, 
-        cn.name AS country_name, 
-        c.country,
-        c.phone_no, 
-        p.name AS program_name,
-        sp.program_id, 
-        sp.year_worked,  
-        sp.duration_worked,  
-        c.comment, 
-        c.alt_phone_no, 
-        c.institution,
-        c.kcse_results,
-        c.specialization,
-        c.alt_phone_no,
-        c.qualification, 
-        kc.name AS kcse_results_name, 
-        i.name AS institution_name, 
-        q.name AS qualification_name
-    FROM 
-        casuals c
-        LEFT JOIN 
-        country cn ON c.country = cn.id
-    
-        LEFT JOIN 
-        kcse_results kc ON c.kcse_results = kc.id
-        LEFT JOIN 
-        institution i ON c.institution = i.id
-        LEFT JOIN 
-        qualification q ON c.qualification = q.id
-        LEFT JOIN 
-        staff_programs sp ON c.casual_id = sp.casual_id
-        LEFT JOIN 
-        program p ON sp.program_id = p.id
-        WHERE 
-        c.casual_id = :casual_id 
-        AND c.not_available = 0
-    LIMIT 1;
-    ";
+        $sql = " CALL selectAllCasuals(:whereClauseStmt)";
+        $whereClauseStmt = "c.casual_id = $casual_id AND c.not_available = 0 LIMIT 1;";
         $query = $this->db->prepare($sql);
-        $parameters = array(':casual_id' => $casual_id);
+        $parameters = array(':whereClauseStmt' => $whereClauseStmt);
         $query->execute($parameters);
         return $query->fetch();
     }
     
     public function filterCountryProgram($country,$program)
     {
-        $sql="  SELECT 
-        c.casual_id, 
-        c.middle_name, 
-        c.first_name, 
-        c.last_name, 
-        c.id_no, 
-        cn.name AS country_name, 
-        c.country,
-        c.phone_no, 
-        p.name AS program_name,
-        sp.program_id, 
-        sp.year_worked,  
-        sp.duration_worked,  
-        c.comment, 
-        c.alt_phone_no, 
-        c.institution,
-        c.kcse_results,
-        c.specialization,
-        c.alt_phone_no,
-        c.qualification, 
-        kc.name AS kcse_results_name, 
-        i.name AS institution_name, 
-        q.name AS qualification_name
-    FROM 
-        casuals c
-        LEFT JOIN 
-        country cn ON c.country = cn.id
-    
-    LEFT JOIN 
-        kcse_results kc ON c.kcse_results = kc.id
-    LEFT JOIN 
-        institution i ON c.institution = i.id
-    LEFT JOIN 
-        qualification q ON c.qualification = q.id
-    LEFT JOIN 
-        staff_programs sp ON c.casual_id = sp.casual_id
-        JOIN 
-        program p ON sp.program_id = p.id
-        WHERE ";
+     
+
+        $sql = " CALL selectAllCasuals(:whereClauseStmt)";
 
     if (!empty($country) && !empty($program)){
-       $sql= $sql . " cn.id =:country AND p.id =:program AND not_available = 0;" ;
-       $parameters = array(':country' => $country, ':program'=>$program);
+
+        $whereClauseStmt=" cn.id =$country AND p.id =$program AND not_available = 0;" ;
+       $parameters = array(':whereClauseStmt' => $whereClauseStmt);
+
     } else if(empty($country) && !empty($program)){
-        $sql= $sql . " p.id =:program AND not_available = 0;" ;
-        $parameters = array( ':program'=>$program);
+
+        $whereClauseStmt=" p.id =$program AND not_available = 0;" ;
+        $parameters = array(':whereClauseStmt' => $whereClauseStmt);
+
     }else if(!empty($country) && empty($program)){
-        $sql= $sql . " cn.id =:country AND not_available = 0;" ;
-        $parameters = array(':country' => $country);
+
+        $whereClauseStmt= " cn.id =$country AND not_available = 0;" ;
+        $parameters = array(':whereClauseStmt' => $whereClauseStmt);
     }
        
          $query = $this->db->prepare($sql);
@@ -189,53 +72,15 @@ class Model
     
     public function search($search_str)
 {
-    $sql = " SELECT 
-    c.casual_id, 
-    c.middle_name, 
-    c.first_name, 
-    c.last_name, 
-    c.id_no, 
-    cn.name AS country_name, 
-    c.country,
-    c.phone_no, 
-    p.name AS program_name,
-    sp.program_id, 
-    sp.year_worked,  
-    sp.duration_worked,  
-    c.comment, 
-    c.alt_phone_no, 
-    c.institution,
-    c.kcse_results,
-    c.specialization,
-    c.alt_phone_no,
-    c.qualification, 
-    kc.name AS kcse_results_name, 
-    i.name AS institution_name, 
-    q.name AS qualification_name
-FROM 
-    casuals c
-    LEFT JOIN 
-    country cn ON c.country = cn.id
+    $escaped_search_str = $this->db->quote('%' . $search_str . '%');
 
-LEFT JOIN 
-    kcse_results kc ON c.kcse_results = kc.id
-LEFT JOIN 
-    institution i ON c.institution = i.id
-LEFT JOIN 
-    qualification q ON c.qualification = q.id
-LEFT JOIN 
-    staff_programs sp ON c.casual_id = sp.casual_id
-    LEFT JOIN  
-    program p ON sp.program_id = p.id
-    WHERE  
-        (c.first_name LIKE :first_name OR c.last_name LIKE :last_name OR c.casual_id LIKE :casual_id)
-        AND c.not_available = 0";
+    $whereClauseStmt ="(c.first_name LIKE $escaped_search_str OR c.last_name LIKE $escaped_search_str OR c.casual_id LIKE $escaped_search_str )
+    AND c.not_available = 0";
+    $sql = " CALL selectAllCasuals(:whereClauseStmt)";
 
     $query = $this->db->prepare($sql);
     $parameters = array(
-        ':first_name' => '%' . $search_str . '%',
-        ':last_name' => '%' . $search_str . '%',
-        ':casual_id' => '%' . $search_str . '%'
+        ':whereClauseStmt' => $whereClauseStmt
     );
 
     $query->execute($parameters);
@@ -272,11 +117,11 @@ LEFT JOIN
             $lastInsertedId = $this->db->lastInsertId(); 
              
             $sqlStaffPrograms = "INSERT INTO staff_programs (casual_id, program_id, year_worked, duration_worked) Values (:casual_id, :program, :year_worked, :duration_worked);";
-            $query2 = $this->db->prepare($sqlStaffPrograms);
-            $parameters2 = array(':casual_id'=> $lastInsertedId, ':program'=> $program, ':year_worked'=>$year_worked, ':duration_worked'=>$duration_worked);
+            $queryStaffPrograms = $this->db->prepare($sqlStaffPrograms);
+            $parametersStaffPrograms = array(':casual_id'=> $lastInsertedId, ':program'=> $program, ':year_worked'=>$year_worked, ':duration_worked'=>$duration_worked);
                 try {
-                    $queryResult2 = $query2->execute($parameters2);
-                    if($queryResult2){
+                    $queryResultStaffPrograms = $queryStaffPrograms->execute($parametersStaffPrograms);
+                    if($queryResultStaffPrograms){
                         session_start();
                         $user_id = $_SESSION["userId"];
                         $action = 1;
