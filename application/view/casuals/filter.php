@@ -40,7 +40,7 @@ $_SESSION['last_action'] = time();
                 </form>
                 
           <form class="form-inline"  action="<?php echo URL; ?>casuals/search" method="post">
-            <input class="form-control mr-sm-2" style="width:310px;" type="search" name="search_str" placeholder="Search casual by id/first or last name" aria-label="Search">
+            <input class="form-control mr-sm-2" style="width:310px;" type="search" name="search_str" placeholder="search id / phone / first or last name" aria-label="Search">
             <input class="bt-filter " style="display:none;" type="submit" name="submit_search" value="search"/>
           </form>
         

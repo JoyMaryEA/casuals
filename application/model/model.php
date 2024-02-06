@@ -74,7 +74,7 @@ class Model
 {
     $escaped_search_str = $this->db->quote('%' . $search_str . '%');
 
-    $whereClauseStmt ="(c.first_name LIKE $escaped_search_str OR c.last_name LIKE $escaped_search_str OR c.casual_id LIKE $escaped_search_str )
+    $whereClauseStmt ="(c.first_name LIKE $escaped_search_str OR c.last_name LIKE $escaped_search_str OR c.casual_id LIKE $escaped_search_str OR c.phone_no LIKE  $escaped_search_str or c.id_no LIKE  $escaped_search_str )
     AND c.not_available = 0";
     $sql = " CALL selectAllCasuals(:whereClauseStmt)";
 
