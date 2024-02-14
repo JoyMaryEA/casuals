@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>MINI</title>
+    <title>Casual Staff Database</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
@@ -41,13 +41,25 @@
     <?php
 if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
     ?>
-      <div style=" display: flex; justify-content: space-between; align-items:center;">
+      <div class="admin-nav" >
      <p>Master Casual Staff DB</p>
    
-<a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/filter" >Find casual</a>
-<a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/addCasual" >New casual</a>
-<a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/insertReturnCasual" >Return casual</a>
+<a href="<?php echo URL; ?>casuals/filter" >Find casual</a>
+<a href="<?php echo URL; ?>casuals/addCasual" >New casual</a>
+<a href="<?php echo URL; ?>casuals/insertReturnCasual" >Return casual</a>
      </div>
+
+    <div class="admin-hamburger">
+    <p>Master Casual Staff DB</p>
+
+    <span class="material-symbols-outlined">menu</span>
+    <ul class="nav-menu-links">
+    <a href="<?php echo URL; ?>casuals/filter" >Find casual</a>
+    <a href="<?php echo URL; ?>casuals/addCasual" >New casual</a>
+    <a href="<?php echo URL; ?>casuals/insertReturnCasual" >Return casual</a>
+    </ul>
+    </div>
+
  <?php } ?>
 
  <?php

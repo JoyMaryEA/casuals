@@ -1,15 +1,16 @@
-<?php
-$_SESSION['last_action'] = time();
-?>
 
-<div class="add-casual-container ">
-<?php if(!empty($casual)){?>
-    <form id="edit-form" class="add-casual"  action="<?php echo URL; ?>casuals/editCasual" method="post">
-   
-            <?php } else { ?>
-<form id="add-form" class="add-casual" action="<?php echo URL; ?>casuals/addCasual" method="post">
-<?php } ?>
-<h4 style="text-align:center;"> <?php if(!empty($casual)){echo 'Edit Details for ' . $casual->first_name;} else echo "Enter Casual Details" ?></h4>
+
+    <div class="add-casual-container ">
+    <?php if(!empty($casual) ){  ?>
+    
+        <form id="edit-form" class="add-casual" action="<?php echo URL; ?>casuals/editCasual" method="post">
+                
+        <?php } else { ?>
+
+        <form id="add-form" class="add-casual" action="<?php echo URL; ?>casuals/addCasual" method="post">
+    <?php } ?>
+
+        <h4 style="text-align:center;"> <?php if(!empty($casual)){echo 'Edit Details for ' . $casual->first_name;} else echo "Enter Casual Details" ?></h4>
 
     <!-- casual_id -->
     <label for="casual_id">Casual ID:</label>
@@ -20,34 +21,28 @@ $_SESSION['last_action'] = time();
     <label for="country">Country: </label> 
     <select class="custom-select custom-select-lg mb-3" name="country" id="country_select" required  >
 
-                <?php foreach ($countries as $country) {  
-
-                    ?>
+                <?php foreach ($countries as $country) { ?>
                 <option value="<?php if (isset($country->id)) echo htmlspecialchars($country->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($country->name)) echo htmlspecialchars($country->name, ENT_QUOTES, 'UTF-8'); ?></option>
                 <?php } ?>
                 <?php if(!empty($casual)){ ?> 
                 <option value="<?php  echo htmlspecialchars($casual->country, ENT_QUOTES, 'UTF-8'); ?>" selected><?php  echo htmlspecialchars($casual->country_name, ENT_QUOTES, 'UTF-8'); ?></option>
                 <?php } ?>
-              </select>
+    </select>
               <br>
 
     
     <!-- program -->
     <label for="program">Program:</label>
-    <select class="custom-select custom-select-lg mb-3" name="program" id="program_select" value="<?php if(!empty($casual)){echo  $casual->country;} ?>" >
+    <select class="custom-select custom-select-lg mb-3" name="program" id="program_select">
+    <?php foreach ($programs as $program) { ?>
+        <option value="<?php echo htmlspecialchars($program->id, ENT_QUOTES, 'UTF-8'); ?>" <?php if(!empty($casual) && $casual->program_id == $program->id) echo 'selected'; ?>>
+            <?php echo htmlspecialchars($program->name, ENT_QUOTES, 'UTF-8'); ?>
+        </option>
+        <?php } ?>
+    </select>
 
-               
-                <?php foreach ($programs as $program) {  
-
-                    ?>
-                <option value="<?php if (isset($program->id)) echo htmlspecialchars($program->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($program->name)) echo htmlspecialchars($program->name, ENT_QUOTES, 'UTF-8'); ?></option>
-                <?php } ?>
-                <?php if(!empty($casual)){ ?> 
-                <option value="<?php  echo htmlspecialchars($casual->program, ENT_QUOTES, 'UTF-8'); ?>" selected><?php  echo htmlspecialchars($casual->program_name, ENT_QUOTES, 'UTF-8'); ?></option>
-                <?php } ?>
-              </select>
               <br>
-    <br>
+    
 
     <!-- first_name -->
     <label for="first_name">First Name: <span style = "color:#e60000;"> *</span></label>
@@ -91,6 +86,7 @@ $_SESSION['last_action'] = time();
     <input type="text" id="year_worked" name="year_worked" value="<?php if(!empty($casual)){echo  $casual->year_worked;} ?>" >
     <br>
 
+
     <!-- duration_served -->
     <label for="duration_worked">Duration Served (days):<span style = "color:#e60000;"> *</span></label>
     <p id="required-duration-worked"><?php if(!empty($required))echo $required;?></p>
@@ -106,34 +102,29 @@ $_SESSION['last_action'] = time();
     <label id="kcse-label" for="kcse_results">KCSE Results:</label>
     <select id="kcse-input" class="custom-select custom-select-lg mb-3" name="kcse_results"  >
 
-    <option value="">select grade</option>            
-<?php foreach ($kcse_results as $kcse_mark) {  
-
-    ?>
+        <option value="">select grade</option>            
+            <?php foreach ($kcse_results as $kcse_mark) { ?>
     
-<option value="<?php if (isset($kcse_mark->id)) echo htmlspecialchars($kcse_mark->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($kcse_mark->name)) echo htmlspecialchars($kcse_mark->name, ENT_QUOTES, 'UTF-8'); ?></option>
-<?php } ?>
-<?php if(!empty($casual)){ ?> 
-                <option value="<?php echo isset($casual->kcse_results) ? htmlspecialchars($casual->kcse_results, ENT_QUOTES, 'UTF-8'): '';  ?>" selected><?php echo isset($casual->kcse_results_name) ? htmlspecialchars($casual->kcse_results_name, ENT_QUOTES, 'UTF-8'): ''; ?></option>
-                <?php } ?>
-</select>
+        <option value="<?php if (isset($kcse_mark->id)) echo htmlspecialchars($kcse_mark->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($kcse_mark->name)) echo htmlspecialchars($kcse_mark->name, ENT_QUOTES, 'UTF-8'); ?></option>
+            <?php } ?>
+            <?php if(!empty($casual)){ ?> 
+        <option value="<?php echo isset($casual->kcse_results) ? htmlspecialchars($casual->kcse_results, ENT_QUOTES, 'UTF-8'): '';  ?>" selected><?php echo isset($casual->kcse_results_name) ? htmlspecialchars($casual->kcse_results_name, ENT_QUOTES, 'UTF-8'): ''; ?></option>
+            <?php } ?>
+    </select>
     <br>
 
     <!-- qualification -->
     <label for="qualification">Qualification:</label>
     <select class="custom-select custom-select-lg mb-3" name="qualification" >
+        <option value="">select qualification</option>                
+            <?php foreach ($qualifications as $qualification) {  ?>
+        <option value="<?php if (isset($qualification->id)) echo htmlspecialchars($qualification->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($qualification->name)) echo htmlspecialchars($qualification->name, ENT_QUOTES, 'UTF-8'); ?></option>
+            <?php } ?>
+            <?php if(!empty($casual)){ ?> 
+        <option value="<?php echo isset($casual->qualification) ? htmlspecialchars($casual->qualification, ENT_QUOTES, 'UTF-8') : ''; ?>" selected> <?php echo isset($casual->qualification_name) ? htmlspecialchars($casual->qualification_name, ENT_QUOTES, 'UTF-8') : ''; ?></option>
+            <?php } ?>
 
-    <option value="">select qualification</option>                
-<?php foreach ($qualifications as $qualification) {  
-
-    ?>
-<option value="<?php if (isset($qualification->id)) echo htmlspecialchars($qualification->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($qualification->name)) echo htmlspecialchars($qualification->name, ENT_QUOTES, 'UTF-8'); ?></option>
-<?php } ?>
-<?php if(!empty($casual)){ ?> 
-                <option value="<?php echo isset($casual->qualification) ? htmlspecialchars($casual->qualification, ENT_QUOTES, 'UTF-8') : ''; ?>" selected> <?php echo isset($casual->qualification_name) ? htmlspecialchars($casual->qualification_name, ENT_QUOTES, 'UTF-8') : ''; ?></option>
-                <?php } ?>
-
-</select>
+    </select>
     <br>
 
     <!-- institution -->
@@ -141,15 +132,13 @@ $_SESSION['last_action'] = time();
     <select class="custom-select custom-select-lg mb-3" name="institution" id="institution" >
     <option value="">select institution</option> 
                 
-<?php foreach ($institutions as $institution) {  
-
-    ?>
-<option value="<?php if (isset($institution->id)) echo htmlspecialchars($institution->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($institution->name)) echo htmlspecialchars($institution->name, ENT_QUOTES, 'UTF-8'); ?></option>
-<?php } ?>
-<?php if(!empty($casual)){ ?> 
-                <option value="<?php  echo isset($casual->institution)? htmlspecialchars($casual->institution, ENT_QUOTES, 'UTF-8'): ''; ?>" selected><?php  echo isset($casual->institution_name) ? htmlspecialchars($casual->institution_name, ENT_QUOTES, 'UTF-8') :''; ?></option>
-                <?php } ?>
-</select>
+            <?php foreach ($institutions as $institution) { ?>
+        <option value="<?php if (isset($institution->id)) echo htmlspecialchars($institution->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($institution->name)) echo htmlspecialchars($institution->name, ENT_QUOTES, 'UTF-8'); ?></option>
+            <?php } ?>
+            <?php if(!empty($casual)){ ?> 
+        <option value="<?php  echo isset($casual->institution)? htmlspecialchars($casual->institution, ENT_QUOTES, 'UTF-8'): ''; ?>" selected><?php  echo isset($casual->institution_name) ? htmlspecialchars($casual->institution_name, ENT_QUOTES, 'UTF-8') :''; ?></option>
+            <?php } ?>
+    </select>
     <br>
 
     <!-- specialization -->
@@ -158,13 +147,16 @@ $_SESSION['last_action'] = time();
     <br>
 
 
+    
+    <input type="text" style="display:none;" name="staffProgramsId" value=<?php  echo isset($staffProgramsIdObj->id)? htmlspecialchars($staffProgramsIdObj->id, ENT_QUOTES, 'UTF-8'): ''; ?> >
+
     <!-- Submit Button --> 
     <?php if(!empty($casual)){?>
         <input type="submit" value="Submit" name="submit_edit_casual">
     
-            <?php } else{ ?>
-            <input type="submit" value="Submit" name="submit_add_casual">
-            <?php } ?>
+    <?php } else{ ?>
+        <input type="submit" value="Submit" name="submit_add_casual">
+    <?php } ?>
 </form>
 </div>
           

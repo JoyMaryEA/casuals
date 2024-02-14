@@ -1,8 +1,10 @@
 $(document).ready(function() {
+
+  //get the new casual_id
     $('#country_select').on('change', checkId);
     $('#program_select').on('change', checkId);
 
-  
+// do validation on the edit casual form  
     $("#edit-form").submit(function(event) {
       event.preventDefault();
    
@@ -29,6 +31,8 @@ $(document).ready(function() {
       }
   });
   
+ 
+
 });
 
 
@@ -54,6 +58,7 @@ function checkId() {
         success:    function(data) {
            // console.log(data);
             var maxCasualId = data.max_casual_id;
+          
             $('#casual_id').val(maxCasualId);
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -129,4 +134,4 @@ function checkId() {
       }
     
 
-
+ 

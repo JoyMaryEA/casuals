@@ -279,12 +279,34 @@ table.table td i {
     border: 1px solid #ccc;
     border-radius: 4px;
   }
+.admin-hamburger{
+    display:none;
+}
+  .admin-nav{
+    display: flex; 
+    justify-content: space-between;
+    align-items:center;
+  }
+  .admin-nav a{
+    padding:0.5rem;  
+    color:#ffb9ef;
+    margin-left:1rem;
+  }
 
-@media screen and (max-width: 562px) {
+@media screen and (max-width: 694px) {
     
-    .navbar{
+    nav{
         display: flex;
-        flex-direction: column;
+    }
+    .admin-nav{
+        display: none;
+      }
+    .nav-menu-links{
+        display: none;
+      }
+    .admin-hamburger{
+        display:flex;
+        flex-direction:row;
     }
   }
   

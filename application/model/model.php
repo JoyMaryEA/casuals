@@ -113,19 +113,22 @@ class Model
 
         try {
             $queryResult = $query->execute($parameters);
+               // entering data to staff_programs after a successful insert into casuals table
         if ($queryResult) {
+         
             $lastInsertedId = $this->db->lastInsertId(); 
              
             $sqlStaffPrograms = "INSERT INTO staff_programs (casual_id, program_id, year_worked, duration_worked) Values (:casual_id, :program, :year_worked, :duration_worked);";
             $queryStaffPrograms = $this->db->prepare($sqlStaffPrograms);
             $parametersStaffPrograms = array(':casual_id'=> $lastInsertedId, ':program'=> $program, ':year_worked'=>$year_worked, ':duration_worked'=>$duration_worked);
                 try {
+                     // entering data to ausit after a successful insert into both casuals and staff_programs table
                     $queryResultStaffPrograms = $queryStaffPrograms->execute($parametersStaffPrograms);
                     if($queryResultStaffPrograms){
                         session_start();
                         $user_id = $_SESSION["userId"];
                         $action = 1;
-                        $this->newAudit($lastInsertedId, $action, $user_id);
+                        $this->insertAudit($lastInsertedId, $action, $user_id);
                         return "Casual record added successfully!";
                     } else{
                         $errorInfo = $query->errorInfo();
@@ -169,13 +172,14 @@ class Model
 
     }
 
-    public function editCasual($casual_id, $country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $specialization) {
+    public function editCasual($casual_id, $country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $specialization, $staffProgramsId) {
      
+    
         
-        $sql = "UPDATE casuals SET first_name = :first_name, middle_name = :middle_name, last_name = :last_name, id_no = :id_no, phone_no = :phone_no, alt_phone_no = :alt_phone_no, comment = :comment, kcse_results = :kcse_results, qualification = :qualification, institution = :institution, specialization = :specialization WHERE casual_id = :casual_id";
+        $sqlEditCasual = "UPDATE casuals SET  first_name = :first_name, middle_name = :middle_name, last_name = :last_name, id_no = :id_no, phone_no = :phone_no, alt_phone_no = :alt_phone_no, comment = :comment, kcse_results = :kcse_results, qualification = :qualification, institution = :institution, specialization = :specialization WHERE casual_id = :casual_id";
         
-        $query = $this->db->prepare($sql);
-        $parameters = array(
+        $query = $this->db->prepare($sqlEditCasual);
+        $parametersEditCasual = array(
             ':casual_id' => $casual_id,
             ':first_name' => $first_name,
             ':middle_name' => $middle_name,
@@ -191,18 +195,34 @@ class Model
         );
     
         try { 
-            $queryResult = $query->execute($parameters);
+            $queryEditCasualResult = $query->execute($parametersEditCasual);
             
            
-            if ($queryResult) {
-                session_start();
-                $user_id = $_SESSION["userId"];
-                $action = 2;
-                $this->newAudit($casual_id,$action,$user_id);
-                return "Casual record edited successfully!";
+            if ($queryEditCasualResult) {
+                // update staff_programs table
+
+                 try {
+                    $updateStaffProgramsSuccess = $this->editStaffProgramsProgramValue($staffProgramsId,$program);
+       
+                    // update audit table
+                        if ($updateStaffProgramsSuccess) {
+                            session_start();
+                            $user_id = $_SESSION["userId"];
+                            $action = 2;
+                            $this->insertAudit($casual_id,$action,$user_id);
+                            return "Casual record edited successfully!";
+                        } else {
+                            $errorInfo = $query->errorInfo();
+                            return "Error editing casual record . {$errorInfo[2]}";
+                        }
+                    
+                 } catch (PDOException $e) {
+                    return "Error: " . $e->getMessage();
+                 }
+                
             } else {
                 $errorInfo = $query->errorInfo();
-            return "Error editing casual record. {$errorInfo[2]}";
+                 return "Error editing casual record. {$errorInfo[2]}";
             }
         } catch (PDOException $e) {
              return "Error: " . $e->getMessage();
@@ -210,7 +230,7 @@ class Model
     }
     
     //enter into audit table, either insert, update/delete
-    public function newAudit($casual_id,$action,$u_id){
+    public function insertAudit($casual_id,$action,$u_id){
         $sql = "INSERT INTO audit (casual_id, action, u_id) VALUES (:casual_id, :action, :u_id);";
         $query = $this->db->prepare($sql);
         $parameters = array(':casual_id' => $casual_id,':action' => $action,':u_id' => $u_id );
@@ -241,10 +261,12 @@ class Model
     }
 
     public function getExistingCasual($phone_no, $id_no){
-        $sql = "SELECT casual_id from casuals where phone_no = :phone_no OR id_no = :id_no";
+        $sql = "SELECT DISTINCT  c.casual_id, first_name, last_name,id_no, phone_no, p.name AS program_name, sp.program_id 
+        from casuals c  JOIN program p on p.id = c.program  JOIN staff_programs sp on sp.program_id=  
+        c.program  where phone_no = :phone_no OR id_no = :id_no";
         $query = $this->db->prepare($sql);
         $parameters = array(':phone_no' => $phone_no, ':id_no' => $id_no );
-        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
+        echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
         return $query->fetch();
     }
@@ -266,5 +288,23 @@ class Model
         } catch (PDOException $e) {
              return "Error: " . $e->getMessage();
         }
+    }
+// get staff_programs id then change the program_id there
+    public function getStaffProgramsId($casual_id, $program, $duration_worked, $year_worked){
+        $sql = "SELECT DISTINCT id from staff_programs where casual_id = :casual_id AND program_id = :program AND duration_worked=:duration_worked AND year_worked=:year_worked";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':casual_id' => $casual_id,':program' => $program,':duration_worked' => $duration_worked, ':year_worked' => $year_worked );
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
+        $query->execute($parameters);
+        return $query->fetch();
+    }
+
+    private function editStaffProgramsProgramValue($staffProgramsId,$program){
+        $sql = "UPDATE staff_programs SET program_id = :program WHERE id = :staffProgramsId";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':staffProgramsId' => $staffProgramsId, ':program' => $program);
+    //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  
+        $queryResult = $query->execute($parameters);
+       return $queryResult;
     }
 }
