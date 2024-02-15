@@ -7,7 +7,7 @@ if (empty($_SESSION["userId"]) && empty($_SESSION["role"])){
     exit;
 
 }
-$expireAfter = 6000; 
+$expireAfter = 3000; 
 if (isset($_SESSION['last_action'])) {
     $secondsInactive = time() - $_SESSION['last_action'];
 

@@ -67,10 +67,9 @@ class Casuals extends Controller{
   
         $search_str= trim($_POST["search_str"]);
         $casuals = $this->model->search($search_str);
-        $json_casuals= json_decode(json_encode($casuals),true);
-       
-        var_dump($json_casuals);
-        return $json_casuals;
+        header('Content-Type: application/json'); 
+        echo json_encode($casuals);
+        exit;
     } 
 
 
