@@ -28,7 +28,6 @@ class Casuals extends Controller{
             require APP . 'view/casuals/index.php';
             require APP . 'view/_templates/footer.php';
             }
-
             if (isset($_GET['message'])) {
                 $msg = urldecode($_GET['message']);
                     if (strpos($msg, 'Error') === 0) {
@@ -248,7 +247,36 @@ class Casuals extends Controller{
         require APP . 'view/casuals/return_casual.php';
         require APP . 'view/_templates/footer.php';
     }
-       
+      
+    
+    public function dashboard(){
+        require APP . 'view/_templates/header.php';
+        require APP . 'view/casuals/dashboard.php';
+        require APP . 'view/_templates/footer.php';
+    }
+
+    
+    public function yearStaffNoData(){
+        $yearStaffNo = $this->model->getStaffNumberByYear();
+        header('Content-Type: application/json');
+        echo json_encode($yearStaffNo);
+        exit();
+    }
+
+    public function durationStaffNoData(){
+        $durationStaffNo = $this->model->getStaffNumberByDuration();
+        header('Content-Type: application/json');
+        echo json_encode($durationStaffNo);
+        exit();
+    }
+    public function programStaffNoData(){
+       $programStaffNo = $this->model->getStaffNumberByProgram();
+       header('Content-Type: application/json');
+       echo json_encode($programStaffNo);
+       exit();
+   }
+
+
       // private functions that help in validation
 
       private function phoneEdit($phone, $country) {   
@@ -294,6 +322,8 @@ class Casuals extends Controller{
     
         return $str;
     }
+
+
 
 }
 

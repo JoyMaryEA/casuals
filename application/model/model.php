@@ -307,4 +307,26 @@ class Model
         $queryResult = $query->execute($parameters);
        return $queryResult;
     }
+
+    public function getStaffNumberByYear(){     
+        $sql = "SELECT year_worked, count(casual_id) AS staff_no FROM staff_programs GROUP BY year_worked;";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    }
+    public function getStaffNumberByDuration(){
+        $sql = "SELECT duration_worked, count(casual_id) AS staff_no FROM staff_programs GROUP BY duration_worked;";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    }
+
+        
+
+    public function getStaffNumberByProgram(){
+        $sql = "SELECT count(casual_id) AS staff_no , p.name FROM staff_programs sp join program p  where p.id = sp.program_id GROUP BY p.name;";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+     }
 }
