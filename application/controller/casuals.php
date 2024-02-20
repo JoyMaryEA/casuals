@@ -22,7 +22,9 @@ class Casuals extends Controller{
 
         
                 $casuals= $this->model->filterCountryProgram($_POST["country"], $_POST["program"]);
-                    
+                    if (!empty($casuals)){
+                        $results = "showing results for " . $_POST["country"] . " and " . $_POST["program"];
+                    }
             require APP . 'view/casuals/index.php';
             require APP . 'view/_templates/footer.php';
             }
@@ -30,11 +32,12 @@ class Casuals extends Controller{
             if (isset($_GET['message'])) {
                 $msg = urldecode($_GET['message']);
                     if (strpos($msg, 'Error') === 0) {
-                        echo '<div class="alert alert-danger" id="errorAlert" role="alert">
-                                <strong>Error!</strong>' . $msg . '
-                            </div>';
+                     echo '<div class="alert alert-danger" id="errorAlert" role="alert">
+                        <strong>Error!</strong>' . $msg . '
+                    </div>';
+                       
                     } else {
-                        echo '<div class="alert alert-success" id="successAlert" role="alert">
+                       echo '<div class="alert alert-success" id="successAlert" role="alert">
                                 <strong>Success!</strong>' . $msg . '
                             </div>';
                     }

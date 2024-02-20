@@ -1,6 +1,9 @@
 
+ 
 
 <div class="filter-container" style="display:flex; flex-direction:column; align-items:center; justify-content:center;">  
+<?php if (!empty($results)) {echo $results;}?>
+
   <form class="filters" action="<?php echo URL; ?>casuals/filter" method="POST">
     <select class="form-control" name="country" >
         <option value="" style="color: gray;" >Select Country</option>        
@@ -32,33 +35,30 @@
 
 <div id="table-container" class="table-responsive" style="display:none; ">
      <div class="table-wrapper" >
-        <div class="table-title">
-            <div class="row">
-                <div class="col-sm-8">
-                    <h2>Staff <b>Details</b></h2>
-                </div>
-            </div>
-        </div>
-        <table id="casualsTable"  style="width:100%"class="table table-striped table-hover table-bordered">
-   <thead>
-     <tr>
-       
-      
-       
-       <th>First Name </th>
-       <th>Last Name</th>
-       <th>Program </th>
-       <th>Country </th>
-       <th>Casual Id </th>
-       <th>Phone Number</th>                       
-       <th>Duration of Appointment (days)</th>
-       <th>year worked</th>
-       
-     </tr>
-    </thead>
-  </table>
+          <div class="table-title">
+              <div class="row">
+                  <div class="col-sm-8">
+                      <h2>Staff <b>Details</b></h2>
+                  </div>
+              </div>
+          </div>
+          <table id="casualsTable"  style="width:100%"class="table table-striped table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>First Name </th>
+                  <th>Last Name</th>
+                  <th>Program </th>
+                  <th>Country </th>
+                  <th>Casual Id </th>
+                  <th>Phone Number</th>                       
+                  <th>Duration of Appointment (days)</th>
+                  <th>year worked</th>
+                  <th>action</th>
+                </tr>
+                </thead>
+          </table>
    </div>
-
+   
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -78,12 +78,45 @@ $(document).ready(function() {
             { data: 'casual_id' },
             { data: 'phone_no'  },
             { data: 'duration_worked'  },
-            { data: 'year_worked'  }
+            { data: 'year_worked'  },
+            { data: null,
+                render: function(data, type, row) {
+                    var casualId = data.casual_id;
+                    var modalId = `delete-modal-${casualId}`
+                    var deleteUrl = '<?php echo URL . 'casuals/deleteCasual/'; ?>' + casualId;
+                    var editUrl = '<?php echo URL . 'casuals/addCasual/'; ?>' + casualId;
+                    var modalHTML = `<div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-labelledby="${modalId}-label" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="${modalId}-label">Delete Item</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete casual ${casualId} : ${data.first_name}?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <a class="btn-delete"  href="${deleteUrl}" >delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>`;
+        
+                      $('body').append(modalHTML);
+                    return `<a href="${editUrl}" class="edit" title="Edit" data-toggle="tooltip" > <span class="material-symbols-outlined">edit</span></a>
+                    <a href="#"  class="delete" title="Delete" data-toggle="modal" data-target="#${modalId}" > <span class="material-symbols-outlined">delete</span> </a> 
+                `;
+               }
+            }
         ],
        
     });
 
   var userRole = <?php echo json_encode($_SESSION['role']); ?>;
+
 $("#search-form").submit(function (event){
   event.preventDefault();
  

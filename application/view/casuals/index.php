@@ -25,7 +25,7 @@
        <th>Details</th>
      </tr>
     </thead>
-<!-- <tbody>
+<tbody>
          <?php $counter = 1; foreach ($casuals as $casual) {  ?>
      <tr>
         <td><?php echo $counter; ?></td>
@@ -89,28 +89,9 @@
     </div>
 
 
-    <div class="modal fade"  id="delete-modal<?php echo htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?>"  tabindex="-1" aria-labelledby="delete-modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Confirm Delete:</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete casual: <?php echo htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?></p>
-                    </div>
-             <div class="modal-footer">
-                <a class="btn-delete"  href="<?php echo URL . 'casuals/deleteCasual/'. htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?>" >
-                        delete
-                    </a>
-                <button type="button" class="btn-cancel" data-dismiss="modal"> cancel </button>
-            </div>
-        </div>
-    </div>
+
             <?php $counter++; } ?>
-</tbody> -->
+</tbody>
 </table>
   
             
