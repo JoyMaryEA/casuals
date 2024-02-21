@@ -59,11 +59,11 @@
           </table>
    </div>
   
-   <div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-labelledby="${modalId}-label" aria-hidden="true">
+   <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalId-label" aria-hidden="true">
      <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-             <h5 class="modal-title" id="${modalId}-label">Delete Item</h5>
+             <h5 class="modal-title" id="modalId-label">Delete Item</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -73,7 +73,7 @@
           </div>
           <div class="modal-footer">
            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-           <a class="btn-delete"  href="${deleteUrl}" >delete</a>
+           <a class="btn-delete"  href="deleteUrl" >delete</a>
           </div>
       </div>
      </div>
@@ -87,7 +87,7 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <script type= "text/javascript">
-// ajax get casuals, for search
+
 $(document).ready(function() {
   $('#table-container').hide();
   var dataTable = new DataTable('#casualsTable', {
@@ -106,27 +106,27 @@ $(document).ready(function() {
                     var modalId = `delete-modal-${casualId}`
                     var deleteUrl = '<?php echo URL . 'casuals/deleteCasual/'; ?>' + casualId;
                     var editUrl = '<?php echo URL . 'casuals/addCasual/'; ?>' + casualId;
-                    // var modalHTML = `<div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-labelledby="${modalId}-label" aria-hidden="true">
-                    //                     <div class="modal-dialog" role="document">
-                    //                         <div class="modal-content">
-                    //                             <div class="modal-header">
-                    //                                 <h5 class="modal-title" id="${modalId}-label">Delete Item</h5>
-                    //                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    //                                     <span aria-hidden="true">&times;</span>
-                    //                                 </button>
-                    //                             </div>
-                    //                             <div class="modal-body">
-                    //                                 Are you sure you want to delete casual ${casualId} : ${data.first_name}?
-                    //                             </div>
-                    //                             <div class="modal-footer">
-                    //                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    //                                 <a class="btn-delete"  href="${deleteUrl}" >delete</a>
-                    //                             </div>
-                    //                         </div>
-                    //                     </div>
-                    //                   </div>`;
+                    var modalHTML = `<div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-labelledby="${modalId}-label" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="${modalId}-label">Delete Item</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete casual ${casualId} : ${data.first_name}?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <a class="btn-delete"  href="${deleteUrl}" >delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>`;
         
-                    //   $('body').append(modalHTML);
+                      $('body').append(modalHTML);
                     return `<a href="${editUrl}" class="edit" title="Edit" data-toggle="tooltip" > <span class="material-symbols-outlined">edit</span></a>
                     <a href="#"  class="delete" title="Delete" data-toggle="modal" data-target="#${modalId}" > <span class="material-symbols-outlined">delete</span> </a> 
                 `;
@@ -136,35 +136,32 @@ $(document).ready(function() {
        
     });
 
-  var userRole = <?php echo json_encode($_SESSION['role']); ?>;
+  var userRole = <?php echo json_encode($_SESSION['role']); ?>; //TODO: DIFFERENCIATE ADMIN AND USER
 
 $("#search-form").submit(function (event){
-  event.preventDefault();
+    event.preventDefault();
  
- var formData = {search_str : $("#search_str").val()};
+    var formData = {search_str : $("#search_str").val()};
+      // ajax get casuals, for search
+    $.ajax({
+      url: '<?php echo URL; ?>casuals/searchAction',
+      type: 'POST', 
+      data:  formData,
+      dataType: 'json',
+      success: function(data) {
+            console.log(data); 
+            $('#table-container').show();
+            dataTable.clear().rows.add(data).draw();    
+            },
+      error: function(jqXHR, textStatus, errorThrown) {
+            console.error('AJAX Error:', textStatus, errorThrown);
+            console.log('Server Response:', jqXHR.responseText);
+        }
 
-$.ajax({
-  url: '<?php echo URL; ?>casuals/searchAction',
-  type: 'POST', 
-  data:  formData,
-  dataType: 'json',
-  success: function(data) {
-        console.log(data); 
-        $('#table-container').show();
-        dataTable.clear().rows.add(data).draw();
-        
-  },
-    error: function(jqXHR, textStatus, errorThrown) {
-        console.error('AJAX Error:', textStatus, errorThrown);
-        console.log('Server Response:', jqXHR.responseText);
-    }
-
-})
+    })
 
 
 });
-
-
 
 })
 </script>

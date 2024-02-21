@@ -1,7 +1,9 @@
 @import url("https://code.highcharts.com/css/highcharts.css");
 @import url("https://code.highcharts.com/dashboards/css/dashboards.css");
 
-
+.highcharts-background {
+    fill: transparent !important; 
+}
 
 body {
     font-family: Arial;

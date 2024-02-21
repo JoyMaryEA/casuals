@@ -1,7 +1,7 @@
-<div style="display:flex; flex-direction:column; align-items:center;">
-<div id="yearStaffNo" style="width:50%; height:400px; margin-top:3rem;background-color: white"></div>
-<div id="durationStaffNo" style="width:50%; height:400px; margin-top:3rem;background-color: white"></div>
-<div id="programStaffNo" style="width:50%; height:400px; margin-top:3rem;background-color: white"></div>
+<div style=" margin-top:3rem; display:flex; flex-direction:row; justify-content:space-between; align-items:center;">
+<div id="yearStaffNo" style="width:30%; height:400px; margin-top:3rem;"></div>
+<div id="durationStaffNo" style="width:30%; height:400px; margin-top:3rem;"></div>
+<div id="programStaffNo" style="width:30%; height:450px; margin-top:3rem;"></div>
 </div>
 
 
@@ -27,15 +27,20 @@ $(document).ready(function() {
             year.sort()
             Highcharts.chart('yearStaffNo', {
                 chart: {
-                    type: 'column'
+                    type: 'column',
+                    backgroundColor: 'transparent' 
                 },
                 title: {
-                    text: 'Number of Casuals Hired per year'
+                    text: 'Number of casuals hired per year'
                 },
                 yAxis: {
                     title: {
-                        text: 'Number of Staff'
-                    }
+                            text: null
+                        },
+                        gridLineWidth: 0, 
+                        labels: {
+                            enabled: false 
+                        }
                 },
                 xAxis: {
                     categories: year,
@@ -43,11 +48,22 @@ $(document).ready(function() {
                         text: 'Year'
                     }
                 },
-               
-                series: [{
-                    name: 'Staff Hired',
+                plotOptions: {
+                    column: {
+                        dataLabels: {
+                            enabled: true,
+                            format: '{y}', 
+                            style: {
+                                color: 'black'
+                            }
+                        }
+                    }
+                },
+                  series: [{
+                    name: null,
                     data: staffNumbers,
-                    color: '#E600A0'
+                    color: '#E600A0',
+                    showInLegend: false
                 }]
             });
         },
@@ -71,18 +87,27 @@ $(document).ready(function() {
                 }
                
             });
-           
+           duration.sort(function(a, b) {
+                 return a - b;
+            });
             Highcharts.chart('durationStaffNo', {
                 chart: {
                     type: 'column'
                 },
                 title: {
-                    text: 'Number of Casuals Hired by duration worked'
+                    text: 'Number of casuals hired by duration worked',
+                    style: {
+                        color: '#20253A' 
+                    }
                 },
                 yAxis: {
                     title: {
-                        text: 'Number of Staff'
-                    }
+                            text: null
+                        },
+                        gridLineWidth: 0, 
+                        labels: {
+                            enabled: false 
+                        }
                 },
                 xAxis: {
                     categories: duration,
@@ -90,17 +115,28 @@ $(document).ready(function() {
                         text: 'Duration Worked (days)'
                     }
                 },
-               
+                plotOptions: {
+                    column: {
+                        dataLabels: {
+                            enabled: true,
+                            format: '{y}', 
+                            style: {
+                                color: 'black'
+                            }
+                        }
+                    }
+                },
                 series: [{
-                    name: 'Staff Duration Hired',
+                    name: null,
                     data: staffNumbers,
-                    color: '#E600A0'
+                    color: '#E600A0',
+                    showInLegend: false
                 }]
             });
         },
         error: function(xhr, status, error) { 
         console.error('Error fetching data:', error);
-    }
+        }
     });
     $.ajax({
         url: '<?php echo URL; ?>casuals/programStaffNoData', 
@@ -113,7 +149,7 @@ $(document).ready(function() {
             console.log(programStaffNoJson);
             programStaffNoJson.forEach(function(item) {
                 if (item.name !== null){
-                    program.push(parseInt(item.name));
+                    program.push(item.name);
                     staffNumbers.push(parseInt(item.staff_no)); 
                 }
                
@@ -124,12 +160,16 @@ $(document).ready(function() {
                     type: 'column'
                 },
                 title: {
-                    text: 'Number of Casuals Hired by program worked'
+                    text: 'Number of casuals Hired by program worked'
                 },
                 yAxis: {
                     title: {
-                        text: 'Number of Staff'
-                    }
+                            text: null
+                        },
+                        gridLineWidth: 0, 
+                        labels: {
+                            enabled: false 
+                        }
                 },
                 xAxis: {
                     categories: program,
@@ -137,18 +177,29 @@ $(document).ready(function() {
                         text: 'program'
                     }
                 },
-               
+                plotOptions: {
+                    column: {
+                        dataLabels: {
+                            enabled: true,
+                            format: '{y}', 
+                            style: {
+                                color: 'black'
+                            }
+                        }
+                    }
+                },
                 series: [{
-                    name: 'Staff Program Hired',
+                    name: null,
                     data: staffNumbers,
-                    color: '#E600A0'
+                    color: '#E600A0',
+                    showInLegend: false
                 }],
                 bacgroundColor: '#ffffff'
             });
         },
         error: function(xhr, status, error) { 
         console.error('Error fetching data:', error);
-    }
+         }
     })
 });
 
