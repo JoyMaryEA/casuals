@@ -44,6 +44,6 @@ class Users extends Controller {
     $_SESSION["userId"] = "";
     $_SESSION["role"] = "";
     session_destroy();
-    header("Location: login/index.php");
+    require APP . 'view/login/index.php';
     }
 }
