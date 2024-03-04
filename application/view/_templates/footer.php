@@ -7,7 +7,7 @@
     <!-- jQuery, loaded in the recommended protocol-less way -->
     <!-- more http://www.paulirish.com/2010/the-protocol-relative-url/ -->
         <script src="//code.jquery.com/jquery-3.5.1.min.js"></script>
-
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         
@@ -34,7 +34,7 @@ $(document).ready(function() {
     var table = $('#myTable').DataTable({
         dom: 'Bfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
+            'copy', 'csv', 'pdf', 'print'
         ],
         lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
         lengthChange: true

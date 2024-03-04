@@ -12,10 +12,7 @@
 
         <h4 style="text-align:center;"> <?php if(!empty($casual)){echo 'Edit Details for ' . $casual->first_name;} else echo "Enter Casual Details" ?></h4>
 
-    <!-- casual_id -->
-    <label for="casual_id">Casual ID:</label>
-    <input type="text" id="casual_id" name="casual_id" maxlength="6"  value="<?php if(!empty($casual)){echo  $casual->casual_id;} ?>" readonly >
-    <br>
+   
 
     <!-- country -->
     <label for="country">Country: </label> 
@@ -159,4 +156,14 @@
     <?php } ?>
 </form>
 </div>
-          
+
+<script>
+    $(document).ready(function(){
+  $("#year_worked").datepicker({
+     format: "yyyy",
+     viewMode: "years", 
+     minViewMode: "years",
+     autoclose:true
+  });   
+})
+</script>

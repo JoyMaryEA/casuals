@@ -3,8 +3,6 @@
 <div id="durationStaffNo" style="width:30%; height:400px; margin-top:3rem;"></div>
 <div id="programStaffNo" style="width:30%; height:450px; margin-top:3rem;"></div>
 </div>
-
-
 <script src="https://code.highcharts.com/dashboards/dashboards.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/dashboards/modules/dashboards-plugin.js"></script>

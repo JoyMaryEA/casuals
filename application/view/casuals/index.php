@@ -79,8 +79,8 @@
             <div class="modal-footer">
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "1") { ?>
                 <?php $last_edit = $this->model-> getAudit($casualID,2) ; $insert_by = $this->model-> getAudit($casualID,1); ?>
-                <p><span style="font-weight:bold;">Last edited by:</span> <?php if (isset($last_edit->email)) echo htmlspecialchars(strstr($last_edit->email, '@', true), ENT_QUOTES, 'UTF-8'); ?> <span style="font-weight:bold;"> on : </span><?php if (isset($last_edit->timestamp)) echo htmlspecialchars($last_edit->timestamp, ENT_QUOTES, 'UTF-8'); ?> </p>
-                <p><span style="font-weight:bold;">Inserted by:</span> <?php if (isset($insert_by->email)) echo htmlspecialchars(strstr($insert_by->email, '@', true), ENT_QUOTES, 'UTF-8'); ?></p>
+                <p><span style="font-weight:bold;">Last edited by:</span> <?php if (isset($last_edit->email)) {echo htmlspecialchars(strstr($last_edit->email, '@', true), ENT_QUOTES, 'UTF-8');} else{echo "admin";}?> <span style="font-weight:bold;"> on : </span><?php if (isset($last_edit->timestamp)) {echo htmlspecialchars($last_edit->timestamp, ENT_QUOTES, 'UTF-8'); } else {echo '1st Jan 2024';}?> </p>
+                <p><span style="font-weight:bold;">Inserted by:</span> <?php if (isset($insert_by->email)) {echo htmlspecialchars(strstr($insert_by->email, '@', true), ENT_QUOTES, 'UTF-8');} else {echo 'admin';} ?></p>
                 <?php } ?>
             </div>
             </div>

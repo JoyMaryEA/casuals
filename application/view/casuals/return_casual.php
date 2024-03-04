@@ -26,3 +26,15 @@
     </form>
   </div>
 </div>
+
+<script>
+$(document).ready(function(){
+  $("#duration_worked").datepicker({
+    dateFormat: "yyyy",
+    changeYear: true,
+    changeMonth: false,
+    yearRange: "1900:+0",
+    autoclose:true
+  });   
+})
+</script>
