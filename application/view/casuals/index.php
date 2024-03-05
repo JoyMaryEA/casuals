@@ -11,6 +11,7 @@
 
 
 <table id="myTable" class="table table-striped table-hover table-bordered" >
+    <p><?php echo $results?></p>
     <thead>
      <tr>
        <th>#</th>

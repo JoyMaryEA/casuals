@@ -101,6 +101,16 @@ class Model
     $query->execute();
     return $query->fetchAll();
    }
+
+   public function getNameFromId($tableId,$tableName){
+    $sql="SELECT name FROM ";
+    $concatStr = $tableName . " where id=:tableId;";
+    $sql = $sql . $concatStr;
+    $query = $this->db->prepare($sql);
+    $parameters = array(':tableId'=> $tableId);
+    $query->execute($parameters);
+    return $query->fetch();
+   }
     public function insertCasual($country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $specialization
     ){
         

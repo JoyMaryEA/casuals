@@ -23,7 +23,10 @@ class Casuals extends Controller{
         
                 $casuals= $this->model->filterCountryProgram($_POST["country"], $_POST["program"]);
                     if (!empty($casuals)){
-                        $results = "showing results for " . $_POST["country"] . " and " . $_POST["program"];
+                       
+                        $selectedCountryName=$this->model->getNameFromId($_POST["country"],'country');
+                        $selectedProgramName =$this->model->getNameFromId($_POST["program"],"program");
+                        $results = "Showing results for <strong>" . $selectedCountryName->name . "</strong> and <strong>" . $selectedProgramName->name ."</strong>" ;
                     }
             require APP . 'view/casuals/index.php';
             require APP . 'view/_templates/footer.php';
