@@ -80,7 +80,7 @@
     <!-- year_worked -->
     <label for="year_worked">Year Worked:<span style = "color:#e60000;"> *</span></label>
     <p id="required-year-worked"><?php if(!empty($required))echo $required;?></p>
-    <input type="text" id="year_worked" name="year_worked" value="<?php if(!empty($casual)){echo  $casual->year_worked;} ?>" >
+    <select class="custom-select custom-select-lg mb-3" id="year_worked" name="year_worked" value="<?php if(!empty($casual)){echo  $casual->year_worked;} ?>" ></select>
     <br>
 
 
@@ -158,12 +158,15 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-  $("#year_worked").datepicker({
-     format: "yyyy",
-     viewMode: "years", 
-     minViewMode: "years",
-     autoclose:true
-  });   
-})
+  let dateDropdown = document.getElementById('year_worked'); 
+       
+  let currentYear = new Date().getFullYear();    
+  let earliestYear = 2010;     
+  while (currentYear >= earliestYear) {      
+    let dateOption = document.createElement('option');          
+    dateOption.text = currentYear;      
+    dateOption.value = currentYear;        
+    dateDropdown.add(dateOption);      
+    currentYear -= 1;    
+  }
 </script>

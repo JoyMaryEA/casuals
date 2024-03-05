@@ -16,7 +16,7 @@
         </div>
         <div class="form-group">
             <label for="year_worked">Year Worked:</label>
-            <input type="year" class="" id="year_worked" name="year_worked" required>
+            <select class="custom-select custom-select-lg mb-3" id="year_worked" name="year_worked" required></select>
         </div>
         <div class="form-group">
             <label for="duration_worked">Duration Worked:</label>
@@ -28,13 +28,15 @@
 </div>
 
 <script>
-$(document).ready(function(){
-  $("#duration_worked").datepicker({
-    dateFormat: "yyyy",
-    changeYear: true,
-    changeMonth: false,
-    yearRange: "1900:+0",
-    autoclose:true
-  });   
-})
+  let dateDropdown = document.getElementById('year_worked'); 
+       
+  let currentYear = new Date().getFullYear();    
+  let earliestYear = 2010;     
+  while (currentYear >= earliestYear) {      
+    let dateOption = document.createElement('option');          
+    dateOption.text = currentYear;      
+    dateOption.value = currentYear;        
+    dateDropdown.add(dateOption);      
+    currentYear -= 1;    
+  }
 </script>
