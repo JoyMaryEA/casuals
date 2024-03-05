@@ -15,8 +15,24 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="year_worked">Year Worked:</label>
-            <select class="custom-select custom-select-lg mb-3" id="year_worked" name="year_worked" required></select>
+             
+    <label for="year_worked">Year Worked:<span style="color:#e60000;"> *</span></label>
+    <p id="required-year-worked"><?php if (!empty($required)) echo $required; ?></p>
+    <select class="custom-select custom-select-lg mb-3" id="year_worked" name="year_worked">
+        <?php
+        // Loop to populate the dropdown with years
+        $currentYear = date('Y');
+        $earliestYear = 2010;
+        while ($currentYear >= $earliestYear) {
+            echo '<option value="' . $currentYear . '"';
+           
+            echo '>' . $currentYear . '</option>';
+            $currentYear--;
+        }
+        ?>
+    </select>
+    <br>
+
         </div>
         <div class="form-group">
             <label for="duration_worked">Duration Worked:</label>
@@ -27,16 +43,3 @@
   </div>
 </div>
 
-<script>
-  let dateDropdown = document.getElementById('year_worked'); 
-       
-  let currentYear = new Date().getFullYear();    
-  let earliestYear = 2010;     
-  while (currentYear >= earliestYear) {      
-    let dateOption = document.createElement('option');          
-    dateOption.text = currentYear;      
-    dateOption.value = currentYear;        
-    dateDropdown.add(dateOption);      
-    currentYear -= 1;    
-  }
-</script>

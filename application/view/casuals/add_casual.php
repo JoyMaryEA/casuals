@@ -78,10 +78,25 @@
     <br>
 
     <!-- year_worked -->
-    <label for="year_worked">Year Worked:<span style = "color:#e60000;"> *</span></label>
-    <p id="required-year-worked"><?php if(!empty($required))echo $required;?></p>
-    <select class="custom-select custom-select-lg mb-3" id="year_worked" name="year_worked" value="<?php if(!empty($casual)){echo  $casual->year_worked;} ?>" ></select>
+    <label for="year_worked">Year Worked:<span style="color:#e60000;"> *</span></label>
+    <p id="required-year-worked"><?php if (!empty($required)) echo $required; ?></p>
+    <select class="custom-select custom-select-lg mb-3" id="year_worked" name="year_worked">
+        <?php
+        // Loop to populate the dropdown with years
+        $currentYear = date('Y');
+        $earliestYear = 2010;
+        while ($currentYear >= $earliestYear) {
+            echo '<option value="' . $currentYear . '"';
+            if (!empty($casual) && $casual->year_worked == $currentYear) {
+                echo ' selected';
+            }
+            echo '>' . $currentYear . '</option>';
+            $currentYear--;
+        }
+        ?>
+    </select>
     <br>
+
 
 
     <!-- duration_served -->
@@ -157,16 +172,3 @@
 </form>
 </div>
 
-<script>
-  let dateDropdown = document.getElementById('year_worked'); 
-       
-  let currentYear = new Date().getFullYear();    
-  let earliestYear = 2010;     
-  while (currentYear >= earliestYear) {      
-    let dateOption = document.createElement('option');          
-    dateOption.text = currentYear;      
-    dateOption.value = currentYear;        
-    dateDropdown.add(dateOption);      
-    currentYear -= 1;    
-  }
-</script>

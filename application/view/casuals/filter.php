@@ -1,6 +1,3 @@
-
- 
-
 <div class="filter-container" style="display:flex; flex-direction:column; align-items:center; justify-content:center;">  
 <?php if (!empty($results)) {echo $results;}?>
 
