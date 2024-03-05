@@ -78,7 +78,7 @@
     <br>
 
     <!-- year_worked -->
-    <label for="year_worked">Year Worked:<span style="color:#e60000;"> *</span></label>
+    <label for="year_worked">Year:<span style="color:#e60000;"> *</span></label>
     <p id="required-year-worked"><?php if (!empty($required)) echo $required; ?></p>
     <select class="custom-select custom-select-lg mb-3" id="year_worked" name="year_worked">
         <?php
@@ -100,7 +100,7 @@
 
 
     <!-- duration_served -->
-    <label for="duration_worked">Duration Served (days):<span style = "color:#e60000;"> *</span></label>
+    <label for="duration_worked">Duration (days):<span style = "color:#e60000;"> *</span></label>
     <p id="required-duration-worked"><?php if(!empty($required))echo $required;?></p>
     <input type="number" id="duration_worked" name="duration_worked" maxlength="50" value="<?php if(!empty($casual)){echo  $casual->duration_worked;} ?>" >
     <br>

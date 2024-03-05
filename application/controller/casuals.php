@@ -69,7 +69,7 @@ class Casuals extends Controller{
     }
 
     public function searchAction(){
-  
+        $_SESSION['last_action'] = time();
         $search_str= trim($_POST["search_str"]);
         $casuals = $this->model->search($search_str);
         header('Content-Type: application/json'); 
@@ -126,7 +126,7 @@ class Casuals extends Controller{
                         $existingCasualPhoneNo = $existingCasual-> phone_no;
                             if (!empty($existingCasual))
                             {
-                                $msg= "Error, this casual already exists as: $existingCasualFirstName  $existingCasualLastName served in: $existingCasualProgram has National Id: $existingCasualIdNo and Phone Number: $existingCasualPhoneNo";
+                                $msg= "Error, this casual already exists as: <strong> $existingCasualFirstName  $existingCasualLastName </strong> served in:<strong> $existingCasualProgram </strong> has National Id: <strong>$existingCasualIdNo </strong> and Phone Number:<strong> $existingCasualPhoneNo </strong>";
                             }
                             else
                             {
@@ -208,7 +208,7 @@ class Casuals extends Controller{
  
 
     public function getCasualId() {
-
+        $_SESSION['last_action'] = time();
         $country = intval($_POST['country']);
         $program = intval($_POST['program']);
         $lastCasualId=  $this->model->getCasualId($country,$program);
@@ -220,9 +220,14 @@ class Casuals extends Controller{
 
   
 
-    public function insertReturnCasual(){
+    public function insertReturnCasual($casual_id = NULL){
         $_SESSION['last_action'] = time();
         $programs =  $this->model->getAllstr("program");
+
+        if (!empty($casual_id)){
+            $casual = $this->model->getCasual($casual_id);
+        }
+
         if (isset($_POST["submit_return_casual"])) {
             $casual = $this->model->getCasual(trim($_POST["casual_id"])); 
             if (!empty($casual)) {
@@ -253,6 +258,7 @@ class Casuals extends Controller{
       
     
     public function dashboard(){
+        $_SESSION['last_action'] = time();
         require APP . 'view/_templates/header.php';
         require APP . 'view/casuals/dashboard.php';
         require APP . 'view/_templates/footer.php';

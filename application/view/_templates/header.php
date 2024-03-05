@@ -45,22 +45,20 @@
 if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
     ?>
       <div class="admin-nav" >
-      <a id='title' href="<?php echo URL; ?>casuals/dashboard" >Master Staff Casual DB</a>
+      <h2 id="title" onclick="redirectToDashboard()">Master Staff Casual DB</h2>
    
 <a href="<?php echo URL; ?>casuals/filter" >Find casual</a>
 <a href="<?php echo URL; ?>casuals/addCasual" >New casual</a>
-<a href="<?php echo URL; ?>casuals/insertReturnCasual" >Return casual</a>
 <a href="<?php echo URL; ?>casuals/dashboard" >Dashboard</a>
      </div>
 
     <div class="admin-hamburger">
-    <a id='title' href="<?php echo URL; ?>casuals/dashboard" >Master Staff Casual DB</a>
+    <h2 id="title" onclick="redirectToDashboard()">Master Staff Casual DB</h2>
 
     <span class="material-symbols-outlined">menu</span>
     <ul class="nav-menu-links">
     <a href="<?php echo URL; ?>casuals/filter" >Find casual</a>
     <a href="<?php echo URL; ?>casuals/addCasual" >New casual</a>
-    <a href="<?php echo URL; ?>casuals/insertReturnCasual" >Return casual</a>
     </ul>
     </div>
 
@@ -70,7 +68,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
 if (isset($_SESSION['role']) && $_SESSION['role'] != "1") {
     ?>
         <div style=" display: flex; justify-content: space-between; align-items:center;">
-        <a id='title' href="<?php echo URL; ?>casuals/dashboard" >Master Staff Casual DB</a>
+        <h2 id="title" onclick="redirectToDashboard()">Master Staff Casual DB</h2>
         <a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/filter" >Find casual</a>
         <a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/dashboard" >Dashboard</a>
         </div>
@@ -80,3 +78,8 @@ if (isset($_SESSION['role']) && $_SESSION['role'] != "1") {
 
 >LOGOUT</a>
     </nav>
+    <script>
+    function redirectToDashboard() {
+        window.location.href = "<?php echo URL; ?>casuals/dashboard";
+    }
+</script>

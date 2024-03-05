@@ -55,26 +55,7 @@
                 </thead>
           </table>
    </div>
-  
-   <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalId-label" aria-hidden="true">
-     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-             <h5 class="modal-title" id="modalId-label">Delete Item</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-          </div>
-          <div class="modal-body">
-            Are you sure you want to delete casual ${casualId} : ${data.first_name}?
-          </div>
-          <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-           <a class="btn-delete"  href="deleteUrl" >delete</a>
-          </div>
-      </div>
-     </div>
-  </div>
+ 
 
 
 </div>
@@ -84,10 +65,72 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <script type= "text/javascript">
-
+function generateDeleteModal(modalId, casualId, firstname, deleteUrl) {
+ 
+                            var modalHTML = `
+                                <div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-labelledby="${modalId}-label" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="${modalId}-label">Delete Item</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete casual ${casualId} : ${firstname}?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <a class="btn-delete" href="${deleteUrl}" >delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            
+                            // Append modal HTML to the body
+                            $('body').append(modalHTML);
+                        }
+function generateDetailsModal(modalId,data){
+console.log(data);
+ var modalHTML =` <div class="modal fade" id="${modalId}"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Staff Information:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <ul class="list-group">
+                <li class="list-group-item"><span>Casual Id: </span>${data.casual_id}</li>
+                <li class="list-group-item"><span>First Name: </span>${data.first_name}</li>
+                <li class="list-group-item"><span>Middle Name: </span>${data.middle_name}</li>
+                <li class="list-group-item"><span>Last Name: </span>${data.last_name}</li>
+                <li class="list-group-item"><span>Id Number: </span>${data.id_no}</li>
+                <li class="list-group-item"><span>Country: </span>${data.last_name}</li>
+                <li class="list-group-item"><span>Qualification: </span>${data.last_name}</li>
+                <li class="list-group-item"><span>Institution: </span>${data.last_name}</li>
+                <li class="list-group-item"><span>Specialization: </span>${data.last_name}</li>
+                <li class="list-group-item"><span>Comment: </span>${data.last_name}</li>
+                </ul>
+            </div>
+           
+            </div>
+        </div>
+    </div>
+    </div>`
+       // Append modal HTML to the body
+       $('body').append(modalHTML);
+}
 $(document).ready(function() {
+ 
   $('#table-container').hide();
+  
   var dataTable = new DataTable('#casualsTable', {
+      
+   
         columns: [
             { data: 'first_name'  },
             { data: 'last_name'  },
@@ -95,17 +138,28 @@ $(document).ready(function() {
             { data: 'country_name' },
             { data: 'casual_id' },
             { data: 'phone_no'  },
-            { data: 'duration_worked'  },
+            { data: 'duration_worked', width: '20%' },
             { data: 'year_worked'  },
-            { data: null,
+            { data: null, width: '30%',
                 render: function(data, type, row) {
                     var casualId = data.casual_id;
-                    var modalId = `delete-modal-${casualId}`
+                    var deleteModalId = `delete-modal-${casualId}`
+                    var casualDetailsModalId = `details-modal-${casualId}`
                     var deleteUrl = '<?php echo URL . 'casuals/deleteCasual/'; ?>' + casualId;
-                    var editUrl = '<?php echo URL . 'casuals/addCasual/'; ?>' + casualId;
-                  
-                    return `<a href="${editUrl}" class="edit" title="Edit" data-toggle="tooltip" > <span class="material-symbols-outlined">edit</span></a>
-                    <a href="#" id="delete-casual" class="delete" title="Delete" data-toggle="modal" data-target="#${modalId}" data-casual-id="${casualId}" data-casual-data="${data.first_name}" data-delete-url="${deleteUrl}" > <span class="material-symbols-outlined">delete</span> </a>
+                    var editUrl = '<?php echo URL . 'casuals/addCasual/'; ?>' + casualId;    
+                    var returnUrl = '<?php echo URL . 'casuals/insertReturnCasual/'; ?>' + casualId;       
+
+                    return `
+                    <a href="#" class="view" title="View" data-toggle="modal" data-target="#${casualDetailsModalId}" id="detailsA" onclick="generateDetailsModal('${casualDetailsModalId}', ${JSON.stringify(data[0])})" data-toggle="modal" >
+                        <span class="material-symbols-outlined">visibility</span>
+                    </a>
+
+                    <a href="${editUrl}" class="edit" title="Edit" data-toggle="tooltip" > <span class="material-symbols-outlined">edit</span></a>
+                    <a href="${returnUrl}" class="edit" title="Edit" data-toggle="tooltip" > <span class="material-symbols-outlined">replay</span></a>
+                        <a href="#" id="delete-casual" class="delete" title="Delete" onclick="generateDeleteModal('${deleteModalId}', '${casualId}', '${data.first_name}', '${deleteUrl}')" data-toggle="modal"  data-target="#${deleteModalId}"  >
+                            <span class="material-symbols-outlined">delete</span>
+                        </a>
+
                 `;
                }
             }
@@ -145,42 +199,5 @@ $("#search-form").submit(function (event){
 
 });
 
-function generateModal(modalId, casualId, data, deleteUrl) {
-    var modalHTML = `
-        <div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-labelledby="${modalId}-label" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="${modalId}-label">Delete Item</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to delete casual ${casualId} : ${data}?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <a class="btn-delete" href="${deleteUrl}" >delete</a>
-                    </div>
-                </div>
-            </div>
-        </div>`;
-    
-    // Append modal HTML to the body
-    $('body').append(modalHTML);
-}
-
-$('#delete-casual').on('click', function() {
-  console.log("clicked");
-    // Extract necessary data for the modal
-    var modalId = $(this).data('target').substring(1); // Remove #
-    var casualId = $(this).data('casual-id');
-    var data = $(this).data('casual-data');
-    var deleteUrl = $(this).data('delete-url');
-    
-    // Generate and append modal HTML
-    generateModal(modalId, casualId, data, deleteUrl);
-});
 })
 </script>

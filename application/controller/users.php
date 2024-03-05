@@ -30,7 +30,7 @@ class Users extends Controller {
                
                 if (!empty($_SESSION["userId"]) && !empty($_SESSION["role"])){
                     
-                        header('location: ' . URL . 'casuals/filter'  );
+                        header('location: ' . URL . 'casuals/dashboard'  );
                         exit;
                     
                 }
