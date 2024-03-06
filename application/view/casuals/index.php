@@ -47,6 +47,7 @@
              <a href="<?php echo URL . 'casuals/addCasual/' . htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?>" class="edit" title="Edit" data-toggle="tooltip" >
                  <span class="material-symbols-outlined">edit</span>
              </a>
+             <a href="<?php echo URL . 'casuals/insertReturnCasual/' . htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8'); ?>" class="edit" title="Edit" data-toggle="tooltip" > <span class="material-symbols-outlined">replay</span></a>
             <a href="#"  class="delete" title="Delete" data-toggle="modal" data-target="#delete-modal<?php echo htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8') ?>" >
                 <span class="material-symbols-outlined">delete</span> <?php $casualID = htmlspecialchars($casual->casual_id, ENT_QUOTES, 'UTF-8')?>
              </a>
