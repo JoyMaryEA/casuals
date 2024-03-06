@@ -30,16 +30,16 @@
 
 
 <script>
-$(document).ready(function() {
-    var table = $('#myTable').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'pdf', 'print'
-        ],
-        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-        lengthChange: true
-    });
-});
+// $(document).ready(function() {
+//     var table = $('#myTable').DataTable({
+//         dom: 'Bfrtip',
+//         buttons: [
+//             'copy', 'csv', 'pdf', 'print'
+//         ],
+//         lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+//         lengthChange: true
+//     });
+// });
 
 </script>
 </body>

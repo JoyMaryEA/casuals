@@ -121,9 +121,9 @@ $(document).ready(function() {
             { data: 'country_name' },
             { data: 'casual_id' },
             { data: 'phone_no'  },
-            { data: 'duration_worked', width: '20%' },
+            { data: 'duration_worked' },
             { data: 'year_worked'  },
-            { data: null, width: '30%',
+            { data: null,
                 render: function(data, type, row) {
                     var casualId = data.casual_id;
                     var deleteModalId = `delete-modal-${casualId}`
@@ -131,15 +131,15 @@ $(document).ready(function() {
                     var deleteUrl = '<?php echo URL . 'casuals/deleteCasual/'; ?>' + casualId;
                     var editUrl = '<?php echo URL . 'casuals/addCasual/'; ?>' + casualId;    
                     var returnUrl = '<?php echo URL . 'casuals/insertReturnCasual/'; ?>' + casualId;       
-                    var userRole = <?php echo json_encode($_SESSION['role']); ?>; //TODO: DIFFERENCIATE ADMIN AND USER
+                    var userRole = <?php echo json_encode($_SESSION['role']); ?>; //TODO: DIFFERENTIATE ADMIN AND USER
                     return `
-                    <a href="#" class="view" title="View" data-toggle="modal" data-target="#${casualDetailsModalId}" id="detailsA" onclick="generateDetailsModal('${casualDetailsModalId}', ${JSON.stringify(data[0])})" data-toggle="modal" >
+                    <a href="#" style="padding:0px;margin:0px;"  class="view" title="View" data-toggle="modal" data-target="#${casualDetailsModalId}" id="detailsA" onclick="generateDetailsModal('${casualDetailsModalId}', ${JSON.stringify(data[0])})" data-toggle="modal" >
                         <span class="material-symbols-outlined">visibility</span>
                     </a>
                     ${userRole == 2 ? '' : `
-                    <a href="${editUrl}" class="edit" title="Edit" data-toggle="tooltip" > <span class="material-symbols-outlined">edit</span></a>
-                    <a href="${returnUrl}" class="edit" title="Edit" data-toggle="tooltip" > <span class="material-symbols-outlined">replay</span></a>
-                        <a href="#" id="delete-casual" class="delete" title="Delete" onclick="generateDeleteModal('${deleteModalId}', '${casualId}', '${data.first_name}', '${deleteUrl}')" data-toggle="modal"  data-target="#${deleteModalId}"  >
+                    <a href="${editUrl}" style="padding:0px;margin:0px;" class="edit" title="Edit" data-toggle="tooltip" > <span class="material-symbols-outlined">edit</span></a> 
+                    <a href="${returnUrl}" style="padding:0px;margin:0px;"  class="edit" title="Return" data-toggle="tooltip" > <span class="material-symbols-outlined">replay</span></a>
+                        <a href="#" style="padding:0px;margin:0px;"  id="delete-casual" class="delete" title="Delete" onclick="generateDeleteModal('${deleteModalId}', '${casualId}', '${data.first_name}', '${deleteUrl}')" data-toggle="modal"  data-target="#${deleteModalId}"  >
                             <span class="material-symbols-outlined">delete</span>
                         </a> `}
 

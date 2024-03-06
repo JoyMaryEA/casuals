@@ -7,7 +7,7 @@ class Casuals extends Controller{
     {
         $_SESSION['last_action'] = time();
         require APP . 'view/_templates/header.php';
-        require APP . 'view/casuals/index.php';
+       
         require APP . 'view/_templates/footer.php';
     }
 
@@ -18,26 +18,6 @@ class Casuals extends Controller{
         $programs =  $this->model->getAllstr("program");
         require APP . 'view/_templates/header.php';
         require APP . 'view/casuals/filter.php';
-            if (isset($_POST["submit_filter"])) {
-
-        
-                $casuals= $this->model->filterCountryProgram($_POST["country"], $_POST["program"]);
-                    if (!empty($casuals)){
-                        $countryName= 'all countries';
-                        $programName="all programs";
-                        if(!empty($_POST["country"])){
-                        $selectedCountryName=$this->model->getNameFromId($_POST["country"],'country');
-                        $countryName = $selectedCountryName->name;
-                        } 
-                        if(!empty($_POST["program"])){
-                        $selectedProgramName =$this->model->getNameFromId($_POST["program"],'program');
-                        $programName = $selectedProgramName->name;
-                        }
-                        $results = "Showing results for <strong>" . $countryName . "</strong> and <strong>" . $programName ."</strong>" ;
-                    }
-            require APP . 'view/casuals/index.php';
-            require APP . 'view/_templates/footer.php';
-            }
             if (isset($_GET['message'])) {
                 $msg = urldecode($_GET['message']);
                     if (strpos($msg, 'Error') === 0) {
@@ -54,6 +34,28 @@ class Casuals extends Controller{
        
     }
     
+ public function filterAction(){
+    $casuals= $this->model->filterCountryProgram($_POST["country"], $_POST["program"]);
+    $results='';
+    if (!empty($casuals)){
+        $countryName= 'all countries';
+        $programName="all programs";
+        if(!empty($_POST["country"])){
+        $selectedCountryName=$this->model->getNameFromId($_POST["country"],'country');
+        $countryName = $selectedCountryName->name;
+        } 
+        if(!empty($_POST["program"])){
+        $selectedProgramName =$this->model->getNameFromId($_POST["program"],'program');
+        $programName = $selectedProgramName->name;
+        }
+        $results = "Showing results for <strong>" . $countryName . "</strong> and <strong>" . $programName ."</strong>" ;
+      
+        header('Content-Type: application/json'); 
+        echo json_encode($casuals);
+        exit;
+    }
+      
+  }
  
 
     public function search()
@@ -62,17 +64,7 @@ class Casuals extends Controller{
        
         require APP . 'view/_templates/header.php';
         require APP . 'view/casuals/search.php';
-        
-            // if (isset($_POST["submit_search"])) {
-
-            //         $search_str= trim($_POST["search_str"]);
-            //         $casuals = $this->model->search($search_str);
-            //         header('Content-Type: application/json'); 
-            //         echo json_encode($casuals);
-            //         exit;
-            //         require APP . 'view/casuals/index.php';
-            //         require APP . 'view/_templates/footer.php';
-            //     }
+       
     }
 
     public function searchAction(){
