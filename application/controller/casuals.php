@@ -52,20 +52,20 @@ class Casuals extends Controller{
     public function search()
     {
         $_SESSION['last_action'] = time();
-        $countries = $this->model->getAllstr("country");
-        $programs =  $this->model->getAllstr("program");
-
+       
         require APP . 'view/_templates/header.php';
-        require APP . 'view/casuals/filter.php';
+        require APP . 'view/casuals/search.php';
         
-            if (isset($_POST["submit_search"])) {
+            // if (isset($_POST["submit_search"])) {
 
-                    $search_str= trim($_POST["search_str"]);
-                    $casuals = $this->model->search($search_str);
-                
-                    require APP . 'view/casuals/index.php';
-                    require APP . 'view/_templates/footer.php';
-                }
+            //         $search_str= trim($_POST["search_str"]);
+            //         $casuals = $this->model->search($search_str);
+            //         header('Content-Type: application/json'); 
+            //         echo json_encode($casuals);
+            //         exit;
+            //         require APP . 'view/casuals/index.php';
+            //         require APP . 'view/_templates/footer.php';
+            //     }
     }
 
     public function searchAction(){

@@ -81,7 +81,8 @@
     <label for="year_worked">Year:<span style="color:#e60000;"> *</span></label>
     <p id="required-year-worked"><?php if (!empty($required)) echo $required; ?></p>
     <select class="custom-select custom-select-lg mb-3" id="year_worked" name="year_worked">
-        <?php
+    <option value="" <?php if (empty($casual->year_worked)) echo 'selected'; ?>></option>
+       <?php
         // Loop to populate the dropdown with years
         $currentYear = date('Y');
         $earliestYear = 2010;
