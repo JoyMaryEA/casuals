@@ -92,11 +92,11 @@ console.log(data);
                 <li class="list-group-item"><span>Middle Name: </span>${data.middle_name}</li>
                 <li class="list-group-item"><span>Last Name: </span>${data.last_name}</li>
                 <li class="list-group-item"><span>Id Number: </span>${data.id_no}</li>
-                <li class="list-group-item"><span>Country: </span>${data.last_name}</li>
-                <li class="list-group-item"><span>Qualification: </span>${data.last_name}</li>
-                <li class="list-group-item"><span>Institution: </span>${data.last_name}</li>
-                <li class="list-group-item"><span>Specialization: </span>${data.last_name}</li>
-                <li class="list-group-item"><span>Comment: </span>${data.last_name}</li>
+                <li class="list-group-item"><span>Country: </span>${data.country_name}</li>
+                <li class="list-group-item"><span>Qualification: </span>${data.qualification_name}</li>
+                <li class="list-group-item"><span>Institution: </span>${data.institution_name}</li>
+                <li class="list-group-item"><span>Specialization: </span>${data.specialization}</li>
+                <li class="list-group-item"><span>Comment: </span>${data.comment}</li>
                 </ul>
             </div>
            
@@ -107,6 +107,27 @@ console.log(data);
        // Append modal HTML to the body
        $('body').append(modalHTML);
 }
+function getCasualDetails(modalId,casualId){
+    var formData = {search_str :casualId };
+    console.log(formData);
+    $.ajax({
+      url: '<?php echo URL; ?>casuals/searchAction',
+      type: 'POST', 
+      data:  formData,
+      dataType: 'json',
+      success: function(data) {
+            console.log(data[0]); 
+            generateDetailsModal(modalId,data[0])
+            },
+      error: function(jqXHR, textStatus, errorThrown) {
+            console.error('AJAX Error:', textStatus, errorThrown);
+            console.log('Server Response:', jqXHR.responseText);
+        }
+
+    })
+        
+}
+
 $(document).ready(function() {
  
   $('#table-container').hide();
@@ -133,7 +154,7 @@ $(document).ready(function() {
                     var returnUrl = '<?php echo URL . 'casuals/insertReturnCasual/'; ?>' + casualId;       
                     var userRole = <?php echo json_encode($_SESSION['role']); ?>; //TODO: DIFFERENTIATE ADMIN AND USER
                     return `
-                    <a href="#" style="padding:0px;margin:0px;"  class="view" title="View" data-toggle="modal" data-target="#${casualDetailsModalId}" id="detailsA" onclick="generateDetailsModal('${casualDetailsModalId}', ${JSON.stringify(data[0])})" data-toggle="modal" >
+                    <a href="#" style="padding:0px;margin:0px;"  class="view" title="View" data-toggle="modal" data-target="#${casualDetailsModalId}" id="detailsA" onclick="getCasualDetails('${casualDetailsModalId}',${casualId})" data-toggle="modal" >
                         <span class="material-symbols-outlined">visibility</span>
                     </a>
                     ${userRole == 2 ? '' : `

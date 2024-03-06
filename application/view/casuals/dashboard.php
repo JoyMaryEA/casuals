@@ -62,7 +62,9 @@ $(document).ready(function() {
                     data: staffNumbers,
                     color: '#E600A0',
                     showInLegend: false
-                }]
+                }],    credits: {
+            enabled: false
+        },
             });
         },
         error: function(xhr, status, error) {
@@ -129,7 +131,10 @@ $(document).ready(function() {
                     data: staffNumbers,
                     color: '#E600A0',
                     showInLegend: false
-                }]
+                }],
+                credits: {
+            enabled: false
+        },
             });
         },
         error: function(xhr, status, error) { 
@@ -192,7 +197,10 @@ $(document).ready(function() {
                     color: '#E600A0',
                     showInLegend: false
                 }],
-                bacgroundColor: '#ffffff'
+                backgroundColor: '#ffffff',
+                credits: {
+            enabled: false
+        },
             });
         },
         error: function(xhr, status, error) { 
