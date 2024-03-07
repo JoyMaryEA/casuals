@@ -47,10 +47,11 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
       <div class="admin-nav" >
       <h2 id="title" onclick="redirectToDashboard()">Master Staff Casual DB</h2>
    
-<a href="<?php echo URL; ?>casuals/filter" >Filter casuals</a>
-<a href="<?php echo URL; ?>casuals/search" >Search casual</a>
-<a href="<?php echo URL; ?>casuals/addCasual" >New casual</a>
+<a href="<?php echo URL; ?>casuals/filter" >Filter Casuals</a>
+<a href="<?php echo URL; ?>casuals/search" >Search Casual</a>
+<a href="<?php echo URL; ?>casuals/addCasual" >New Casual</a>
 <a href="<?php echo URL; ?>casuals/dashboard" >Dashboard</a>
+<a href="<?php echo URL; ?>bulkProcessing/home" >Bulk Inserts</a>
      </div>
 
     <div class="admin-hamburger">
@@ -58,9 +59,9 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
 
     <span class="material-symbols-outlined">menu</span>
     <ul class="nav-menu-links">
-    <a href="<?php echo URL; ?>casuals/filter" >Find casual</a>
-    <a href="<?php echo URL; ?>casuals/search" >Search casual</a>
-    <a href="<?php echo URL; ?>casuals/addCasual" >New casual</a>
+    <a href="<?php echo URL; ?>casuals/filter" >Find Casual</a>
+    <a href="<?php echo URL; ?>casuals/search" >Search Casual</a>
+    <a href="<?php echo URL; ?>casuals/addCasual" >New Casual</a>
     </ul>
     </div>
 
@@ -71,8 +72,8 @@ if (isset($_SESSION['role']) && $_SESSION['role'] != "1") {
     ?>
         <div style=" display: flex; justify-content: space-between; align-items:center;">
         <h2 id="title" onclick="redirectToDashboard()">Master Staff Casual DB</h2>
-        <a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/filter" >Find casual</a>
-        <a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/search" >Search casual</a>
+        <a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/filter" >Find Casual</a>
+        <a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/search" >Search Casual</a>
         <a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/dashboard" >Dashboard</a>
         </div>
        

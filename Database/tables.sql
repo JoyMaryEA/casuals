@@ -20,7 +20,8 @@ phone_code varchar(3)
 
 CREATE TABLE program(
 id tinyint unsigned PRIMARY KEY auto_increment,
-name varchar(255) UNIQUE
+name varchar(255) UNIQUE,
+initials VARCHAR(10) UNIQUE
 );
 
 CREATE TABLE institution(

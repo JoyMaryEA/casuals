@@ -48,6 +48,7 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <script type= "text/javascript">
+    // TODO : MERGE WITH FILTER ON INDEX.PHP
 function generateDeleteModal(modalId, casualId, firstname, deleteUrl) {
  
                             var modalHTML = `

@@ -4,28 +4,28 @@ BEFORE INSERT ON casuals
 FOR EACH ROW
 BEGIN
     DECLARE max_casual_id INT;
-    SELECT casual_id
-    INTO max_casual_id
-    FROM casuals
-    WHERE (phone_no = NEW.phone_no OR id_no = NEW.id_no)
-      AND country = NEW.country;
-
-    IF max_casual_id IS NOT NULL THEN
-        SET NEW.casual_id = max_casual_id;
-    ELSE
-        SELECT MAX(casual_id)
+    DECLARE new_casual_id VARCHAR(20);
+    DECLARE casual_id_generated INT;
+		SELECT MAX(casual_id)
         INTO max_casual_id
         FROM casuals
         WHERE country = NEW.country AND program = NEW.program;
 
         IF max_casual_id IS NULL THEN
             SET max_casual_id = 0;
-            SET NEW.casual_id = (NEW.country * 100000) + (max_casual_id + 1);
+            SET casual_id_generated =  (NEW.country * 100000) + (max_casual_id + 1);
+            SET NEW.casual_id = casual_id_generated;
+			
         ELSE
-            SET NEW.casual_id = max_casual_id + 1;
+			SET casual_id_generated = max_casual_id + 1;
+            SET NEW.casual_id = casual_id_generated;
+            
         END IF;
-    END IF;
+        SELECT CONCAT(IFNULL(p.initials, ''), '-', casual_id_generated)
+			INTO new_casual_id
+			FROM program p
+			WHERE p.id = NEW.program;
+		SET NEW.new_casual_id = new_casual_id;
 END;
 //
 DELIMITER ;
-

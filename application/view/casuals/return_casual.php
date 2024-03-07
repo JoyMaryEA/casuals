@@ -4,10 +4,10 @@
     <p style="margin:1rem ; color:#E600A0;">
     <?php if(!empty($casual)){
         if (empty($casual->id_no)){
-            $casual->id_no = 'X';
+            $casual->id_no = '[null]';
         }
         if (empty($casual->year_worked)){
-            $casual->year_worked = 'X';
+            $casual->year_worked = '[null]';
         }
         echo "NB: Updating the record for $casual->first_name $casual->middle_name $casual->last_name who served in $casual->program_name in $casual->year_worked with id number $casual->id_no";
     } ?>
@@ -31,8 +31,7 @@
         <div class="form-group">
              
     <label for="year_worked">Year:<span style="color:#e60000;"> *</span></label>
-    <p id="required-year-worked"><?php if (!empty($required)) echo $required; ?></p>
-    <select class="custom-select custom-select-lg mb-3" id="year_worked" name="year_worked">
+    <select class="custom-select custom-select-lg mb-3" id="year_worked" name="year_worked" required>
         <?php
         // Loop to populate the dropdown with years
         $currentYear = date('Y');

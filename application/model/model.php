@@ -339,4 +339,50 @@ class Model
         $query->execute();
         return $query->fetchAll();
      }
+
+    public function bulkInserts($valuesArray) {
+    $this->db->beginTransaction();
+    
+    try {
+        foreach ($valuesArray as $values) {
+            $insertValues = array_slice($values, 0, 13);
+            $sql = "INSERT INTO casuals (country, program, first_name, middle_name, last_name, id_no, phone_no, alt_phone_no, comment, kcse_results, qualification, institution, specialization) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = $this->db->prepare($sql);
+            $insertQueryResult = $query->execute($insertValues);
+            
+            if ($insertQueryResult) {
+                $lastInsertedId = $this->db->lastInsertId(); 
+                 
+                $sqlStaffPrograms = "INSERT INTO staff_programs (casual_id, program_id, year_worked, duration_worked) VALUES (:casual_id, :program, :year_worked, :duration_worked)";
+                $queryStaffPrograms = $this->db->prepare($sqlStaffPrograms);
+                $parametersStaffPrograms = array(':casual_id' => $lastInsertedId, ':program' => $values[1], ':year_worked' => $values[13], ':duration_worked' => $values[14]);
+                
+                $queryResultStaffPrograms = $queryStaffPrograms->execute($parametersStaffPrograms);
+                if (!$queryResultStaffPrograms) {
+                    $errorInfo = $queryStaffPrograms->errorInfo();
+                    throw new Exception("Error adding casual record to staff_programs table: {$errorInfo[2]}");
+                }
+                
+                // session_start();
+                // $user_id = $_SESSION["userId"];
+                // $action = 1;
+                // $lastQueryResults = $this->insertAudit($lastInsertedId, $action, $user_id);
+                // if (!$lastQueryResults) {
+                //     $errorInfo = $this->db->errorInfo();
+                //     throw new Exception("Error adding casual record to audit table: {$errorInfo[2]}");
+                // }
+            } else {
+                $errorInfo = $query->errorInfo();
+                throw new Exception("Error inserting casual record to casuals table: {$errorInfo[2]}");
+            }
+        }
+        
+        $this->db->commit();
+        return "Casual records added successfully!";
+    } catch (Exception $e) {
+        $this->db->rollback();
+        return "Transaction failed: " . $e->getMessage();
+    }
+}
+
 }

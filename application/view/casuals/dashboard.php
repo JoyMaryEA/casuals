@@ -163,7 +163,7 @@ $(document).ready(function() {
                     type: 'column'
                 },
                 title: {
-                    text: 'Number of casuals Hired by program worked'
+                    text: 'Number of casuals hired by program worked'
                 },
                 yAxis: {
                     title: {
@@ -177,7 +177,7 @@ $(document).ready(function() {
                 xAxis: {
                     categories: program,
                     title: {
-                        text: 'program'
+                        text: 'Program'
                     }
                 },
                 plotOptions: {
