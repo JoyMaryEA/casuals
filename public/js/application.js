@@ -36,41 +36,41 @@ $(document).ready(function() {
 });
 
 
-function checkId() {
+// function checkId() {
     
-    var countryValue = $('#country_select').val();
+//     var countryValue = $('#country_select').val();
     
 
-    if (countryValue != 1) {
-       $('#kcse-label').hide();
-       $('#kcse-input').hide();
-   } else {
-       $('#kcse-label').show();
-       $('#kcse-input').show();
-   }
-    var programValue = $('#program_select').val();
+//     if (countryValue != 1) {
+//        $('#kcse-label').hide();
+//        $('#kcse-input').hide();
+//    } else {
+//        $('#kcse-label').show();
+//        $('#kcse-input').show();
+//    }
+//     var programValue = $('#program_select').val();
 
-    $.ajax({
-        url:        '/mini/casuals/getCasualId',
-        type:       'POST',
-        dataType:   'json',
-        data:        { country: countryValue , program: programValue },
-        success:    function(data) {
-           // console.log(data);
-            var maxCasualId = data.max_casual_id;
+//     $.ajax({
+//         url:        '/mini/casuals/getCasualId',
+//         type:       'POST',
+//         dataType:   'json',
+//         data:        { country: countryValue , program: programValue },
+//         success:    function(data) {
+//            // console.log(data);
+//             var maxCasualId = data.max_casual_id;
           
-            $('#casual_id').val(maxCasualId);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-        console.error('AJAX Error:', textStatus, errorThrown);
-        console.log('Server Response:', jqXHR.responseText);
-    },
-    complete: function() {
-        console.log('Complete callback reached');
-    }
+//             $('#casual_id').val(maxCasualId);
+//         },
+//         error: function(jqXHR, textStatus, errorThrown) {
+//         console.error('AJAX Error:', textStatus, errorThrown);
+//         console.log('Server Response:', jqXHR.responseText);
+//     },
+//     complete: function() {
+//         console.log('Complete callback reached');
+//     }
     
-    });
-}
+//     });
+// }
 
       function validateEditForm(country) {
         var firstName = $("#first_name").val();
