@@ -8,7 +8,7 @@ $(document).ready(function() {
     $("#edit-form").submit(function(event) {
       event.preventDefault();
    
-      if (validateEditForm()) {
+      if (validateEditForm($('#country_select').val())) {
           var formData = $(this).serialize();
   
           $.ajax({
@@ -72,7 +72,7 @@ function checkId() {
     });
 }
 
-      function validateEditForm() {
+      function validateEditForm(country) {
         var firstName = $("#first_name").val();
         var last_name = $("#last_name").val();
         var id_no = $("#id_no").val();
@@ -99,7 +99,7 @@ function checkId() {
           $('#required-last-name').text("Last Name is required");
           return false;
         }
-        if (id_no === "") {
+        if (id_no === "" && country==1) {
           $('#required-id-no').text("ID Number is required");
           return false;
         }

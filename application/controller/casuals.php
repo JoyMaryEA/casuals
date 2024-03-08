@@ -123,6 +123,8 @@ class Casuals extends Controller{
                         $existingCasualProgram =$existingCasual-> program_name;
                         $existingCasualIdNo = $existingCasual-> id_no;
                         $existingCasualPhoneNo = $existingCasual-> phone_no;
+
+                        var_dump($_POST["year_worked"]);
                             if (!empty($existingCasual))
                             {
                                 $msg= "Error, this casual already exists as: <strong> $existingCasualFirstName  $existingCasualLastName </strong> served in:<strong> $existingCasualProgram </strong> has National Id: <strong>$existingCasualIdNo </strong> and Phone Number:<strong> $existingCasualPhoneNo </strong>";

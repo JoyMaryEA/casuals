@@ -46,7 +46,8 @@
 
 <!-- DataTables plugin JavaScript and CSS -->
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.8/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/r-2.5.0/datatables.min.js"></script>
 <script type= "text/javascript">
     // TODO : MERGE WITH FILTER ON INDEX.PHP
 function generateDeleteModal(modalId, casualId, firstname, deleteUrl) {
