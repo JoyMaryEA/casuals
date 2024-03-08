@@ -199,13 +199,13 @@ class Casuals extends Controller{
 
             $msg =  $this->model->editCasual($_POST["casual_id"], $_POST["country"], $_POST["program"], $_POST["first_name"],$middle_name, $_POST["last_name"], $_POST["id_no"], $phone_no, $alt_phone_no, $_POST["year_worked"], $_POST["duration_worked"], $comment, $kcse_results, $qualification, $institution, $specialization, $staffProgramsId ); //change to id
             
-            //    if(!empty($msg)){
+               if(!empty($msg)){
                
-            //     header('Location: ' . URL . '/casuals/addCasual?message=' . urlencode($msg) );
-            //   }else{
-            //     //TODO: GO TO ERROR PAGE?
-            //     header('location: ' . URL . '/users/login');
-            //   }          
+                header('Location: ' . URL . '/casuals/addCasual?message=' . urlencode($msg) );
+              }else{
+                //TODO: GO TO ERROR PAGE?
+                header('location: ' . URL . '/users/login');
+              }          
     }
 
  
