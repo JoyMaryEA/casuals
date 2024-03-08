@@ -312,6 +312,24 @@ table.table td i {
     padding :.7rem 1rem;
  }
 
+.phone-wrapper {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+.phone-country-code {
+    flex: 0 0 10%; 
+    width: 30%; 
+    margin-right: 5px; 
+}
+
+
+.phone-number {
+    flex: 1; 
+}
+
+
 @media screen and (max-width: 694px) {
     
     nav{

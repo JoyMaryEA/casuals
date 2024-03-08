@@ -81,6 +81,8 @@ class Casuals extends Controller{
 
     public function addCasual($casual_id = NULL){
 
+
+        $countriesPhoneCode = $this->model->getCountryCode();
        $_SESSION['last_action'] = time();
        
             if (!empty($casual_id)){
@@ -94,6 +96,7 @@ class Casuals extends Controller{
        $institutions= $this->model->getAllstr("institution");
        $kcse_results = $this->model->getAllstr("kcse_results");
        $qualifications = $this->model->getAllstr("qualification");
+       
         if (empty($casual)){
             if (isset($_POST["submit_add_casual"]))
             {
@@ -101,21 +104,18 @@ class Casuals extends Controller{
                 if (empty($_POST["first_name"] ) || empty($_POST["last_name"]) || empty($_POST["id_no"]) || empty($_POST["phone_no"]) || empty($_POST["year_worked"]) || empty($_POST["duration_worked"]))
                 {
                     $required="this field is required";
-                } elseif (!($this->isValidPhoneNumber($_POST["phone_no"]) || (isset($_POST["alt_phone_no"]) && $this->isValidPhoneNumber($_POST["alt_phone_no"])))) 
-                {
-                    $wrong_phone = "Invalid phone number format";
-                }
+                } 
                 else
                 {
                     $first_name = trim($_POST["first_name"]);
                     $middle_name = !empty($_POST["middle_name"]) ?  $this->properCase($_POST["middle_name"]) : null;
-                    $alt_phone_no = !empty($_POST["alt_phone_no"]) ? $this->phoneEdit($_POST["alt_phone_no"],$_POST["country"]) : null;
+                    $alt_phone_no = !empty($_POST["alt_phone_no"]) ? $this->phoneEdit($_POST["alt_phone_no"],$_POST["alt_phone_country_code"]) : null;
                     $comment = !empty($_POST["comment"]) ?  $this->properCase($_POST["comment"] ): null;
                     $kcse_results = !empty($_POST["kcse_results"]) ? $_POST["kcse_results"] : null;
                     $specialization = !empty($_POST["specialization"]) ?  $this->properCase($_POST["specialization"] ): null;
                     $qualification = !empty($_POST["qualification"]) ? $_POST["qualification"] : null;
                     $institution = !empty($_POST["institution"]) ? $_POST["institution"] : null;
-                    $phone_number= $this->phoneEdit($_POST["phone_no"],$_POST["country"]);
+                    $phone_number= $this->phoneEdit($_POST["phone_no"],$_POST["phone_country_code"]);
                     //CHECK IF IT EXISTS FIRST 
                         $existingCasual = $this->model->getExistingCasual($phone_number,$_POST["id_no"]);
                         $existingCasualFirstName = $existingCasual-> first_name;
@@ -185,25 +185,27 @@ class Casuals extends Controller{
         $_SESSION['last_action'] = time();
         $staffProgramsId = $_POST["staffProgramsId"];
 
-            $alt_phone_no = null; // buggy without setting it to null first
+        $countriesPhoneCode = $this->model->getCountryCode();
+
+          //  $alt_phone_no = null; // buggy without setting it to null first
             $middle_name = !empty($_POST["middle_name"]) ? $this->properCase($_POST["middle_name"]) : null;
-            $phone_no = !empty($_POST["phone_no"]) ? $this->phoneEdit($_POST["phone_no"],$_POST["country"]) : null;
-            $alt_phone_no = !empty($_POST["alt_phone_no"]) ? $this->phoneEdit($_POST["alt_phone_no"],$_POST["country"]) : null;
+            $phone_no = !empty($_POST["phone_no"]) ? $this->phoneEdit($_POST["phone_no"],$_POST["phone_country_code"]) : null;
+            $alt_phone_no = !empty($_POST["alt_phone_no"]) ? $this->phoneEdit($_POST["alt_phone_no"],$_POST["alt_phone_country_code"]) : null;
             $comment = !empty($_POST["comment"]) ?  $this->properCase($_POST["comment"]) : null;
             $kcse_results = !empty($_POST["kcse_results"]) ? $_POST["kcse_results"] : null;
             $specialization = !empty($_POST["specialization"]) ?  $this->properCase($_POST["specialization"]) : null;
             $qualification = !empty($_POST["qualification"]) ? $_POST["qualification"] : null;
             $institution = !empty($_POST["institution"]) ? $_POST["institution"] : null;
 
-            $msg =  $this->model->editCasual($_POST["casual_id"], $_POST["country"], $_POST["program"], $_POST["first_name"],$middle_name, $_POST["last_name"], $_POST["id_no"], $phone_no, $_POST["alt_phone_no"], $_POST["year_worked"], $_POST["duration_worked"], $comment, $kcse_results, $qualification, $institution, $specialization, $staffProgramsId ); //change to id
+            $msg =  $this->model->editCasual($_POST["casual_id"], $_POST["country"], $_POST["program"], $_POST["first_name"],$middle_name, $_POST["last_name"], $_POST["id_no"], $phone_no, $alt_phone_no, $_POST["year_worked"], $_POST["duration_worked"], $comment, $kcse_results, $qualification, $institution, $specialization, $staffProgramsId ); //change to id
             
-               if(!empty($msg)){
+            //    if(!empty($msg)){
                
-                header('Location: ' . URL . '/casuals/addCasual?message=' . urlencode($msg) );
-              }else{
-                //TODO: GO TO ERROR PAGE?
-                header('location: ' . URL . '/users/login');
-              }          
+            //     header('Location: ' . URL . '/casuals/addCasual?message=' . urlencode($msg) );
+            //   }else{
+            //     //TODO: GO TO ERROR PAGE?
+            //     header('location: ' . URL . '/users/login');
+            //   }          
     }
 
  
@@ -287,45 +289,21 @@ class Casuals extends Controller{
    }
 
 
-      // private functions that help in validation
-
-      private function phoneEdit($phone, $country) {   
-
-        $phone = trim($phone); 
-        $pattern = "/^\d{3} \d{3} \d{3} \d{3}$/";
-
-        if (preg_match($pattern, $phone)) {
-
-            return $phone;
-        }
-        else {
-            $phone = ltrim($phone, '0'); 
-            $countries = $this->model->getCountryCode();
+      
+      private function phoneEdit($phone, $country) {
+    
+        if (substr($phone, 0, 1) === '0') {
+         
+            $phone = ltrim($phone, '0');
+        } 
+            $phone = $country . $phone;
         
-            foreach ($countries as $countryInfo) {
-                if ($countryInfo->id == $country) {
-                    $phoneCode = $countryInfo->phone_code;
-                    break;
-                }
-            }
-            if (strpos($phone, $phoneCode) !== 0) {
-           
-                $phone = $phoneCode . $phone;
-            }
-            $phone = trim(preg_replace('/(\d{3})(?=\d)/', '$1 ', $phone));
-            return $phone;
-        }
+        
+        return $phone;
+    }
+    
      
-    }
     
-    private function isValidPhoneNumber($phone) {
-        $valid_prefixes = ["01", "07", "06"];
-        $prefix = substr($phone, 0, 2);
-        $numeric_part = substr($phone, 2);
-    
-        return in_array($prefix, $valid_prefixes) && ctype_digit($numeric_part) && strlen($numeric_part) === 8;
-    }
-  
     private function properCase($str) {
         $str = trim($str);
         $str = ucwords(strtolower($str));

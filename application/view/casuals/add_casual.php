@@ -1,5 +1,6 @@
 
 
+
     <div class="add-casual-container ">
     <?php if(!empty($casual) ){  ?>
     
@@ -11,11 +12,18 @@
     <?php } ?>
 
         <h4 style="text-align:center;"> <?php if(!empty($casual)){echo 'Edit Details for ' . $casual->first_name;} else echo "Enter Casual Details" ?></h4>
-
+    <!-- casual_id -->
+    <div style="display:none;">
+    <label for="casual_id">Casual ID:</label>
+    <input type="text" id="casual_id" name="casual_id" maxlength="6"  value="<?php if(!empty($casual)){echo  $casual->casual_id;} ?>" readonly >
+    <br>
+    </div>
+    
    
 
     <!-- country -->
-    <label for="country">Country: </label> 
+    <label for="country">Country: </label>
+    <p></p> 
     <select class="custom-select custom-select-lg mb-3" name="country" id="country_select" required  >
 
                 <?php foreach ($countries as $country) { ?>
@@ -30,6 +38,7 @@
     
     <!-- program -->
     <label for="program">Program:</label>
+    <p></p>
     <select class="custom-select custom-select-lg mb-3" name="program" id="program_select">
     <?php foreach ($programs as $program) { ?>
         <option value="<?php echo htmlspecialchars($program->id, ENT_QUOTES, 'UTF-8'); ?>" <?php if(!empty($casual) && $casual->program_id == $program->id) echo 'selected'; ?>>
@@ -49,6 +58,7 @@
 
     <!-- middle_name -->
     <label for="middle_name">Middle Name:</label>
+    <p></p>
     <input type="text" id="middle_name" name="middle_name" maxlength="55" value="<?php if(!empty($casual)){echo  $casual->middle_name;} ?>">
     <br>
 
@@ -65,16 +75,40 @@
     <br>
 
     <!-- phone_no -->
-    <label for="phone_no">Phone Number<span id="phone-code">(07********/01********)</span>:<span style = "color:#e60000;"> *</span> </label>
+    <label for="phone_no">Phone Number<span id="phone-code"></span>:<span style = "color:#e60000;"> *</span> </label>
     <p id="required-phone-no"><?php if(!empty($required))echo $required;?></p>
     <p id="phone-check"><?php if(!empty($wrong_phone))echo $wrong_phone;?></p>
-    <input type="text" id="phone_no" name="phone_no" maxlength="15" minlength="10" value="<?php if(!empty($casual)){echo  $casual->phone_no;} ?>" >
+    <div class="phone-wrapper" style="display:flex;">
+    <!-- Select for phone country code -->
+    <select name="phone_country_code" id="phone_country_code" class="phone-country-code custom-select " style="width:150px">
+        
+            <?php foreach ($countriesPhoneCode as $phone_code) { ?>
+    
+        <option value="<?php if (isset($phone_code->phone_code)) echo htmlspecialchars($phone_code->phone_code, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($phone_code->phone_code)) echo htmlspecialchars($phone_code->phone_code, ENT_QUOTES, 'UTF-8'); ?></option>
+            <?php } ?>
+         
+    </select>
+
+    <!-- Input for phone number -->
+    <input style="margin:0; " type="phone" id="phone_no" name="phone_no" maxlength="10" minlength="9" value="<?php if(!empty($casual)){echo  substr($casual->phone_no, 3);} ?>" class="phone-number">
+    </div>
     <br>
 
     <!-- alt_phone_no -->
-    <label for="alt_phone_no">Alternative Phone Number<span id="phone-code">(07********/01********)</span>: </label>
+    <label for="alt_phone_no">Alternative Phone Number<span id="phone-code"></span>: </label>
     <p id="alt-phone-check"><?php if(!empty($wrong_phone))echo $wrong_phone;?></p>
-    <input type="text" id="alt_phone_no" name="alt_phone_no" maxlength="10" minlength="10" unique value="<?php if(!empty($casual)){echo  $casual->alt_phone_no;} ?>" >
+    <div class="phone-wrapper" style="display:flex;">
+    <!-- Select for phone country code -->
+    <select name="alt_phone_country_code" id="phone_country_code" class="phone-country-code custom-select " style="width:150px">
+        
+            <?php foreach ($countriesPhoneCode as $phone_code) { ?>
+    
+        <option value="<?php if (isset($phone_code->phone_code)) echo htmlspecialchars($phone_code->phone_code, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($phone_code->phone_code)) echo htmlspecialchars($phone_code->phone_code, ENT_QUOTES, 'UTF-8'); ?></option>
+            <?php } ?>
+         
+    </select>
+    <input style="margin:0; " type="phone" id="alt_phone_no" name="alt_phone_no" maxlength="10" minlength="9"  value="<?php if(!empty($casual) && !empty($casual->alt_phone_no)){echo  substr($casual->alt_phone_no, 3);;} ?>" >
+    </div>
     <br>
 
     <!-- year_worked -->
@@ -108,11 +142,13 @@
 
     <!-- comment -->
     <label for="comment">Comment:</label>
+    <p></p>
     <input type="text" id="comment" name="comment" maxlength="55" value="<?php if(!empty($casual)){echo  $casual->comment;} ?>">
     <br>
 
     <!-- kcse_results -->
     <label id="kcse-label" for="kcse_results">KCSE Results:</label>
+    <p></p>
     <select id="kcse-input" class="custom-select custom-select-lg mb-3" name="kcse_results"  >
 
         <option value="">select grade</option>            
@@ -128,6 +164,7 @@
 
     <!-- qualification -->
     <label for="qualification">Qualification:</label>
+    <p></p>
     <select class="custom-select custom-select-lg mb-3" name="qualification" >
         <option value="">select qualification</option>                
             <?php foreach ($qualifications as $qualification) {  ?>
@@ -142,6 +179,7 @@
 
     <!-- institution -->
     <label for="institution">Institution:</label>
+    <p></p>
     <select class="custom-select custom-select-lg mb-3" name="institution" id="institution" >
     <option value="">select institution</option> 
                 
@@ -156,6 +194,7 @@
 
     <!-- specialization -->
     <label for="specialization">Specialization:</label>
+    <p></p>
     <input type="text" id="specialization" name="specialization" value="<?php if(!empty($casual)){echo  $casual->specialization;} ?>">
     <br>
 

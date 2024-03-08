@@ -10,7 +10,7 @@ $(document).ready(function() {
    
       if (validateEditForm($('#country_select').val())) {
           var formData = $(this).serialize();
-  
+            console.log(formData);
           $.ajax({
               url: '/mini/casuals/editCasual',
               type: 'POST', 
@@ -128,7 +128,8 @@ $(document).ready(function() {
         return true; 
       }
       function validatePhoneNumber(phone_no) {
-        var pattern = /^(254|256|265)\s\d{3}\s\d{3}\s\d{3}$|^(07|01|06)\d{8}$/;
+        var pattern = /^\d{9,10}$/;
+
         
         return pattern.test(phone_no);
       }
