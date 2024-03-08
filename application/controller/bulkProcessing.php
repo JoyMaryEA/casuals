@@ -5,6 +5,7 @@ Class BulkProcessing extends Controller{
         $_SESSION['last_action'] = time();
         require APP . 'view/_templates/header.php';
         require APP . 'view/bulkProcessing/batchUploads.php';
+
     }
     public function downloadTemplate(){
         $_SESSION['last_action'] = time();
@@ -28,12 +29,19 @@ Class BulkProcessing extends Controller{
             if ($_FILES['file']['error'] === UPLOAD_ERR_OK) {
                 
                 $file_handle = fopen($_FILES['file']['tmp_name'], "r");
+
+                // $expected_header = ['country','program','first_name','middle_name','last_name','id_no','phone_no','alt_phone_no','comment','kcse_results','qualification', 'institution', 'specialization','year_worked', 'duration_worked'];
+                // $header = fgetcsv($file_handle, 1024);
+                // if ($header !== $expected_header) {
+                //     fclose($file_handle);
+                //     echo "Error: Incorrect file format. Please select the correct template.";
+                // }
     
                 if ($file_handle !== false) {
                    
                     $csv_data = array();
     
-                  
+                      
                     while (($line_of_text = fgetcsv($file_handle, 1024)) !== false) {
                         foreach ($line_of_text as $index => &$value) {
                             if (empty(trim($value))) {
@@ -85,9 +93,9 @@ Class BulkProcessing extends Controller{
                                 break; 
                             }
                         }
-                        $csv_data[] = $line_of_text;     
-                }
-             
+                        $csv_data[] = $line_of_text;  
+                    }   
+                                         
                 array_shift($csv_data);
 
            
@@ -109,6 +117,12 @@ Class BulkProcessing extends Controller{
            
         }
         
-    
+    public function getRecentInserts(){
+        $casuals= $this->model->getTodayInserts();
+        header('Content-Type: application/json');
+        echo json_encode($casuals);
+        exit();
+
+    }
 }
 ?>

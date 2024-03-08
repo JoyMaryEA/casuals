@@ -304,6 +304,14 @@ table.table td i {
     font-size: x-large;
     cursor: pointer;
  }
+ #download-casuals-form{
+    background-color: #e5e7ef;
+    color: #20253A;
+    border: #20253A 2px solid;
+    border-radius: 10px;
+    padding :.7rem 1rem;
+ }
+
 @media screen and (max-width: 694px) {
     
     nav{

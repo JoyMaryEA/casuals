@@ -244,8 +244,8 @@ class Model
         $sql = "INSERT INTO audit (casual_id, action, u_id) VALUES (:casual_id, :action, :u_id);";
         $query = $this->db->prepare($sql);
         $parameters = array(':casual_id' => $casual_id,':action' => $action,':u_id' => $u_id );
-        $query->execute($parameters);
-       
+        
+        return $query->execute($parameters);
     }
 
     public function getAudit($casual_id,$action){
@@ -362,15 +362,16 @@ class Model
                     $errorInfo = $queryStaffPrograms->errorInfo();
                     throw new Exception("Error adding casual record to staff_programs table: {$errorInfo[2]}");
                 }
-                
-                // session_start();
-                // $user_id = $_SESSION["userId"];
-                // $action = 1;
-                // $lastQueryResults = $this->insertAudit($lastInsertedId, $action, $user_id);
-                // if (!$lastQueryResults) {
-                //     $errorInfo = $this->db->errorInfo();
-                //     throw new Exception("Error adding casual record to audit table: {$errorInfo[2]}");
-                // }
+                    session_start();
+                    $user_id = $_SESSION["userId"];
+                    $action = 1;
+                    $lastQueryResults= $this->insertAudit($lastInsertedId, $action, $user_id);
+                    
+                    if (!$lastQueryResults) {
+                        $errorInfo = $this->db->errorInfo();
+                        throw new Exception("Error adding casual record to audit table: {$errorInfo[2]}");
+                    }
+                             
             } else {
                 $errorInfo = $query->errorInfo();
                 throw new Exception("Error inserting casual record to casuals table: {$errorInfo[2]}");
@@ -385,4 +386,31 @@ class Model
     }
 }
 
+public function getTodayInserts(){
+        $sql ='SELECT 
+        c.casual_id, 
+        c.middle_name, 
+        c.first_name, 
+        c.last_name, 
+        c.id_no, 
+        cn.name AS country_name, 
+        c.phone_no, 
+        p.name AS program_name,
+        sp.year_worked,  
+        sp.duration_worked
+    FROM 
+        casuals c
+        LEFT JOIN 
+        country cn ON c.country = cn.id
+    LEFT JOIN 
+        staff_programs sp ON c.casual_id = sp.casual_id
+        LEFT JOIN 
+        program p ON sp.program_id = p.id
+        LEFT JOIN 
+        audit a ON a.casual_id = c.casual_id
+        WHERE DATE(a.timestamp) = CURDATE();';
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+}
 }
