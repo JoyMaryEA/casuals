@@ -9,9 +9,7 @@
   </form>
         
 
-<div>
-<a class="nav-link" href="<?php echo URL; ?>casuals/filter" >Get casuals by program/country</a>
-</div>
+
 </div>
 <div id="table-container" class="table-responsive" style="display:none; ">
      <div class="table-wrapper" >

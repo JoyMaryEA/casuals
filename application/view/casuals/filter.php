@@ -23,9 +23,7 @@
     <button class="bt-filter " type="submit" name="submit_filter" value="Filter"><span class="material-symbols-outlined">filter_list</span></button>
   </form>
                 
-  <div>
-<a class="nav-link" href="<?php echo URL; ?>casuals/search" >Search for a specific casual</a>
-</div>
+
 
 <div id="table-container" class="table-responsive" style="display:none; ">
      <div class="table-wrapper" >
@@ -200,7 +198,7 @@ $(document).ready(function() {
  
 $("#filter-form").submit(function (event){
     event.preventDefault();
-
+   
     var formData = {country : $("#country").val(), program: $("#program").val() };
     console.log(formData);
       // ajax get casuals, for filter
@@ -211,8 +209,12 @@ $("#filter-form").submit(function (event){
       dataType: 'json',
       success: function(data) {
             console.log(data); 
-            $('#table-container').show();
-            dataTable.clear().rows.add(data).draw();    
+            dataTable.clear(); 
+            $('#table-container').show();          
+                    
+            if (data.length > 0) {
+                dataTable.rows.add(data).draw();
+            }
             },
       error: function(jqXHR, textStatus, errorThrown) {
             console.error('AJAX Error:', textStatus, errorThrown);

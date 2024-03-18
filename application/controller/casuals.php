@@ -22,12 +22,12 @@ class Casuals extends Controller{
                 $msg = urldecode($_GET['message']);
                     if (strpos($msg, 'Error') === 0) {
                      echo '<div class="alert alert-danger" id="errorAlert" role="alert">
-                        <strong>Error!</strong>' . $msg . '
+                        <strong>Error! </strong>' . $msg . '
                     </div>';
                        
                     } else {
                        echo '<div class="alert alert-success" id="successAlert" role="alert">
-                                <strong>Success!</strong>' . $msg . '
+                                <strong>Success! </strong>' . $msg . '
                             </div>';
                     }
             }
@@ -37,7 +37,7 @@ class Casuals extends Controller{
  public function filterAction(){
     $casuals= $this->model->filterCountryProgram($_POST["country"], $_POST["program"]);
     $results='';
-    if (!empty($casuals)){
+
         $countryName= 'all countries';
         $programName="all programs";
         if(!empty($_POST["country"])){
@@ -48,12 +48,12 @@ class Casuals extends Controller{
         $selectedProgramName =$this->model->getNameFromId($_POST["program"],'program');
         $programName = $selectedProgramName->name;
         }
-        $results = "Showing results for <strong>" . $countryName . "</strong> and <strong>" . $programName ."</strong>" ;
-      
-        header('Content-Type: application/json'); 
+        $results = "Showing results for <strong>" . $countryName . "</strong> and <strong>" . $programName ."</strong>" ;   
+
+    
+    header('Content-Type: application/json'); 
         echo json_encode($casuals);
         exit;
-    }
       
   }
  
@@ -121,13 +121,11 @@ class Casuals extends Controller{
                         $existingCasualFirstName = $existingCasual-> first_name;
                         $existingCasualLastName = $existingCasual-> last_name;
                         $existingCasualProgram =$existingCasual-> program_name;
-                        $existingCasualIdNo = $existingCasual-> id_no;
-                        $existingCasualPhoneNo = $existingCasual-> phone_no;
-
-                        var_dump($_POST["year_worked"]);
+                        $existingCasualIdNo = !empty($existingCasual->id_no) ? $existingCasual->id_no : '[null]';
+                        $existingCasualPhoneNo = !empty($existingCasual->phone_no) ? $existingCasual->phone_no : '[null]';
                             if (!empty($existingCasual))
                             {
-                                $msg= "Error, this casual already exists as: <strong> $existingCasualFirstName  $existingCasualLastName </strong> served in:<strong> $existingCasualProgram </strong> has National Id: <strong>$existingCasualIdNo </strong> and Phone Number:<strong> $existingCasualPhoneNo </strong>";
+                                $msg= `<p style='font-size:14px;'> Error, this casual already exists as: <strong> $existingCasualFirstName  $existingCasualLastName </strong> served in:<strong> $existingCasualProgram </strong> has National Id: <strong>$existingCasualIdNo </strong> and Phone Number:<strong> $existingCasualPhoneNo </strong> </p>`;
                             }
                             else
                             {
@@ -144,11 +142,11 @@ class Casuals extends Controller{
             
                 if (strpos($msg, 'Error') === 0) {
                     echo '<div class="alert alert-danger" id="errorAlert" role="alert">
-                              <strong>Error!</strong>' . $msg . '
+                              <strong>Error! </strong>' . $msg . '
                           </div>';
                 } else {
                     echo '<div class="alert alert-success" id="successAlert" role="alert">
-                              <strong>Success!</strong>' . $msg . '
+                              <strong>Success! </strong>' . $msg . '
                           </div>';
                 }
             }
@@ -247,11 +245,11 @@ class Casuals extends Controller{
             $msg = urldecode($_GET['message']);
             if (strpos($msg, 'Error') === 0) {
                 echo '<div class="alert alert-danger" id="errorAlert" role="alert">
-                          <strong>Error!</strong>' . $msg . '
+                          <strong>Error! </strong>' . $msg . '
                       </div>';
             } else {
                 echo '<div class="alert alert-success" id="successAlert" role="alert">
-                          <strong>Success!</strong>' . $msg . '
+                          <strong>Success! </strong>' . $msg . '
                       </div>';
             }
         }
