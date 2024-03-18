@@ -34,7 +34,7 @@ class Model
     public function getCasual($casual_id)
     {
         $sql = " CALL selectAllCasuals(:whereClauseStmt)";
-        $whereClauseStmt = "c.casual_id = $casual_id AND c.not_available = 0 LIMIT 1;";
+        $whereClauseStmt = "c.casual_id = '$casual_id' AND c.not_available = 0 LIMIT 1;";
         $query = $this->db->prepare($sql);
         $parameters = array(':whereClauseStmt' => $whereClauseStmt);
         $query->execute($parameters);
@@ -276,7 +276,7 @@ class Model
         c.program  where phone_no = :phone_no OR id_no = :id_no";
         $query = $this->db->prepare($sql);
         $parameters = array(':phone_no' => $phone_no, ':id_no' => $id_no );
-        echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
+       // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
         $query->execute($parameters);
         return $query->fetch();
     }

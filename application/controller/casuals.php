@@ -17,6 +17,7 @@ class Casuals extends Controller{
         $countries = $this->model->getAllstr("country");
         $programs =  $this->model->getAllstr("program");
         require APP . 'view/_templates/header.php';
+        require APP . 'view/_templates/left_nav.php';
         require APP . 'view/casuals/filter.php';
             if (isset($_GET['message'])) {
                 $msg = urldecode($_GET['message']);
@@ -63,6 +64,7 @@ class Casuals extends Controller{
         $_SESSION['last_action'] = time();
        
         require APP . 'view/_templates/header.php';
+        require APP . 'view/_templates/left_nav.php';
         require APP . 'view/casuals/search.php';
        
     }
@@ -125,7 +127,7 @@ class Casuals extends Controller{
                         $existingCasualPhoneNo = !empty($existingCasual->phone_no) ? $existingCasual->phone_no : '[null]';
                             if (!empty($existingCasual))
                             {
-                                $msg= `<p style='font-size:14px;'> Error, this casual already exists as: <strong> $existingCasualFirstName  $existingCasualLastName </strong> served in:<strong> $existingCasualProgram </strong> has National Id: <strong>$existingCasualIdNo </strong> and Phone Number:<strong> $existingCasualPhoneNo </strong> </p>`;
+                                $msg= `Error, this casual already exists as: <strong> $existingCasualFirstName  $existingCasualLastName </strong> served in:<strong> $existingCasualProgram </strong> has National Id: <strong>$existingCasualIdNo </strong> and Phone Number:<strong> $existingCasualPhoneNo </strong> `;
                             }
                             else
                             {
@@ -153,6 +155,7 @@ class Casuals extends Controller{
          } 
 
         require APP . 'view/_templates/header.php';
+        require APP . 'view/_templates/left_nav.php';
         require APP . 'view/casuals/add_casual.php';
         require APP . 'view/_templates/footer.php';
 
@@ -240,6 +243,7 @@ class Casuals extends Controller{
         }
 
         require APP . 'view/_templates/header.php';
+        require APP . 'view/_templates/left_nav.php';
 
         if (isset($_GET['message'])) {
             $msg = urldecode($_GET['message']);
@@ -261,6 +265,7 @@ class Casuals extends Controller{
     public function dashboard(){
         $_SESSION['last_action'] = time();
         require APP . 'view/_templates/header.php';
+        require APP . 'view/_templates/left_nav.php';
         require APP . 'view/casuals/dashboard.php';
         require APP . 'view/_templates/footer.php';
     }

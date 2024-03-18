@@ -4,6 +4,7 @@ Class BulkProcessing extends Controller{
     public function home(){
         $_SESSION['last_action'] = time();
         require APP . 'view/_templates/header.php';
+        require APP . 'view/_templates/left_nav.php';
         require APP . 'view/bulkProcessing/batchUploads.php';
 
     }

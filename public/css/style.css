@@ -224,7 +224,7 @@ table.table td i {
 }
 .add-casual{
    
-    width:50%;
+    width:70%;
     margin: auto;
     padding: 20px;
     border: 1px solid #e5e7ef;
@@ -328,8 +328,30 @@ table.table td i {
 .phone-number {
     flex: 1; 
 }
-
-
+.left-nav{
+    float: left;
+    width: 15%;
+    height: 100vh;
+    margin-top: 0rem;
+    margin-left: 0rem;
+    background-color: #f2ede8;
+  }
+.left-nav ul{
+ margin-top: 2rem;
+ list-style-type: none; 
+}
+.left-nav li{
+    margin-top: 1rem;
+    
+}
+.left-nav a{
+   
+    color: #E600A0; 
+}
+.left-nav a:hover,
+.left-nav a:active {
+    color: #20253a ;
+}
 @media screen and (max-width: 694px) {
     
     nav{

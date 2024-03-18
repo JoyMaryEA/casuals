@@ -41,43 +41,9 @@
     
     <nav style=" display: flex; justify-content: space-between; align-items:center;">
    
-    <?php
-if (isset($_SESSION['role']) && $_SESSION['role'] === "1") {
-    ?>
-      <div class="admin-nav" >
-      <h2 id="title" onclick="redirectToDashboard()">Master Staff Casual DB</h2>
    
-<a href="<?php echo URL; ?>casuals/filter" >Filter Casuals</a>
-<a href="<?php echo URL; ?>casuals/search" >Search Casual</a>
-<a href="<?php echo URL; ?>casuals/addCasual" >New Casual</a>
-<a href="<?php echo URL; ?>casuals/dashboard" >Dashboard</a>
-<a href="<?php echo URL; ?>bulkProcessing/home" >Bulk Inserts</a>
-     </div>
-
-    <div class="admin-hamburger">
-    <h2 id="title" onclick="redirectToDashboard()">Master Staff Casual DB</h2>
-
-    <span class="material-symbols-outlined">menu</span>
-    <ul class="nav-menu-links">
-    <a href="<?php echo URL; ?>casuals/filter" >Find Casual</a>
-    <a href="<?php echo URL; ?>casuals/search" >Search Casual</a>
-    <a href="<?php echo URL; ?>casuals/addCasual" >New Casual</a>
-    </ul>
-    </div>
-
- <?php } ?>
-
- <?php
-if (isset($_SESSION['role']) && $_SESSION['role'] != "1") {
-    ?>
-        <div style=" display: flex; justify-content: space-between; align-items:center;">
-        <h2 id="title" onclick="redirectToDashboard()">Master Staff Casual DB</h2>
-        <a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/filter" >Find Casual</a>
-        <a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/search" >Search Casual</a>
-        <a style="padding:0.5rem;  color:#ffb9ef; margin-left:1rem;" href="<?php echo URL; ?>casuals/dashboard" >Dashboard</a>
-        </div>
-       
-  <?php } ?>
+      <h2 id="title" onclick="redirectToDashboard()">Master Staff Casual DB</h2>
+ 
        <a style="padding:0.5rem; background-color:#ddd; color:#20253A; margin-right:1rem; border-radius:10%;" href="<?php echo URL; ?>users/logout" 
 
 >LOGOUT</a>

@@ -3,7 +3,7 @@
 
 
   <form class="filters" id="filter-form" action="<?php echo URL; ?>casuals/filter" method="POST">
-    <select class="form-control" name="country" id="country" >
+    <select class="form-control" name="country" id="country" style="margin-right:1rem;height:3rem;">
         <option value="" style="color: gray;" >Select Country</option>        
           <?php foreach ($countries as $country) { ?>
     
@@ -11,7 +11,7 @@
           <?php } ?>
       </select>
               
-    <select class="form-control" name="program" id="program">
+    <select class="form-control" name="program" id="program" style="height:3rem;">
         <option value="" style="color: gray;">Select Program</option>
           <?php foreach ($programs as $program) {   ?>
         <option style="color: black;" value="<?php if (isset($program->id)) echo htmlspecialchars($program->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($program->name)) echo htmlspecialchars($program->name, ENT_QUOTES, 'UTF-8'); ?></option>
@@ -20,7 +20,7 @@
 
             <br>
 
-    <button class="bt-filter " type="submit" name="submit_filter" value="Filter"><span class="material-symbols-outlined">filter_list</span></button>
+    <button class="bt-filter " type="submit" name="submit_filter" value="Filter" style="padding:0px;margin-left:1rem; height:3rem; border-radius:10px:"><span style="margin:0px;padding:0rem 1rem;">Filter</span></button>
   </form>
                 
 
@@ -173,7 +173,7 @@ $(document).ready(function() {
                     var returnUrl = '<?php echo URL . 'casuals/insertReturnCasual/'; ?>' + casualId;       
                     var userRole = <?php echo json_encode($_SESSION['role']); ?>; //TODO: DIFFERENTIATE ADMIN AND USER
                     return `
-                    <a href="#" style="padding:0px;margin:0px;"  class="view" title="View" data-toggle="modal" data-target="#${casualDetailsModalId}" id="detailsA" onclick="getCasualDetails('${casualDetailsModalId}',${casualId})" data-toggle="modal" >
+                    <a href="#" style="padding:0px;margin:0px;"  class="view" title="View" data-toggle="modal" data-target="#${casualDetailsModalId}" id="detailsA" onclick="getCasualDetails('${casualDetailsModalId}','${casualId}')" data-toggle="modal" >
                         <span class="material-symbols-outlined">visibility</span>
                     </a>
                     ${userRole == 2 ? '' : `
@@ -212,9 +212,9 @@ $("#filter-form").submit(function (event){
             dataTable.clear(); 
             $('#table-container').show();          
                     
-            if (data.length > 0) {
+       
                 dataTable.rows.add(data).draw();
-            }
+           
             },
       error: function(jqXHR, textStatus, errorThrown) {
             console.error('AJAX Error:', textStatus, errorThrown);

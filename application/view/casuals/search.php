@@ -1,6 +1,6 @@
 
 <div class="filter-container" style="display:flex; flex-direction:column; align-items:center; justify-content:center;">  
-<form class=" form-inline" id="search-form"  >
+<form class="" id="search-form"  >
 <div style="margin-top:3rem; display:flex; flex-direction:row;">
 <input class="form-control mr-sm-2" style="width:410px;" type="search" name="search_str" id="search_str" placeholder="search id / phone / first or last name" aria-label="Search">
     <button class="bt-filter " type="submit" name="submit_search" value="search"><span class="material-symbols-outlined">search</span></button>
@@ -11,7 +11,7 @@
 
 
 </div>
-<div id="table-container" class="table-responsive" style="display:none; ">
+<div id="table-container" class="table-responsive" style="display:none; width:80%">
      <div class="table-wrapper" >
           <div class="table-title">
               <div class="row">
@@ -154,7 +154,7 @@ $(document).ready(function() {
                     var returnUrl = '<?php echo URL . 'casuals/insertReturnCasual/'; ?>' + casualId;       
                     var userRole = <?php echo json_encode($_SESSION['role']); ?>; //TODO: DIFFERENTIATE ADMIN AND USER
                     return `
-                    <a href="#" style="padding:0px;margin:0px;"  class="view" title="View" data-toggle="modal" data-target="#${casualDetailsModalId}" id="detailsA" onclick="getCasualDetails('${casualDetailsModalId}',${casualId})" data-toggle="modal" >
+                    <a href="#" style="padding:0px;margin:0px;"  class="view" title="View" data-toggle="modal" data-target="#${casualDetailsModalId}" id="detailsA" onclick="getCasualDetails('${casualDetailsModalId}','${casualId}')" data-toggle="modal" >
                         <span class="material-symbols-outlined">visibility</span>
                     </a>
                     ${userRole == 2 ? '' : `
@@ -189,9 +189,10 @@ $("#search-form").submit(function (event){
       data:  formData,
       dataType: 'json',
       success: function(data) {
-            console.log(data); 
-            $('#table-container').show();
-            dataTable.clear().rows.add(data).draw();    
+        console.log(data); 
+            dataTable.clear(); 
+            $('#table-container').show();          
+            dataTable.rows.add(data).draw();  
             },
       error: function(jqXHR, textStatus, errorThrown) {
             console.error('AJAX Error:', textStatus, errorThrown);
