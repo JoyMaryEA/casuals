@@ -127,18 +127,41 @@ class Model
         if ($queryResult) {
          
             $lastInsertedId = $this->db->lastInsertId(); 
-             
-            $sqlStaffPrograms = "INSERT INTO staff_programs (casual_id, program_id, year_worked, duration_worked) Values (:casual_id, :program, :year_worked, :duration_worked);";
+
+            $sql_get_casual_id = "SELECT CONCAT(
+                IFNULL(p.initials, ''),
+                CASE 
+                    WHEN p.initials IS NOT NULL THEN '-'
+                    ELSE ''
+                END,
+                :gen_casual_id
+            ) AS casual_id_concateneted
+            FROM program p 
+            WHERE p.id = :program;
+            ";
+            $query_get_casual_id = $this->db->prepare($sql_get_casual_id);
+            $parameters_get_casual_id = array(':gen_casual_id' => $lastInsertedId, ':program' => $program) ;
+            
+                $query_get_casual_id->execute($parameters_get_casual_id);
+                $casual_id_concateneted = $query_get_casual_id->fetchColumn();
+               
+               //  return "'" . $casual_id_concateneted . $results ."'";
+
+            $sqlStaffPrograms = "INSERT INTO staff_programs (gen_casual_id, casual_id, program_id, year_worked, duration_worked) Values (:gen_casual_id, :casual_id, :program, :year_worked, :duration_worked);";
             $queryStaffPrograms = $this->db->prepare($sqlStaffPrograms);
-            $parametersStaffPrograms = array(':casual_id'=> $lastInsertedId, ':program'=> $program, ':year_worked'=>$year_worked, ':duration_worked'=>$duration_worked);
+            $parametersStaffPrograms = array(':gen_casual_id'=> $lastInsertedId,':casual_id'=> $casual_id_concateneted, ':program'=> $program, ':year_worked'=>$year_worked, ':duration_worked'=>$duration_worked);
                 try {
-                     // entering data to ausit after a successful insert into both casuals and staff_programs table
+                     // entering data to audit after a successful insert into both casuals and staff_programs table
+                   
                     $queryResultStaffPrograms = $queryStaffPrograms->execute($parametersStaffPrograms);
+                    
                     if($queryResultStaffPrograms){
+                       
+                      // return var_dump($lastInsertedId);
                         session_start();
                         $user_id = $_SESSION["userId"];
                         $action = 1;
-                        $this->insertAudit($lastInsertedId, $action, $user_id);
+                        $this->insertAudit($casual_id_concateneted, $action, $user_id);
                         return "Casual record added successfully!";
                     } else{
                         $errorInfo = $query->errorInfo();
@@ -149,7 +172,6 @@ class Model
                     return "Error: " . $e->getMessage();
                 }
              
-
             
         } else {
             $errorInfo = $query->errorInfo();
@@ -212,7 +234,7 @@ class Model
                 // update staff_programs table
 
                  try {
-                    $updateStaffProgramsSuccess = $this->editStaffProgramsProgramValue($staffProgramsId,$program);
+                    $updateStaffProgramsSuccess = $this->editStaffProgramsProgramValue($staffProgramsId,$program,$year_worked);
        
                     // update audit table
                         if ($updateStaffProgramsSuccess) {
@@ -309,10 +331,10 @@ class Model
         return $query->fetch();
     }
 
-    private function editStaffProgramsProgramValue($staffProgramsId,$program){
-        $sql = "UPDATE staff_programs SET program_id = :program WHERE id = :staffProgramsId";
+    private function editStaffProgramsProgramValue($staffProgramsId,$program,$year_worked){
+        $sql = "UPDATE staff_programs SET program_id = :program, year_worked =:year_worked WHERE id = :staffProgramsId";
         $query = $this->db->prepare($sql);
-        $parameters = array(':staffProgramsId' => $staffProgramsId, ':program' => $program);
+        $parameters = array(':staffProgramsId' => $staffProgramsId, ':program' => $program, ':year_worked'=>$year_worked);
     //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  
         $queryResult = $query->execute($parameters);
        return $queryResult;
@@ -352,10 +374,27 @@ class Model
             
             if ($insertQueryResult) {
                 $lastInsertedId = $this->db->lastInsertId(); 
+
+                $sql_get_casual_id = "SELECT CONCAT(
+                    IFNULL(p.initials, ''),
+                    CASE 
+                        WHEN p.initials IS NOT NULL THEN '-'
+                        ELSE ''
+                    END,
+                    :gen_casual_id
+                ) AS casual_id_concateneted
+                FROM program p 
+                WHERE p.id = :program;
+                ";
+                $query_get_casual_id = $this->db->prepare($sql_get_casual_id);
+                $parameters_get_casual_id = array(':gen_casual_id' => $lastInsertedId, ':program' => $program) ;
+    
+                    $query_get_casual_id->execute($parameters_get_casual_id);
+                    $casual_id_concateneted = $query_get_casual_id->fetchColumn();
                  
-                $sqlStaffPrograms = "INSERT INTO staff_programs (casual_id, program_id, year_worked, duration_worked) VALUES (:casual_id, :program, :year_worked, :duration_worked)";
+                $sqlStaffPrograms = "INSERT INTO staff_programs (gen_casual_id, casual_id, program_id, year_worked, duration_worked) VALUES (:gen_casual_id, :casual_id, :program, :year_worked, :duration_worked)";
                 $queryStaffPrograms = $this->db->prepare($sqlStaffPrograms);
-                $parametersStaffPrograms = array(':casual_id' => $lastInsertedId, ':program' => $values[1], ':year_worked' => $values[13], ':duration_worked' => $values[14]);
+                $parametersStaffPrograms = array(':gen_casual_id' => $lastInsertedId, ':casual_id'=> $casual_id_concateneted,':program' => $values[1], ':year_worked' => $values[13], ':duration_worked' => $values[14]);
                 
                 $queryResultStaffPrograms = $queryStaffPrograms->execute($parametersStaffPrograms);
                 if (!$queryResultStaffPrograms) {

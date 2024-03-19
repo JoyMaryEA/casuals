@@ -31,7 +31,7 @@
 </div>
 </div>
 
-<div id="table-container" class="table-responsive" style="display:none; ">
+<div id="table-container" class="table-responsive" style="display:none; width:80% ">
      <div class="table-wrapper" >
           <div class="table-title">
               <div class="row">
