@@ -71,7 +71,7 @@
     <!-- id_no -->
     <label for="id_no">ID Number:<span style = "color:#e60000;"> *</span></label>
     <p id="required-id-no"><?php if(!empty($required))echo $required;?></p>
-    <input type="text" id="id_no" name="id_no" maxlength="8" minlength="8"  value="<?php if(!empty($casual)){echo  $casual->id_no;} ?>" >
+    <input type="text" id="id_no" name="id_no" maxlength="8" minlength="8" pattern="[0-9]{8}" value="<?php if(!empty($casual)){echo  $casual->id_no;} ?>" >
     <br>
 
     <!-- phone_no -->
@@ -90,7 +90,7 @@
     </select>
 
     <!-- Input for phone number -->
-    <input style="margin:0; " type="phone" id="phone_no" name="phone_no" maxlength="10" minlength="9" value="<?php if(!empty($casual)){echo  substr($casual->phone_no, 3);} ?>" class="phone-number">
+    <input style="margin:0; " type="tel" id="phone_no" name="phone_no" maxlength="10" minlength="9" pattern="(09|07|01|1|7|9)[0-9]{8}" value="<?php if(!empty($casual)){echo  substr($casual->phone_no, 3);} ?>" class="phone-number">
     </div>
     <br>
 
@@ -107,7 +107,7 @@
             <?php } ?>
          
     </select>
-    <input style="margin:0; " type="phone" id="alt_phone_no" name="alt_phone_no" maxlength="10" minlength="9"  value="<?php if(!empty($casual) && !empty($casual->alt_phone_no)){echo  substr($casual->alt_phone_no, 3);;} ?>" >
+    <input style="margin:0; " type="tel" id="alt_phone_no" name="alt_phone_no" maxlength="10" minlength="9" pattern="(09|07|01|1|7|9)[0-9]{8}" value="<?php if(!empty($casual) && !empty($casual->alt_phone_no)){echo  substr($casual->alt_phone_no, 3);;} ?>" >
     </div>
     <br>
 
@@ -137,7 +137,7 @@
     <!-- duration_served -->
     <label for="duration_worked">Duration (days):<span style = "color:#e60000;"> *</span></label>
     <p id="required-duration-worked"><?php if(!empty($required))echo $required;?></p>
-    <input type="number" id="duration_worked" name="duration_worked" maxlength="50" value="<?php if(!empty($casual)){echo  $casual->duration_worked;} ?>" >
+    <input type="number" id="duration_worked" name="duration_worked" maxlength="50" min="1" value="<?php if(!empty($casual)){echo  $casual->duration_worked;} ?>" >
     <br>
 
     <!-- comment -->

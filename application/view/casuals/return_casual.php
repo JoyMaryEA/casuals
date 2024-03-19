@@ -49,7 +49,7 @@
         </div>
         <div class="form-group">
             <label for="duration_worked">Duration:<span style="color:#e60000;"> *</span></label>
-            <input type="number" class="" id="duration_worked" name="duration_worked" required>
+            <input type="number" class="" id="duration_worked" name="duration_worked" min="1" required>
         </div>
         <button type="submit" name="submit_return_casual" class="btn btn-primary">Submit</button>
     </form>
