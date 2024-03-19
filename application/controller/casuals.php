@@ -7,8 +7,6 @@ class Casuals extends Controller{
     {
         $_SESSION['last_action'] = time();
         require APP . 'view/_templates/header.php';
-       
-        require APP . 'view/_templates/footer.php';
     }
 
     public function filter(){
@@ -157,7 +155,7 @@ class Casuals extends Controller{
         require APP . 'view/_templates/header.php';
         require APP . 'view/_templates/left_nav.php';
         require APP . 'view/casuals/add_casual.php';
-        require APP . 'view/_templates/footer.php';
+       
 
     }
 
@@ -258,7 +256,7 @@ class Casuals extends Controller{
             }
         }
         require APP . 'view/casuals/return_casual.php';
-        require APP . 'view/_templates/footer.php';
+     
     }
       
     
@@ -267,7 +265,7 @@ class Casuals extends Controller{
         require APP . 'view/_templates/header.php';
         require APP . 'view/_templates/left_nav.php';
         require APP . 'view/casuals/dashboard.php';
-        require APP . 'view/_templates/footer.php';
+       
     }
 
     

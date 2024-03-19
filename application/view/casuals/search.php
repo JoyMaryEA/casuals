@@ -2,8 +2,8 @@
 <div class="filter-container" style="display:flex; flex-direction:column; align-items:center; justify-content:center;">  
 <form class="" id="search-form"  >
 <div style="margin-top:3rem; display:flex; flex-direction:row;">
-<input class="form-control mr-sm-2" style="width:410px;" type="search" name="search_str" id="search_str" placeholder="search id / phone / first or last name" aria-label="Search">
-    <button class="bt-filter " type="submit" name="submit_search" value="search"><span class="material-symbols-outlined">search</span></button>
+<input class="form-control mr-sm-2" style="width:410px; height:3rem" type="search" name="search_str" id="search_str" placeholder="search id / phone / first or last name" aria-label="Search">
+    <button class="bt-filter " type="submit" name="submit_search" value="search" style="height:3rem"><span >Search</span></button>
 </div>
    
   </form>

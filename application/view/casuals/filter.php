@@ -66,8 +66,7 @@
 
 // TODO : MERGE WITH SEACRCH ON INDEX.PHP
 function generateDeleteModal(modalId, casualId, firstname, deleteUrl) {
- 
-                            var modalHTML = `
+                               var modalHTML = `
                                 <div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-labelledby="${modalId}-label" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">

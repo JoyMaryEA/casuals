@@ -42,7 +42,7 @@
     <nav style=" display: flex; justify-content: space-between; align-items:center;">
    
    
-      <h2 id="title" onclick="redirectToDashboard()">Master Staff Casual DB</h2>
+      <h2 style="margin-left:1rem;" id="title" onclick="redirectToDashboard()">Casual Staff Database</h2>
  
        <a style="padding:0.5rem; background-color:#ddd; color:#20253A; margin-right:1rem; border-radius:10%;" href="<?php echo URL; ?>users/logout" 
 
