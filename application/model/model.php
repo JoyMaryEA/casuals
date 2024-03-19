@@ -111,6 +111,8 @@ class Model
     $query->execute($parameters);
     return $query->fetch();
    }
+
+// TODO: CLEAN UP METHOD, DOES MANY THINGS
     public function insertCasual($country, $program, $first_name, $middle_name, $last_name, $id_no, $phone_no, $alt_phone_no, $year_worked, $duration_worked, $comment, $kcse_results, $qualification, $institution, $specialization
     ){
         
@@ -126,7 +128,7 @@ class Model
                // entering data to staff_programs after a successful insert into casuals table
         if ($queryResult) {
          
-            $lastInsertedId = $this->db->lastInsertId(); 
+            $lastInsertedId = $this->db->lastInsertId(); //gets last inserted gen_casual_id
 
             $sql_get_casual_id = "SELECT CONCAT(
                 IFNULL(p.initials, ''),
@@ -143,9 +145,9 @@ class Model
             $parameters_get_casual_id = array(':gen_casual_id' => $lastInsertedId, ':program' => $program) ;
             
                 $query_get_casual_id->execute($parameters_get_casual_id);
-                $casual_id_concateneted = $query_get_casual_id->fetchColumn();
+                $casual_id_concateneted = $query_get_casual_id->fetchColumn(); //does concatenating because tricky in mysql
                
-               //  return "'" . $casual_id_concateneted . $results ."'";
+               //  return "'" . $casual_id_concateneted . $results ."'"; //check for bugs here
 
             $sqlStaffPrograms = "INSERT INTO staff_programs (gen_casual_id, casual_id, program_id, year_worked, duration_worked) Values (:gen_casual_id, :casual_id, :program, :year_worked, :duration_worked);";
             $queryStaffPrograms = $this->db->prepare($sqlStaffPrograms);
@@ -161,7 +163,7 @@ class Model
                         session_start();
                         $user_id = $_SESSION["userId"];
                         $action = 1;
-                        $this->insertAudit($casual_id_concateneted, $action, $user_id);
+                        $this->insertAudit($casual_id_concateneted, $action, $user_id); // concatenated casual_id here because no way to generate via trigger like other tables
                         return "Casual record added successfully!";
                     } else{
                         $errorInfo = $query->errorInfo();
@@ -234,7 +236,7 @@ class Model
                 // update staff_programs table
 
                  try {
-                    $updateStaffProgramsSuccess = $this->editStaffProgramsProgramValue($staffProgramsId,$program,$year_worked);
+                    $updateStaffProgramsSuccess = $this->editStaffProgramsProgramValue($staffProgramsId,$program,$year_worked,$duration_worked);
        
                     // update audit table
                         if ($updateStaffProgramsSuccess) {
@@ -331,10 +333,10 @@ class Model
         return $query->fetch();
     }
 
-    private function editStaffProgramsProgramValue($staffProgramsId,$program,$year_worked){
-        $sql = "UPDATE staff_programs SET program_id = :program, year_worked =:year_worked WHERE id = :staffProgramsId";
+    private function editStaffProgramsProgramValue($staffProgramsId,$program,$year_worked,$duration_worked){
+        $sql = "UPDATE staff_programs SET program_id = :program, year_worked =:year_worked, duration_worked =:duration_worked WHERE id = :staffProgramsId";
         $query = $this->db->prepare($sql);
-        $parameters = array(':staffProgramsId' => $staffProgramsId, ':program' => $program, ':year_worked'=>$year_worked);
+        $parameters = array(':staffProgramsId' => $staffProgramsId, ':program' => $program, ':year_worked'=>$year_worked, ':duration_worked'=>$duration_worked);
     //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  
         $queryResult = $query->execute($parameters);
        return $queryResult;
