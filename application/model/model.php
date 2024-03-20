@@ -375,24 +375,27 @@ class Model
             $insertQueryResult = $query->execute($insertValues);
             
             if ($insertQueryResult) {
-                $lastInsertedId = $this->db->lastInsertId(); 
+                 //
+                 $lastInsertedId = $this->db->lastInsertId(); //gets last inserted gen_casual_id
 
-                $sql_get_casual_id = "SELECT CONCAT(
-                    IFNULL(p.initials, ''),
-                    CASE 
-                        WHEN p.initials IS NOT NULL THEN '-'
-                        ELSE ''
-                    END,
-                    :gen_casual_id
-                ) AS casual_id_concateneted
-                FROM program p 
-                WHERE p.id = :program;
-                ";
-                $query_get_casual_id = $this->db->prepare($sql_get_casual_id);
-                $parameters_get_casual_id = array(':gen_casual_id' => $lastInsertedId, ':program' => $program) ;
-    
-                    $query_get_casual_id->execute($parameters_get_casual_id);
-                    $casual_id_concateneted = $query_get_casual_id->fetchColumn();
+                 $sql_get_casual_id = "SELECT CONCAT(
+                     IFNULL(p.initials, ''),
+                     CASE 
+                         WHEN p.initials IS NOT NULL THEN '-'
+                         ELSE ''
+                     END,
+                     :gen_casual_id
+                 ) AS casual_id_concateneted
+                 FROM program p 
+                 WHERE p.id = :program;
+                 ";
+                 $query_get_casual_id = $this->db->prepare($sql_get_casual_id);
+                 $parameters_get_casual_id = array(':gen_casual_id' => $lastInsertedId, ':program' =>$values[1]) ;
+                 
+                 $query_get_casual_id->execute($parameters_get_casual_id);
+                 $casual_id_concateneted = $query_get_casual_id->fetchColumn();       
+         
+                   // return $casual_id_concateneted;
                  
                 $sqlStaffPrograms = "INSERT INTO staff_programs (gen_casual_id, casual_id, program_id, year_worked, duration_worked) VALUES (:gen_casual_id, :casual_id, :program, :year_worked, :duration_worked)";
                 $queryStaffPrograms = $this->db->prepare($sqlStaffPrograms);
@@ -406,7 +409,7 @@ class Model
                     session_start();
                     $user_id = $_SESSION["userId"];
                     $action = 1;
-                    $lastQueryResults= $this->insertAudit($lastInsertedId, $action, $user_id);
+                    $lastQueryResults= $this->insertAudit($casual_id_concateneted, $action, $user_id);
                     
                     if (!$lastQueryResults) {
                         $errorInfo = $this->db->errorInfo();
@@ -428,7 +431,7 @@ class Model
 }
 
 public function getTodayInserts(){
-        $sql ='SELECT 
+        $sql ='SELECT DISTINCT
         c.casual_id, 
         c.middle_name, 
         c.first_name, 

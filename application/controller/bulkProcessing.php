@@ -101,7 +101,8 @@ Class BulkProcessing extends Controller{
 
            
                  $res = $this->insertCSVData($csv_data);
-                   
+                
+                 //echo $res;
                    
                     fclose($file_handle);
                 } else {
