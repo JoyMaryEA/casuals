@@ -431,6 +431,8 @@ class Model
 }
 
 public function getTodayInserts(){
+    session_start();
+    $user_id = $_SESSION["userId"];
         $sql ='SELECT DISTINCT
         c.casual_id, 
         c.middle_name, 
@@ -452,9 +454,11 @@ public function getTodayInserts(){
         program p ON sp.program_id = p.id
         LEFT JOIN 
         audit a ON a.casual_id = c.casual_id
-        WHERE DATE(a.timestamp) = CURDATE();';
+        WHERE DATE(a.timestamp) = CURDATE() AND u_id = :user_id ;';
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $parameters = array(':user_id' => $user_id);
+       // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters); 
+        $query->execute($parameters);
         return $query->fetchAll();
 }
 }

@@ -15,9 +15,13 @@
         margin-top:3rem;
     }
 </style>
-<div class="above-container">
-<div class="container">
 
+<div class="above-container">
+
+<div class="container">
+<div class="alert alert-danger" id="errorAlert" role="alert" style="display:none;">
+
+</div>
     <div class="row justify-content-center mt-5">
         <div class="col-md-6 ">
             <a id="download-casuals-form" href="<?php echo URL; ?>bulkProcessing/downloadTemplate" class="btn btn-primary btn-block mb-3" style="border: #20253A .5px solid; color: #E600A0;">Download File Template</a>
@@ -128,7 +132,14 @@ $(document).ready(function() {
             success: function(response) {
                 // Handle the response here, if needed
                 console.log(response);
-                getRecentCasuals()
+                if(response.startsWith('Error')){
+                    console.log(response);  
+                    $("#errorAlert").html(response);
+                    $("#errorAlert").css('display', 'block')
+                }else{
+                    getRecentCasuals()
+                }
+                
             },
       error: function(jqXHR, textStatus, errorThrown) {
             console.error('AJAX Error:', textStatus, errorThrown);
