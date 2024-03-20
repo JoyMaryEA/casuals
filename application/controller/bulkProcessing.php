@@ -48,9 +48,10 @@ Class BulkProcessing extends Controller{
                    
                     $csv_data = array();
     
-
+                        $line_no=0;
                     while (($line_of_text = fgetcsv($file_handle, 1024)) !== false) {
-                        
+                        $line_no++;
+
                         foreach ($line_of_text as $index => &$value) {
                             if (empty(trim($value))) {
                                 $value = null;
@@ -63,12 +64,13 @@ Class BulkProcessing extends Controller{
                                 $line_of_text[0] = $country->id;
                               
                                 break; 
-                            }else{
-                                $err_msg=  "Error: Country value $line_of_text[0] is not an acceptable country value. Please confirm data";
-                                header('Content-Type: application/json');
-                                echo json_encode($err_msg);
-                                exit();
                             }
+                        }
+                        if (!is_numeric($line_of_text[0])){
+                            $err_msg=  "Error: Country value $line_of_text[0] in line $line_no is not an acceptable country value. Please confirm data and re-upload";
+                            header('Content-Type: application/json');
+                            echo json_encode($err_msg);
+                            exit();
                         }
                         foreach ($programs as $program) {
                             
@@ -77,12 +79,31 @@ Class BulkProcessing extends Controller{
                                 $line_of_text[1] = $program->id;
                             
                                 break; 
-                            }else{
-                                $err_msg=  "Error: Program value $line_of_text[1] is not an acceptable program value. Please confirm data";
-                                header('Content-Type: application/json');
-                                echo json_encode($err_msg);
-                                exit();
                             }
+                        }
+                        if(!is_numeric($line_of_text[1])){
+                            $err_msg=  "Error: Program value $line_of_text[1] in line $line_no is not an acceptable program value. Please confirm data and re-upload" ;
+                            header('Content-Type: application/json');
+                            echo json_encode($err_msg);
+                            exit();
+                        }
+                        if ( $line_of_text[5] != null &&( !preg_match('/^\d{8}$/', $line_of_text[5])) ){
+                            $err_msg=  "Error: national id value $line_of_text[5] in line $line_no has to be 8 digits. Please confirm data and re-upload";
+                            header('Content-Type: application/json');
+                            echo json_encode($err_msg);
+                            exit();
+                        }
+                        if ( $line_of_text[6] != null &&( !preg_match('/^\d{12}$/', $line_of_text[6])) ){
+                            $err_msg=  "Error: phone number value $line_of_text[6] in line $line_no has to be 12 digits. Please confirm data and re-upload";
+                            header('Content-Type: application/json');
+                            echo json_encode($err_msg);
+                            exit();
+                        }
+                        if ( $line_of_text[7] != null &&( !preg_match('/^\d{12}$/', $line_of_text[7])) ){
+                            $err_msg=  "Error: alternative phone number value $line_of_text[7] in line $line_no has to be 12 digits. Please confirm data and re-upload";
+                            header('Content-Type: application/json');
+                            echo json_encode($err_msg);
+                            exit();
                         }
                         foreach ($kcseResults as $kcseResult) {
                             
@@ -91,15 +112,14 @@ Class BulkProcessing extends Controller{
                                 $line_of_text[9] = $kcseResult->id;
                              
                                 break; 
-                            } else if ($line_of_text[9] == null){
-                                break;
-                            }
-                            else{
-                                $err_msg=  "Error: KCSE value $line_of_text[9] is not an acceptable KCSE value. Please confirm data";
-                                header('Content-Type: application/json');
-                                echo json_encode($err_msg);
-                                exit();
-                            }
+                            } 
+                           
+                        }
+                        if(!is_null($line_of_text[9]) && !is_numeric($line_of_text[9])){
+                            $err_msg=  "Error: KCSE value $line_of_text[9] in line $line_no is not an acceptable KCSE value. Please confirm data and re-upload";
+                            header('Content-Type: application/json');
+                            echo json_encode($err_msg);
+                            exit();
                         }
                         foreach ($qualifications as $qualification) {
                             
@@ -108,14 +128,13 @@ Class BulkProcessing extends Controller{
                                 $line_of_text[10] = $qualification->id;
                               
                                 break; 
-                            }else if ($line_of_text[10] == null){
-                                break;
-                            }else{
-                                $err_msg=  "Error: qualification value $line_of_text[10] is not an acceptable qualification value. Please confirm data";
-                                header('Content-Type: application/json');
-                                echo json_encode($err_msg);
-                                exit();
                             }
+                        }
+                        if(!is_null($line_of_text[10]) && !is_numeric($line_of_text[10])){
+                            $err_msg=  "Error: qualification value $line_of_text[10] in line $line_no is not an acceptable qualification value. Please confirm data and re-upload";
+                            header('Content-Type: application/json');
+                            echo json_encode($err_msg);
+                            exit();
                         }
                         foreach ($institutions as $institution) {
                             
@@ -124,15 +143,29 @@ Class BulkProcessing extends Controller{
                                 $line_of_text[11] = $institution->id;
                                
                                 break; 
-                            }else if ($line_of_text[11] == null){
-                                break;
-                            }else{
-                                $err_msg=  "Error: institution value $line_of_text[11] is not an acceptable institution value. Please confirm data";
-                                header('Content-Type: application/json');
-                                echo json_encode($err_msg);
-                                exit();
                             }
+                           
                         }
+                        if(!is_null($line_of_text[11]) && !is_numeric($line_of_text[11])){
+                            $err_msg=  "Error: institution value $line_of_text[11] in line $line_no is not an acceptable institution value. Please confirm data and re-upload";
+                            header('Content-Type: application/json');
+                            echo json_encode($err_msg);
+                            exit();
+                        }
+                        $currentYear = date('Y');
+                        if ( !is_null($line_of_text[13]) &&( $line_of_text[13]  >= 2013 && $line_of_text[13]  <= $currentYear)) {
+                            $err_msg=  "Error: national id value $line_of_text[13] in line $line_no has to be a valid year. Please confirm data and re-upload";
+                            header('Content-Type: application/json');
+                            echo json_encode($err_msg);
+                            exit();
+                        }
+                        if ( !is_null($line_of_text[14] ) && is_numeric($line_of_text[14] ) ){
+                            $err_msg=  "Error: national id value $line_of_text[14] in line $line_no has to be number of days. Please confirm data and re-upload";
+                            header('Content-Type: application/json');
+                            echo json_encode($err_msg);
+                            exit();
+                        }
+
                         $csv_data[] = $line_of_text;  
                     }   
                                          

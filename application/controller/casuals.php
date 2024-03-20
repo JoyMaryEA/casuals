@@ -20,12 +20,12 @@ class Casuals extends Controller{
             if (isset($_GET['message'])) {
                 $msg = urldecode($_GET['message']);
                     if (strpos($msg, 'Error') === 0) {
-                     echo '<div class="alert alert-danger" id="errorAlert" role="alert">
+                     echo '<div class="alert alert-danger" id="errorAlert" role="alert" style="font-size:16px">
                         <strong>Error! </strong>' . $msg . '
                     </div>';
                        
                     } else {
-                       echo '<div class="alert alert-success" id="successAlert" role="alert">
+                       echo '<div class="alert alert-success" id="successAlert" role="alert" style="font-size:16px">
                                 <strong>Success! </strong>' . $msg . '
                             </div>';
                     }
@@ -141,11 +141,11 @@ class Casuals extends Controller{
                 $msg = urldecode($_GET['message']);
             
                 if (strpos($msg, 'Error') === 0) {
-                    echo '<div class="alert alert-danger" id="errorAlert" role="alert">
+                    echo '<div class="alert alert-danger" id="errorAlert" role="alert" style="font-size:16px">
                               <strong>Error! </strong>' . $msg . '
                           </div>';
                 } else {
-                    echo '<div class="alert alert-success" id="successAlert" role="alert">
+                    echo '<div class="alert alert-success" id="successAlert" role="alert" style="font-size:16px">
                               <strong>Success! </strong>' . $msg . '
                           </div>';
                 }
@@ -246,11 +246,11 @@ class Casuals extends Controller{
         if (isset($_GET['message'])) {
             $msg = urldecode($_GET['message']);
             if (strpos($msg, 'Error') === 0) {
-                echo '<div class="alert alert-danger" id="errorAlert" role="alert">
+                echo '<div class="alert alert-danger" id="errorAlert" role="alert" style="font-size:16px">
                           <strong>Error! </strong>' . $msg . '
                       </div>';
             } else {
-                echo '<div class="alert alert-success" id="successAlert" role="alert">
+                echo '<div class="alert alert-success" id="successAlert" role="alert" style="font-size:16px">
                           <strong>Success! </strong>' . $msg . '
                       </div>';
             }
