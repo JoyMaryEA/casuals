@@ -90,7 +90,7 @@
     </select>
 
     <!-- Input for phone number -->
-    <input style="margin:0; " type="tel" id="phone_no" name="phone_no" maxlength="10" minlength="9" pattern="(09|07|01|1|7|9)[0-9]{8}" value="<?php if(!empty($casual)){echo  substr($casual->phone_no, 3);} ?>" class="phone-number">
+    <input style="margin:0; " type="tel" id="phone_no" name="phone_no" maxlength="10" minlength="9" pattern="(09|07|01|1|7|9)[0-9]{8}" value="<?php if(!empty($casual) && !empty($casual->phone_no)){echo  substr($casual->phone_no, 3);} ?>" class="phone-number">
     </div>
     <br>
 

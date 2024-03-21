@@ -136,7 +136,12 @@ $(document).ready(function() {
                     console.log(response);  
                     $("#errorAlert").html(response);
                     $("#errorAlert").css('display', 'block')
-                }else{
+                } else if(response.startsWith('<br')){
+                    $("#errorAlert").html(response);
+                    $("#errorAlert").css('display', 'block')
+                }
+                else{
+                    $("#errorAlert").removeClass("alert-danger").addClass("alert-success").html("Successful Insert, please download data below").css('display', 'block');
                     getRecentCasuals()
                 }
                 

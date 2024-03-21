@@ -153,14 +153,14 @@ Class BulkProcessing extends Controller{
                             exit();
                         }
                         $currentYear = date('Y');
-                        if ( !is_null($line_of_text[13]) &&( $line_of_text[13]  >= 2013 && $line_of_text[13]  <= $currentYear)) {
+                        if ( !is_null($line_of_text[13]) && !( intval($line_of_text[13])  >= 2013 && intval($line_of_text[13])  <= $currentYear)) {
                             $err_msg=  "Error: national id value $line_of_text[13] in line $line_no has to be a valid year. Please confirm data and re-upload";
                             header('Content-Type: application/json');
                             echo json_encode($err_msg);
                             exit();
                         }
-                        if ( !is_null($line_of_text[14] ) && is_numeric($line_of_text[14] ) ){
-                            $err_msg=  "Error: national id value $line_of_text[14] in line $line_no has to be number of days. Please confirm data and re-upload";
+                        if ( !is_null($line_of_text[14] ) && !is_numeric(intval($line_of_text[14] )) ){
+                            $err_msg=  "Error: duration worked value $line_of_text[14] in line $line_no has to be number of days. Please confirm data and re-upload";
                             header('Content-Type: application/json');
                             echo json_encode($err_msg);
                             exit();
