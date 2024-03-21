@@ -154,7 +154,7 @@ Class BulkProcessing extends Controller{
                         }
                         $currentYear = date('Y');
                         if ( !is_null($line_of_text[13]) && !( intval($line_of_text[13])  >= 2013 && intval($line_of_text[13])  <= $currentYear)) {
-                            $err_msg=  "Error: national id value $line_of_text[13] in line $line_no has to be a valid year. Please confirm data and re-upload";
+                            $err_msg=  "Error: year worked value $line_of_text[13] in line $line_no has to be a valid year. Please confirm data and re-upload";
                             header('Content-Type: application/json');
                             echo json_encode($err_msg);
                             exit();
