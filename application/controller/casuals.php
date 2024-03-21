@@ -118,23 +118,32 @@ class Casuals extends Controller{
                     $phone_number= $this->phoneEdit($_POST["phone_no"],$_POST["phone_country_code"]);
                     //CHECK IF IT EXISTS FIRST 
                         $existingCasual = $this->model->getExistingCasual($phone_number,$_POST["id_no"]);
-                        $existingCasualFirstName = $existingCasual-> first_name;
-                        $existingCasualLastName = $existingCasual-> last_name;
-                        $existingCasualProgram =$existingCasual-> program_name;
-                        $existingCasualIdNo = !empty($existingCasual->id_no) ? $existingCasual->id_no : '[null]';
-                        $existingCasualPhoneNo = !empty($existingCasual->phone_no) ? $existingCasual->phone_no : '[null]';
                             if (!empty($existingCasual))
                             {
-                                $msg= `Error, this casual already exists as: <strong> $existingCasualFirstName  $existingCasualLastName </strong> served in:<strong> $existingCasualProgram </strong> has National Id: <strong>$existingCasualIdNo </strong> and Phone Number:<strong> $existingCasualPhoneNo </strong> `;
+                                $existingCasualFirstName = $existingCasual-> first_name;
+                                 $existingCasualLastName = $existingCasual-> last_name;
+                                 $existingCasualProgram =$existingCasual-> program_name;
+                                 $existingCasualIdNo = !empty($existingCasual->id_no) ? $existingCasual->id_no : '[null]';
+                                  $existingCasualPhoneNo = !empty($existingCasual->phone_no) ? $existingCasual->phone_no : '[null]';
+
+                                $msg= "Error, this casual already exists as: <strong> $existingCasualFirstName  $existingCasualLastName </strong> served in:<strong> $existingCasualProgram </strong> has National Id: <strong>$existingCasualIdNo </strong> and Phone Number:<strong> $existingCasualPhoneNo </strong> ";
+
+                                header('location: ' . URL . '/casuals/addCasual?message=' . urlencode($msg));
+                                exit();
                             }
                             else
                             {
-                            $msg = $this->model->insertCasual( $_POST["country"], $_POST["program"], $_POST["first_name"], $middle_name, $_POST["last_name"], $_POST["id_no"], $phone_number, $alt_phone_no, $_POST["year_worked"], $_POST["duration_worked"], $comment, $kcse_results, $qualification, $institution, $specialization 
-                        );}
-                            if(!empty($msg))
-                            { 
-                                header('location: ' . URL . '/casuals/addCasual?message=' . urlencode($msg));
+                            $inserted_casual = $this->model->insertCasual( $_POST["country"], $_POST["program"], $_POST["first_name"], $middle_name, $_POST["last_name"], $_POST["id_no"], $phone_number, $alt_phone_no, $_POST["year_worked"], $_POST["duration_worked"], $comment, $kcse_results, $qualification, $institution, $specialization 
+                            );
+
+                            if (!empty($inserted_casual) && is_object($inserted_casual)){
+                                
+                              
+                                require APP . 'view/casuals/inserted_casual.php';
+                                exit();
                             }
+                            }
+                         
                 }
             }
             if (isset($_GET['message'])) {

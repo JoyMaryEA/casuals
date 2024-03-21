@@ -341,16 +341,18 @@ table.table td i {
  list-style-type: none; 
 }
 .left-nav li{
-    margin-top: 1rem;
-    
+    margin-top: 1rem;   
 }
 .left-nav a{
-   
+    margin: 0px;
+   padding: .7rem 1rem;
     color: #E600A0; 
+    text-decoration: none;
+    font-size: 14px;
 }
-.left-nav a:hover,
-.left-nav a:active {
-    color: #20253a ;
+  .left-nav a:focus,  .left-nav a:active{
+    outline: none; 
+    background-color: #ddd;
 }
 @media screen and (max-width: 694px) {
     

@@ -160,11 +160,12 @@ class Model
                     if($queryResultStaffPrograms){
                        
                       // return var_dump($lastInsertedId);
-                        session_start();
+                       session_start();
                         $user_id = $_SESSION["userId"];
                         $action = 1;
                         $this->insertAudit($casual_id_concateneted, $action, $user_id); // concatenated casual_id here because no way to generate via trigger like other tables
-                        return "Casual record added successfully!";
+                        $inserted_casual = $this->getCasual($casual_id_concateneted);
+                        return $inserted_casual;
                     } else{
                         $errorInfo = $query->errorInfo();
                         return "Error adding casual record. {$errorInfo[2]}";
