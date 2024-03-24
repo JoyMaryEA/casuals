@@ -406,6 +406,7 @@ class Model
                 if (!$queryResultStaffPrograms) {
                     $errorInfo = $queryStaffPrograms->errorInfo();
                     throw new Exception("Error adding casual record to staff_programs table: {$errorInfo[2]}");
+                    $this->db->rollback();
                 }
                     session_start();
                     $user_id = $_SESSION["userId"];
@@ -415,11 +416,13 @@ class Model
                     if (!$lastQueryResults) {
                         $errorInfo = $this->db->errorInfo();
                         throw new Exception("Error adding casual record to audit table: {$errorInfo[2]}");
+                        $this->db->rollback();
                     }
                              
             } else {
                 $errorInfo = $query->errorInfo();
                 throw new Exception("Error inserting casual record to casuals table: {$errorInfo[2]}");
+                $this->db->rollback();
             }
         }
         
