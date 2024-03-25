@@ -366,6 +366,7 @@ class Model
      }
 
     public function bulkInserts($valuesArray) {
+        session_start();
     $this->db->beginTransaction();
     
     try {
@@ -408,7 +409,7 @@ class Model
                     throw new Exception("Error adding casual record to staff_programs table: {$errorInfo[2]}");
                     $this->db->rollback();
                 }
-                    session_start();
+                    
                     $user_id = $_SESSION["userId"];
                     $action = 1;
                     $lastQueryResults= $this->insertAudit($casual_id_concateneted, $action, $user_id);

@@ -15,7 +15,7 @@ Class BulkProcessing extends Controller{
         
         $output = fopen('php://output', 'w');
         
-        fputcsv($output, array('country', 'program', 'first_name', 'middle_name', 'last_name','id_no', 'phone_no','alt_phone_no', 'comment','kcse_results','qualification','institution','specialization','year_worked','duration_worked'));
+        fputcsv($output, array('Country', 'Program', 'First Name', 'Middle Name', 'Last Name','Id Number', 'Phone Number','Alternative Phone No', 'Comment','KCSE Results','Qualification','Institution','Specialization','Year Worked','Duration Worked'));
      
         fclose($output); 
     }
@@ -35,7 +35,7 @@ Class BulkProcessing extends Controller{
     
                 if ($file_handle !== false) {
 
-                $expected_header = ['country','program','first_name','middle_name','last_name','id_no','phone_no','alt_phone_no','comment','kcse_results','qualification', 'institution', 'specialization','year_worked', 'duration_worked'];
+                $expected_header = ['Country', 'Program', 'First Name', 'Middle Name', 'Last Name','Id Number', 'Phone Number','Alternative Phone No', 'Comment','KCSE Results','Qualification','Institution','Specialization','Year Worked','Duration Worked'];
                 $header = fgetcsv($file_handle, 1024);
                 if ($header !== $expected_header) {
                     //fclose($file_handle);
@@ -47,7 +47,7 @@ Class BulkProcessing extends Controller{
 
                    
                     $csv_data = array();
-    
+                    $currentYear = date('Y');
                         $line_no=0;
                     while (($line_of_text = fgetcsv($file_handle, 1024)) !== false) {
                         $line_no++;
@@ -152,7 +152,7 @@ Class BulkProcessing extends Controller{
                             echo json_encode($err_msg);
                             exit();
                         }
-                        $currentYear = date('Y');
+                       
                         if ( !is_null($line_of_text[13]) && !( intval($line_of_text[13])  >= 2013 && intval($line_of_text[13])  <= $currentYear)) {
                             $err_msg=  "Error: year worked value $line_of_text[13] in line $line_no has to be a valid year. Please confirm data and re-upload";
                             header('Content-Type: application/json');
@@ -166,10 +166,9 @@ Class BulkProcessing extends Controller{
                             exit();
                         }
 
-                        $csv_data[] = $line_of_text;  
+                        array_push($csv_data, $line_of_text);
                     }   
-                                         
-                array_shift($csv_data);
+                
 
                 if (empty($csv_data)) {
                     $err_msg = "Error: No data in file. Please select the correct file.";
