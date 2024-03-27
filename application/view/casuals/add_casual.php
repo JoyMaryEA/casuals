@@ -88,7 +88,6 @@
             <?php } ?>
          
     </select>
-
     <!-- Input for phone number -->
     <input style="margin:0; " type="tel" id="phone_no" name="phone_no" maxlength="10" minlength="10" placeholder='07********' pattern="^0[0-9]{9}$"  value="<?php if(!empty($casual) && !empty($casual->phone_no)){echo  "0" . substr($casual->phone_no, 3);} ?>" class="phone-number">
     </div>

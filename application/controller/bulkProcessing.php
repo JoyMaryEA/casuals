@@ -48,7 +48,7 @@ Class BulkProcessing extends Controller{
                    
                     $csv_data = array();
                     $currentYear = date('Y');
-                        $line_no=0;
+                        $line_no=1;
                     while (($line_of_text = fgetcsv($file_handle, 1024)) !== false) {
                         $line_no++;
 

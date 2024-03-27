@@ -117,7 +117,6 @@ $(document).ready(function() {
 
     $("#upload-form").submit(function(event) {
         event.preventDefault();
-        console.log("here");
         // Serialize the form data
         var formData = new FormData($(this)[0]);
         

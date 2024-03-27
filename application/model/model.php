@@ -27,6 +27,14 @@ class Model
         return $query->fetch();
     }
 
+    public function getUserEmail($uid){
+        $sql="SELECT u_id,email,password,role FROM users where u_id=:u_id;";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':u_id' => $uid);
+        $query->execute($parameters);
+        return $query->fetch();
+    }
+
 
 //causuals methods
    
