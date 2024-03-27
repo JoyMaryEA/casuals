@@ -222,7 +222,7 @@ function checkkcse(){
    
   }
   $.ajax({
-              url: '/mini/casuals/getCountryCode',
+              url: '<?php echo URL; ?>/casuals/getCountryCode',
               type: 'POST', 
               data: {country:$("#country_select").val()},
               dataType: 'json',
