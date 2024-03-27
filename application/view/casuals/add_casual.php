@@ -147,19 +147,19 @@
 
     <!-- kcse_results -->
     <label id="kcse-label" for="kcse_results">KCSE Results:</label>
-    <p></p>
+    <p id="kcse-p"></p>
     <select id="kcse-input" class="custom-select custom-select-lg mb-3" name="kcse_results"  >
 
         <option value="">select grade</option>            
             <?php foreach ($kcse_results as $kcse_mark) { ?>
     
-        <option value="<?php if (isset($kcse_mark->id)) echo htmlspecialchars($kcse_mark->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($kcse_mark->name)) echo htmlspecialchars($kcse_mark->name, ENT_QUOTES, 'UTF-8'); ?></option>
+        <option   value="<?php if (isset($kcse_mark->id)) echo htmlspecialchars($kcse_mark->id, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($kcse_mark->name)) echo htmlspecialchars($kcse_mark->name, ENT_QUOTES, 'UTF-8'); ?></option>
             <?php } ?>
             <?php if(!empty($casual)){ ?> 
-        <option value="<?php echo isset($casual->kcse_results) ? htmlspecialchars($casual->kcse_results, ENT_QUOTES, 'UTF-8'): '';  ?>" selected><?php echo isset($casual->kcse_results_name) ? htmlspecialchars($casual->kcse_results_name, ENT_QUOTES, 'UTF-8'): ''; ?></option>
+        <option  value="<?php echo isset($casual->kcse_results) ? htmlspecialchars($casual->kcse_results, ENT_QUOTES, 'UTF-8'): '';  ?>" selected><?php echo isset($casual->kcse_results_name) ? htmlspecialchars($casual->kcse_results_name, ENT_QUOTES, 'UTF-8'): ''; ?></option>
             <?php } ?>
     </select>
-    <br>
+    <br id="kcse-br" >
 
     <!-- qualification -->
     <label for="qualification">Qualification:</label>
@@ -212,6 +212,20 @@
 </div>
 
 <script>
+function checkkcse(){
+  if ($("#country_select").val() != 1){
+    $("#kcse-input").css('display', 'none');
+    $("#kcse-p").css('display', 'none');
+    $("#kcse-label").css('display', 'none');
+    $("#kcse-br").css('display', 'none');
+  }else{
+    $("#kcse-input").css('display', 'block');
+    $("#kcse-p").css('display', 'block');
+    $("#kcse-label").css('display', 'block');
+    $("#kcse-br").css('display', 'block');
+  }
+}
+
     $(document).ready(function() {
 
   //get the new casual_id
