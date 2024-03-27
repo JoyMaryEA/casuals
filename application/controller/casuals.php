@@ -76,13 +76,21 @@ class Casuals extends Controller{
         exit;
     } 
 
+    //because it is being used in view
+    public function getCountryCode(){
+        $country = $_POST["country"];
+        $countriesPhoneCode = $this->model->getCountryCodeSpecific($country);
+        header('Content-Type: application/json'); 
+        echo json_encode($countriesPhoneCode);
+        exit;
+    }
 
 
 
     public function addCasual($casual_id = NULL){
 
 
-        $countriesPhoneCode = $this->model->getCountryCode();
+       
        $_SESSION['last_action'] = time();
        
             if (!empty($casual_id)){
@@ -91,6 +99,7 @@ class Casuals extends Controller{
                 $casual = $this->model->getCasual($casual_id);
                 $staffProgramsIdObj = $this->model->getStaffProgramsId($casual_id, $casual->program_id, $casual->duration_worked, $casual->year_worked);
             }
+       $countriesPhoneCode = $this->model->getCountryCode();
        $countries = $this->model->getAllstr("country");
        $programs =  $this->model->getAllstr("program");
        $institutions= $this->model->getAllstr("institution");

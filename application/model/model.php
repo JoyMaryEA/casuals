@@ -104,9 +104,16 @@ class Model
     return $query->fetchAll();
    }
    public function getCountryCode(){
-    $sql = "SELECT id, name, phone_code FROM country ";
+    $sql = "SELECT id, name, phone_code ,flag FROM country ";
     $query = $this->db->prepare($sql);
     $query->execute();
+    return $query->fetchAll();
+   }
+   public function getCountryCodeSpecific($country){
+    $sql = "SELECT id, name, phone_code ,flag FROM country WHERE id=:country";
+    $query = $this->db->prepare($sql);
+    $parameters = array(':country'=> $country);
+    $query->execute($parameters);
     return $query->fetchAll();
    }
 

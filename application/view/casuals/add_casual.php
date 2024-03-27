@@ -1,6 +1,4 @@
 
-
-
     <div class="add-casual-container ">
     <?php if(!empty($casual) ){  ?>
     
@@ -86,8 +84,8 @@
     
         <option value="<?php if (isset($phone_code->phone_code)) echo htmlspecialchars($phone_code->phone_code, ENT_QUOTES, 'UTF-8'); ?>"><?php if (isset($phone_code->phone_code)) echo htmlspecialchars($phone_code->phone_code, ENT_QUOTES, 'UTF-8'); ?></option>
             <?php } ?>
-         
     </select>
+
     <!-- Input for phone number -->
     <input style="margin:0; " type="tel" id="phone_no" name="phone_no" maxlength="10" minlength="10" placeholder='07********' pattern="^0[0-9]{9}$"  value="<?php if(!empty($casual) && !empty($casual->phone_no)){echo  "0" . substr($casual->phone_no, 3);} ?>" class="phone-number">
     </div>
@@ -98,7 +96,7 @@
     <p id="alt-phone-check"><?php if(!empty($wrong_phone))echo $wrong_phone;?></p>
     <div class="phone-wrapper" style="display:flex;">
     <!-- Select for phone country code -->
-    <select name="alt_phone_country_code" id="phone_country_code" class="phone-country-code custom-select " style="width:150px">
+    <select name="alt_phone_country_code" id="alt_phone_country_code" class="phone-country-code custom-select " style="width:150px">
         
             <?php foreach ($countriesPhoneCode as $phone_code) { ?>
     
@@ -223,20 +221,48 @@ function checkkcse(){
     $("#kcse-input").css('display', 'block');
    
   }
+  $.ajax({
+              url: '/mini/casuals/getCountryCode',
+              type: 'POST', 
+              data: {country:$("#country_select").val()},
+              dataType: 'json',
+            success: function(data) {
+                console.log(data);
+               // console.log(data[0].flag);
+                $('#phone_country_code').empty();
+            var option = $('<option></option>').val(data[0].phone_code);
+            $('#phone_country_code').append(option);
+            $('#phone_country_code option').prop('selected', true);
+            //alt phone
+            $('#alt_phone_country_code').empty();
+            var optionAlt = $('<option></option>').val(data[0].phone_code);
+            $('#alt_phone_country_code').append(optionAlt);
+            $('#alt_phone_country_code option').prop('selected', true);
+
+            var svgDataURI = 'data:image/svg+xml;base64,' + window.btoa(data[0].flag);
+
+            // Apply background image using inline styles
+            $('#phone_country_code').css('background-image', 'url("' + svgDataURI + '")');
+            $('#phone_country_code').css('background-size', '25px 25px');
+            $('#alt_phone_country_code').css('background-image', 'url("' + svgDataURI + '")');
+            $('#alt_phone_country_code').css('background-size', '25px 25px');
+        
+            },
+              error: function(jqXHR, textStatus, errorThrown) {
+           
+                  console.error('AJAX Error:', textStatus, errorThrown);
+                  console.log('Server Response:', jqXHR.responseText);
+              }
+          });
+
 }
 
     $(document).ready(function() {
+      checkkcse()
 
   //get the new casual_id
-    $('#country_select').on('change', checkkcse);
+    $('#country_select').on('change', checkkcse); //for every change after
 
-    if ($("#country_select").val() != 1){
-    $("#kcse-input").css('display', 'none');
-    
-  }else{
-    $("#kcse-input").css('display', 'block');
-   
-  }
 
 // do validation on the edit casual form  
     $("#edit-form").submit(function(event) {
