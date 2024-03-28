@@ -213,6 +213,19 @@
 </div>
 
 <script>
+$(function() {
+  $('input[name="duration"]').daterangepicker({
+    opens: 'left'
+  }, function(start, end, label) {
+    
+    // Calculate the duration in days
+    var duration = end.diff(start, 'days');
+    console.log(duration);
+    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    $("#duration_worked").val(duration)  
+  });
+});
+
 function checkkcse(){
   if ($("#country_select").val() != 1){
     $("#kcse-input").css('display', 'none');

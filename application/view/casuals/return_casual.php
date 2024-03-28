@@ -1,3 +1,9 @@
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
 <div style="display:flex; align-items:center; justify-content:center;">
   <div class="return-casual-cont container mt-5" id="ReturnCasualContainer" style="width:50%; ">
     <h4 style="text-align:center;">Return Casual Form</h4>
@@ -48,11 +54,30 @@
 
         </div>
         <div class="form-group">
+            <label for="duration">Duration:<span style="color:#e60000;"> *</span></label>
+            <input type="text" class="" id="duration" name="duration"  required>
+        </div>
+        <div class="form-group" style="display:none;">
             <label for="duration_worked">Duration:<span style="color:#e60000;"> *</span></label>
-            <input type="number" class="" id="duration_worked" name="duration_worked" min="1" required>
+            <input type="text" class="" id="duration_worked" name="duration_worked"  required>
         </div>
         <button type="submit" name="submit_return_casual" class="btn btn-primary">Submit</button>
     </form>
   </div>
 </div>
 
+<script>
+$(function() {
+  $('input[name="duration"]').daterangepicker({
+    opens: 'left'
+  }, function(start, end, label) {
+    
+    // Calculate the duration in days
+    var duration = end.diff(start, 'days');
+    console.log(duration);
+    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    $("#duration_worked").val(duration)  
+  });
+});
+
+</script>
