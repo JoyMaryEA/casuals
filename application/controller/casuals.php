@@ -107,8 +107,8 @@ class Casuals extends Controller{
        $qualifications = $this->model->getAllstr("qualification");
        
         if (empty($casual)){
-            if (isset($_POST["submit_add_casual"]))
-            {
+            // if (isset($_POST["submit_add_casual"]))
+            // {
                 
                 if (empty($_POST["first_name"] ) || empty($_POST["last_name"]) || empty($_POST["id_no"]) || empty($_POST["phone_no"]) || empty($_POST["year_worked"]) || empty($_POST["duration_worked"]))
                 {
@@ -127,6 +127,7 @@ class Casuals extends Controller{
                     $phone_number= $this->phoneEdit($_POST["phone_no"],$_POST["phone_country_code"]);
                     //CHECK IF IT EXISTS FIRST 
                         $existingCasual = $this->model->getExistingCasual($phone_number,$_POST["id_no"]);
+                        var_dump($existingCasual);
                             if (!empty($existingCasual))
                             {
                                 $existingCasualFirstName = $existingCasual-> first_name;
@@ -153,7 +154,7 @@ class Casuals extends Controller{
                             }
                             }
                          
-                }
+                // }
             }
             if (isset($_GET['message'])) {
                 $msg = urldecode($_GET['message']);

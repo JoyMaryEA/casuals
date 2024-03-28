@@ -49,7 +49,7 @@
     
 
     <!-- first_name -->
-    <label for="first_name">First Name: <span style = "color:#e60000;"> *</span></label>
+    <label for="first_name">First Name:</label>
     <p id="required-first-name"><?php if(!empty($required))echo $required;?></p>
     <input type="text" id="first_name" name="first_name" maxlength="55" value="<?php if(!empty($casual)){echo  $casual->first_name;} ?>" >
     <br>
@@ -61,19 +61,19 @@
     <br>
 
     <!-- last_name -->
-    <label for="last_name">Last Name:<span style = "color:#e60000;"> *</span></label>
+    <label for="last_name">Last Name:</label>
     <p id="required-last-name"><?php if(!empty($required))echo $required;?></p>
     <input type="text" id="last_name" name="last_name" maxlength="55" value="<?php if(!empty($casual)){echo  $casual->last_name;} ?>" >
     <br>
 
     <!-- id_no -->
-    <label for="id_no">ID Number:<span style = "color:#e60000;"> *</span></label>
+    <label for="id_no">ID Number:</label>
     <p id="required-id-no"><?php if(!empty($required))echo $required;?></p>
     <input type="text" id="id_no" name="id_no" maxlength="8" minlength="8" pattern="[0-9]{8}" value="<?php if(!empty($casual)){echo  $casual->id_no;} ?>" >
     <br>
 
     <!-- phone_no -->
-    <label for="phone_no">Phone Number<span id="phone-code"></span>:<span style = "color:#e60000;"> *</span> </label>
+    <label for="phone_no">Phone Number<span id="phone-code"></span>: </label>
     <p id="required-phone-no"><?php if(!empty($required))echo $required;?></p>
     <p id="phone-check"><?php if(!empty($wrong_phone))echo $wrong_phone;?></p>
     <div class="phone-wrapper" style="display:flex;">
@@ -132,7 +132,7 @@
 
 
     <!-- duration_served -->
-    <label for="duration_worked">Duration (days):<span style = "color:#e60000;"> *</span></label>
+    <label for="duration_worked">Duration (days):</label>
     <p id="required-duration-worked"><?php if(!empty($required))echo $required;?></p>
     <input type="number" id="duration_worked" name="duration_worked" maxlength="50" min="1" value="<?php if(!empty($casual)){echo  $casual->duration_worked;} ?>" >
     <br>
@@ -306,10 +306,25 @@ function checkkcse(){
   
   $("#add-form").submit(function(event) {
     event.preventDefault();
-
-    if (validateEditForm($('#country_select').val())) {
-      this.submit();
-    }
+    var formData = $(this).serialize();
+            console.log(formData);
+    $.ajax({
+              url: '/mini/casuals/addCasual',
+              type: 'POST', 
+              data: formData,
+              dataType: 'html',
+            success: function(data) {
+                document.open();
+                document.write(data);
+                document.close();
+                console.log("to add");
+            },
+              error: function(jqXHR, textStatus, errorThrown) {
+           
+                  console.error('AJAX Error:', textStatus, errorThrown);
+                  console.log('Server Response:', jqXHR.responseText);
+              }
+          });
 
   })
 
